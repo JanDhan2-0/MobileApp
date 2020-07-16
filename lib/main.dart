@@ -156,7 +156,7 @@ class GeolocationExampleState extends State {
         child: new FittedBox(
           child: Material(
               color: Colors.white,
-              elevation: 5.0,
+              elevation: 7.0,
               borderRadius: BorderRadius.circular(20.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -299,15 +299,19 @@ class GeolocationExampleState extends State {
   Future<void> _gotoLocation(double lat, double long) async {
     mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
       target: LatLng(lat, long),
-      zoom: 15,
+      zoom: 20,
       tilt: 50.0,
       bearing: 45.0,
     )));
   }
 
   void returnToCenter() {
-    mapController.moveCamera(
-        CameraUpdate.newLatLng(LatLng(_positionLatitude, _positionLongitude)));
+    mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+      target: LatLng(_positionLatitude, _positionLongitude),
+      zoom: 14,
+      tilt: 0.0,
+      bearing: 0.0,
+    )));
   }
 
   @override
@@ -492,6 +496,7 @@ class GeolocationExampleState extends State {
                             borderRadius:
                                 BorderRadius.all(Radius.circular(25.0)),
                             child: IconButton(
+                                enableFeedback: true,
                                 icon: Icon(Icons.center_focus_strong,
                                     color: Colors.blue[600]),
                                 onPressed: returnToCenter),
