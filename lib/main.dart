@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -177,123 +175,125 @@ class GeolocationExampleState extends State {
   }
 
   Widget myDetailsContainer1(Place place) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(left: 8.0),
-          child: Container(
-              child: Text(
-            place.name,
-            style: TextStyle(
-                color: Colors.lightBlue[600],
-                fontSize: 21.0,
-                fontWeight: FontWeight.bold),
-          )),
-        ),
-        SizedBox(height: 5.0),
-        Container(
-            child: Row(
+    return Container(
+        height: 250.0,
+        width: 400.0,
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: Container(
+                  child: Text(
+                place.name,
+                style: TextStyle(
+                    color: Colors.lightBlue[600],
+                    fontSize: 25.0,
+                    fontWeight: FontWeight.bold),
+              )),
+            ),
+            SizedBox(height: 5.0),
+            Container(
+                child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Container(
+                    child: Text(
+                  place.rating.toString(),
+                  style: TextStyle(
+                    color: Colors.lightBlue[600],
+                    fontSize: 18.0,
+                  ),
+                )),
+                Container(
+                  child: Icon(
+                    FontAwesomeIcons.solidStar,
+                    color: Colors.amber,
+                    size: 17.0,
+                  ),
+                ),
+                Container(
+                  child: Icon(
+                    FontAwesomeIcons.solidStar,
+                    color: Colors.amber,
+                    size: 17.0,
+                  ),
+                ),
+                Container(
+                  child: Icon(
+                    FontAwesomeIcons.solidStar,
+                    color: Colors.amber,
+                    size: 17.0,
+                  ),
+                ),
+                Container(
+                  child: Icon(
+                    FontAwesomeIcons.solidStar,
+                    color: Colors.amber,
+                    size: 17.0,
+                  ),
+                ),
+                Container(
+                  child: Icon(
+                    FontAwesomeIcons.solidStarHalf,
+                    color: Colors.amber,
+                    size: 17.0,
+                  ),
+                ),
+                Container(
+                    child: Text(
+                  place.userRatingCount.toString(),
+                  style: TextStyle(
+                    color: Colors.blue[600],
+                    fontSize: 18.0,
+                  ),
+                )),
+              ],
+            )),
+            SizedBox(height: 5.0),
             Container(
                 child: Text(
-              place.rating.toString(),
+              place.vicinity.substring(
+                      0, (place.vicinity.length / 2).truncate().toInt()) +
+                  "\n" +
+                  place.vicinity.substring(
+                      (place.vicinity.length / 2).truncate().toInt()),
               style: TextStyle(
-                color: Colors.lightBlue[600],
-                fontSize: 15.0,
+                color: Colors.blueGrey,
+                fontSize: 17.0,
               ),
             )),
-            Container(
-              child: Icon(
-                FontAwesomeIcons.solidStar,
-                color: Colors.amber,
-                size: 15.0,
-              ),
-            ),
-            Container(
-              child: Icon(
-                FontAwesomeIcons.solidStar,
-                color: Colors.amber,
-                size: 15.0,
-              ),
-            ),
-            Container(
-              child: Icon(
-                FontAwesomeIcons.solidStar,
-                color: Colors.amber,
-                size: 15.0,
-              ),
-            ),
-            Container(
-              child: Icon(
-                FontAwesomeIcons.solidStar,
-                color: Colors.amber,
-                size: 15.0,
-              ),
-            ),
-            Container(
-              child: Icon(
-                FontAwesomeIcons.solidStarHalf,
-                color: Colors.amber,
-                size: 15.0,
-              ),
-            ),
+            SizedBox(height: 5.0),
             Container(
                 child: Text(
-              place.userRatingCount.toString(),
+              "Status: ${place.openNow}",
               style: TextStyle(
-                color: Colors.blue[600],
-                fontSize: 15.0,
+                color: Colors.grey,
+                fontSize: 17.0,
               ),
             )),
+            Directionality(
+                textDirection: TextDirection.ltr,
+                child: ButtonBar(alignment: MainAxisAlignment.end, children: [
+                  IconButton(
+                    icon: Icon(Icons.feedback),
+                    iconSize: 40.0,
+                    color: Colors.blue[600],
+                    onPressed: () {
+                      // _handlePressButton();
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.call),
+                    color: Colors.blue[600],
+                    iconSize: 40.0,
+                    onPressed: () {
+                      // _handlePressButton();
+                    },
+                  )
+                ]))
           ],
-        )),
-        SizedBox(height: 5.0),
-        Container(
-            child: Text(
-          place.vicinity.substring(
-                  0, (place.vicinity.length / 2).truncate().toInt()) +
-              "\n" +
-              place.vicinity
-                  .substring((place.vicinity.length / 2).truncate().toInt()),
-          style: TextStyle(
-            color: Colors.blueGrey,
-            fontSize: 18.0,
-          ),
-        )),
-        SizedBox(height: 5.0),
-        Container(
-            child: Text(
-          "Status: ${place.openNow}",
-          style: TextStyle(
-            color: Colors.grey,
-            fontSize: 16.0,
-          ),
-        )),
-        Row(children: [
-          SizedBox(
-            width: 175.0,
-          ),
-          IconButton(
-            icon: Icon(Icons.feedback),
-            iconSize: 30.0,
-            color: Colors.blue[600],
-            onPressed: () {
-              // _handlePressButton();
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.call),
-            color: Colors.blue[600],
-            iconSize: 30.0,
-            onPressed: () {
-              // _handlePressButton();
-            },
-          )
-        ])
-      ],
-    );
+        ));
   }
 
   Future<void> _gotoLocation(double lat, double long) async {
@@ -305,48 +305,57 @@ class GeolocationExampleState extends State {
     )));
   }
 
+  void returnToCenter() {
+    mapController.moveCamera(
+        CameraUpdate.newLatLng(LatLng(_positionLatitude, _positionLongitude)));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Jan Dhan 2.0"), actions: <Widget>[
-        IconButton(
-            icon: Icon(Icons.search),
-            onPressed: () async {
-              LocationResult result = await showLocationPicker(
-                context,
-                apiKey,
-                initialCenter: LatLng(_positionLongitude, _positionLongitude),
-                automaticallyAnimateToCurrentLocation: true,
-                myLocationButtonEnabled: true,
-                layersButtonEnabled: true,
-                resultCardAlignment: Alignment.bottomCenter,
-              );
-              print("result = $result");
-              setState(() {
-                _positionLatitude = result.latLng.latitude;
-                _positionLongitude = result.latLng.longitude;
-                updatePlace(_positionLatitude, _positionLongitude, "atm");
-                mapController.animateCamera(
-                  CameraUpdate.newLatLngZoom(
-                    LatLng(_positionLatitude, _positionLongitude),
-                    14.0, // Zoom factor
-                  ),
-                );
-              });
-            }),
-        IconButton(
-          icon: Icon(Icons.language),
-          onPressed: () {
-            // _handlePressButton();
-          },
-        ),
-        IconButton(
-          icon: Icon(Icons.chat),
-          onPressed: () {
-            // _handlePressButton();
-          },
-        )
-      ]),
+      appBar: AppBar(
+          title: SvgPicture.asset('assets/images/logo.svg',
+              semanticsLabel: 'logo of jdd', height: 30.0, width: 30.0),
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.search),
+                onPressed: () async {
+                  LocationResult result = await showLocationPicker(
+                    context,
+                    apiKey,
+                    initialCenter:
+                        LatLng(_positionLongitude, _positionLongitude),
+                    automaticallyAnimateToCurrentLocation: true,
+                    myLocationButtonEnabled: true,
+                    layersButtonEnabled: true,
+                    resultCardAlignment: Alignment.bottomCenter,
+                  );
+                  print("result = $result");
+                  setState(() {
+                    _positionLatitude = result.latLng.latitude;
+                    _positionLongitude = result.latLng.longitude;
+                    updatePlace(_positionLatitude, _positionLongitude, "atm");
+                    mapController.animateCamera(
+                      CameraUpdate.newLatLngZoom(
+                        LatLng(_positionLatitude, _positionLongitude),
+                        14.0, // Zoom factor
+                      ),
+                    );
+                  });
+                }),
+            IconButton(
+              icon: Icon(Icons.language),
+              onPressed: () {
+                // _handlePressButton();
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.chat),
+              onPressed: () {
+                // _handlePressButton();
+              },
+            )
+          ]),
       drawer: navigationDrawer(),
       body: (_position != null && placesMarkers != null)
           ? Container(
@@ -371,6 +380,8 @@ class GeolocationExampleState extends State {
                             ..add(Factory<PanGestureRecognizer>(
                                 () => PanGestureRecognizer())),
                           markers: Set<Marker>.of(markers),
+                          myLocationButtonEnabled: false,
+                          myLocationEnabled: true,
                         ),
                       ),
                       Align(
@@ -475,11 +486,24 @@ class GeolocationExampleState extends State {
                           ],
                         ),
                       ),
+                      Padding(
+                          padding: EdgeInsets.only(top: 50.0, left: 305.0),
+                          child: Material(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(25.0)),
+                            child: IconButton(
+                                icon: Icon(Icons.center_focus_strong,
+                                    color: Colors.blue[600]),
+                                onPressed: returnToCenter),
+                          )),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            top: 2 * MediaQuery.of(context).size.height / 3 -
+                                17.5),
+                        child: _buildContainer(placesMarkers, type),
+                      )
                     ],
                   ),
-                  Align(
-                      alignment: Alignment.bottomRight,
-                      child: _buildContainer(placesMarkers, type)),
                 ],
               ),
             )
@@ -504,6 +528,7 @@ class navigationDrawer extends StatelessWidget {
       child: ListView(
         children: <Widget>[
           createDrawerHeader(),
+          Divider(color: Colors.white),
           createDrawerBodyItem(
             icon: Icons.contact_phone,
             text: 'Upload Account Info',
@@ -534,7 +559,7 @@ class navigationDrawer extends StatelessWidget {
             text: 'Help',
             // onTap: () => Navigator.pushNamed(context, '/'),
           ),
-          Divider(),
+          Divider(color: Colors.white),
           ListTile(
             title: Text('App version 1.0.0',
                 style: TextStyle(color: Colors.white)),
