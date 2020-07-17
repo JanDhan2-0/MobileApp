@@ -46,7 +46,7 @@ class GeolocationExampleState extends State {
   var pressCSC = false;
   var type = "atm";
   var markers;
-  BitmapDescriptor atmIcon, bankIcon, myIcon;
+  BitmapDescriptor atmIcon, bankIcon, emitraIcon, cscIcon, poIcon;
   double _positionLatitude;
   GoogleMapController mapController;
   double _positionLongitude;
@@ -90,6 +90,24 @@ class GeolocationExampleState extends State {
       bankIcon = onValue;
     });
 
+    BitmapDescriptor.fromAssetImage(
+            ImageConfiguration(size: Size(100, 100)), 'assets/images/po.png')
+        .then((onValue) {
+      poIcon = onValue;
+    });
+
+    BitmapDescriptor.fromAssetImage(
+            ImageConfiguration(size: Size(100, 100)), 'assets/images/csc.png')
+        .then((onValue) {
+      cscIcon = onValue;
+    });
+
+    BitmapDescriptor.fromAssetImage(ImageConfiguration(size: Size(100, 100)),
+            'assets/images/e-mitra.png')
+        .then((onValue) {
+      emitraIcon = onValue;
+    });
+
     checkPermission();
     updateLocation();
   }
@@ -103,9 +121,18 @@ class GeolocationExampleState extends State {
   }
 
   void updateMarkers(List<Place> placeMarkers, String type) {
+    debugPrint('Type: ' + type);
     markers = (placeMarkers != null)
         ? markerService.getMarkers(
-            placeMarkers, type, (type == 'atm') ? atmIcon : bankIcon)
+            placeMarkers,
+            type,
+            (type == 'atm')
+                ? atmIcon
+                : (type == 'bank')
+                    ? bankIcon
+                    : (type == 'post_office')
+                        ? poIcon
+                        : (type == 'csc') ? cscIcon : emitraIcon)
         : List<Marker>();
   }
 
@@ -410,7 +437,6 @@ class GeolocationExampleState extends State {
                                 pressPo = false;
                                 pressBank = false;
                                 pressCSC = false;
-                                // loadIcon('atm');
                                 updatePlace(_positionLatitude,
                                     _positionLongitude, "atm");
                               }),
@@ -427,7 +453,6 @@ class GeolocationExampleState extends State {
                                 pressPo = false;
                                 pressBank = true;
                                 pressCSC = false;
-                                // loadIcon('bank');
                                 updatePlace(_positionLatitude,
                                     _positionLongitude, "bank");
                               }),
@@ -443,7 +468,6 @@ class GeolocationExampleState extends State {
                                 pressPo = true;
                                 pressBank = false;
                                 pressCSC = false;
-                                // loadIcon();
                                 updatePlace(_positionLatitude,
                                     _positionLongitude, "post_office");
                               }),
@@ -459,9 +483,8 @@ class GeolocationExampleState extends State {
                                 pressPo = false;
                                 pressBank = false;
                                 pressCSC = true;
-                                // loadIcon();
                                 updatePlace(_positionLatitude,
-                                    _positionLongitude, "post_office");
+                                    _positionLongitude, "csc");
                               }),
                             ),
                             new FlatButton(
@@ -482,7 +505,6 @@ class GeolocationExampleState extends State {
                                 pressPo = false;
                                 pressBank = false;
                                 pressCSC = false;
-                                // loadIcon();
                                 updatePlace(_positionLatitude,
                                     _positionLongitude, "bank_mitra");
                               }),
