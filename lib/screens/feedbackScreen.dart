@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_map_location_picker/generated/i18n.dart' as location_picker;
 import 'package:google_map_location_picker/google_map_location_picker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -17,11 +18,13 @@ class FeedbackScreen extends StatefulWidget {
 class _FeedbackScreenState extends State<FeedbackScreen> {
   LocationResult _pickedLocation;
   String _touchPoint;
+  String _touchPointBank;
+  var _rating;
   final nameController = TextEditingController();
   final phoneController = TextEditingController();
   final bankController = TextEditingController();
   final feedbackMsgController = TextEditingController();
-  String _issue;
+  var _issue;
 
   final apiKey = "AIzaSyCILGP87TZPkXUobQfqDp9mkPA7IXnEGXU";
    final _formKey = GlobalKey<FormState>(); 
@@ -54,11 +57,57 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
 
   Future uploadData() async{
     await pr.show();
-    uploadFeedbackInformation(nameController.text,phoneController.text,bankController.text,_touchPoint,_pickedLocation.address,_pickedLocation.latLng,feedbackMsgController.text);
+    uploadFeedbackInformation(nameController.text,phoneController.text,_touchPointBank,_touchPoint,_pickedLocation.address,_pickedLocation.latLng,feedbackMsgController.text,_rating,_issue);
     pr.hide().whenComplete(() {
           _showDialog();
         });
   }
+
+     Widget _ratingBar() {
+        return RatingBar(
+          initialRating: 5,
+          direction: Axis.horizontal,
+          itemCount: 5,
+          itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+          itemBuilder: (context, index) {
+            switch (index) {
+              case 0:
+                return Icon(
+                  Icons.sentiment_very_dissatisfied,
+                  color: Colors.red,
+                );
+              case 1:
+                return Icon(
+                  Icons.sentiment_dissatisfied,
+                  color: Colors.redAccent,
+                );
+              case 2:
+                return Icon(
+                  Icons.sentiment_neutral,
+                  color: Colors.amber,
+                );
+              case 3:
+                return Icon(
+                  Icons.sentiment_satisfied,
+                  color: Colors.lightGreen,
+                );
+              case 4:
+                return Icon(
+                  Icons.sentiment_very_satisfied,
+                  color: Colors.green,
+                );
+              default:
+                return Container();
+            }
+          },
+          onRatingUpdate: (rating) {
+            setState(() {
+              _rating = rating;
+            });
+          },
+        );
+    }
+
 
   @override
   Widget build(BuildContext context) {
@@ -111,14 +160,41 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                       keyboardType: TextInputType.number,
                     ), 
                     SizedBox(height: 15.0,),
-                    TextFormField(  
-                      controller: bankController,
-                      decoration: const InputDecoration(  
-                        icon: const Icon(Icons.person),  
-                        hintText: 'Enter Bank Name',  
-                        labelText: 'Bank Name',  
-                      ), 
-                    ),
+                    DropDownFormField(
+                  titleText: 'Select your preffered Bank',
+                  hintText: 'Please choose one',
+                  value: _touchPointBank,
+                  onSaved: (value) {
+                    setState(() {
+                      _touchPointBank = value;
+                    });
+                  },
+                  onChanged: (value) {
+                    setState(() {
+                      _touchPointBank = value;
+                    });
+                  },
+                  dataSource: [
+                    {
+                      "display": "State Bank Of India",
+                      "value": "SBI",
+                    },
+                    {
+                      "display": "Bank Of Baroda",
+                      "value": "BOB",
+                    },
+                    {
+                      "display": "HDFC Bank",
+                      "value": "HDFC",
+                    },
+                    {
+                      "display": "Punjab National Bank",
+                      "value": "PNB",
+                    },
+                  ],
+                  textField: 'display',
+                  valueField: 'value',
+                ),
                     SizedBox(height: 15.0,),
                     DropDownFormField(
                   titleText: 'Select the Touchpoint',
@@ -140,8 +216,8 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                       "value": "ATM",
                     },
                     {
-                      "display": "Bank",
-                      "value": "Bank",
+                      "display": "BANK",
+                      "value": "BANK",
                     },
                   ],
                   textField: 'display',
@@ -165,34 +241,44 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                   dataSource: [
                     {
                       "display": "ATM Empty",
-                      "value": "ATM Empty",
+                      "value": 1,
                     },
                     {
                       "display": "ATM Not Working",
-                      "value": "ATM Not Working",
+                      "value": 2,
                     },
 
                     {
                       "display": "BANK Employee misconduct",
-                      "value": "BANK Employee misconduct",
+                      "value": 3,
                     },
                     {
                       "display": "Regarding bribery",
-                      "value": "Regarding bribery",
+                      "value": 4,
                     },
                     {
                       "display": "Other Bank related Issues",
-                      "value": "Other Bank related Issues",
+                      "value": 5,
                     },
                     {
                       "display": "Other ATM related issues.",
-                      "value": "Other ATM related issues.",
+                      "value": 6,
                     },
                   ],
                   textField: 'display',
                   valueField: 'value',
                 ),
                 SizedBox(height: 20.0,),
+                              Text(
+                              "Please give your rating",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20.0,
+                                
+                              ),
+                            ),
+                            _ratingBar(),
+                            SizedBox(height: 20.0),
                     RaisedButton(
                             onPressed: () async {
                               LocationResult result = await showLocationPicker(
@@ -234,6 +320,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                               keyboardType: TextInputType.multiline,
                               maxLines: null,
                             ),
+
                                 Container(
                                   margin: EdgeInsets.all(15),
                                   child: MaterialButton( 
@@ -258,4 +345,3 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   }
 }
 
-   

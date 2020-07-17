@@ -24,7 +24,7 @@ class UserList extends StatefulWidget {
 }
 
 class _UserListState extends State<UserList> {
-  final String apiUrl = "http://416e01f35389.ngrok.io/message/getUpdates";
+  final String apiUrl = "http://0538b9e56c64.ngrok.io/message/getUpdates";
 
   List<dynamic> _users = [];
 
@@ -92,7 +92,7 @@ class _UserListState extends State<UserList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Updates Posted By Banks/Organizations"), 
+        title: Text("Latest Updates"), 
       ),
       body: Container(
         child: _buildList(),

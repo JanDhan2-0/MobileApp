@@ -126,23 +126,19 @@ class _RequestScreenState extends State<RequestScreen> {
                   dataSource: [
                     {
                       "display": "State Bank Of India",
-                      "value": "State Bank Of India",
+                      "value": "SBI",
+                    },
+                    {
+                      "display": "Bank Of Baroda",
+                      "value": "BOB",
+                    },
+                    {
+                      "display": "HDFC Bank",
+                      "value": "HDFC",
                     },
                     {
                       "display": "Punjab National Bank",
-                      "value": "Punjab National Bank",
-                    },
-                    {
-                      "display": "Indian Bank",
-                      "value": "Indian Bank",
-                    },
-                    {
-                      "display": "Bank of Baroda",
-                      "value": "Bank Of Baroda",
-                    },
-                    {
-                      "display": "Karnataka Bank",
-                      "value": "Karnataka Bank"
+                      "value": "PNB",
                     },
                   ],
                   textField: 'display',
@@ -169,8 +165,8 @@ class _RequestScreenState extends State<RequestScreen> {
                       "value": "ATM",
                     },
                     {
-                      "display": "Bank",
-                      "value": "Bank",
+                      "display": "BANK",
+                      "value": "BANK",
                     },
                   ],
                   textField: 'display',

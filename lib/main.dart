@@ -17,7 +17,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 
-void main() => runApp(MyApp());
+void main() async{
+  await runApp(MyApp());
+  }
 
 class MyApp extends StatelessWidget {
   @override

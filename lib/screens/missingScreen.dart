@@ -17,6 +17,7 @@ class MissingScreen extends StatefulWidget {
 class _MissingScreenState extends State<MissingScreen> {
   LocationResult _pickedLocation;
   String _touchPoint;
+  String _touchPointBank;
   final nameController = TextEditingController();
   final phoneController = TextEditingController();
   final bankController = TextEditingController();
@@ -54,7 +55,7 @@ class _MissingScreenState extends State<MissingScreen> {
 
   Future uploadData() async{
     await pr.show();
-    uploadMissingInformation(nameController.text,phoneController.text,bankController.text,_pickedLocation.address,_touchPoint);
+    uploadMissingInformation(nameController.text,phoneController.text,_touchPointBank,_pickedLocation.address,_touchPoint,_pickedLocation.latLng);
     pr.hide().whenComplete(() {
           _showDialog();
         });
@@ -111,14 +112,42 @@ class _MissingScreenState extends State<MissingScreen> {
                       keyboardType: TextInputType.number,
                     ), 
                     SizedBox(height: 15.0,),
-                    TextFormField(  
-                      controller: bankController,
-                      decoration: const InputDecoration(  
-                        icon: const Icon(Icons.person),  
-                        hintText: 'Enter Bank Name',  
-                        labelText: 'Bank Name',  
-                      ), 
-                    ),
+                    SizedBox(height: 15.0,),
+                    DropDownFormField(
+                  titleText: 'Select the Bank',
+                  hintText: 'Please choose one',
+                  value: _touchPointBank,
+                  onSaved: (value) {
+                    setState(() {
+                      _touchPointBank = value;
+                    });
+                  },
+                  onChanged: (value) {
+                    setState(() {
+                      _touchPointBank = value;
+                    });
+                  },
+                  dataSource: [
+                    {
+                      "display": "State Bank Of India",
+                      "value": "SBI",
+                    },
+                    {
+                      "display": "Bank Of Baroda",
+                      "value": "BOB",
+                    },
+                    {
+                      "display": "HDFC Bank",
+                      "value": "HDFC",
+                    },
+                    {
+                      "display": "Punjab National Bank",
+                      "value": "PNB",
+                    },
+                  ],
+                  textField: 'display',
+                  valueField: 'value',
+                ),
                     SizedBox(height: 15.0,),
                     DropDownFormField(
                   titleText: 'Select the Touchpoint',
@@ -140,8 +169,8 @@ class _MissingScreenState extends State<MissingScreen> {
                       "value": "ATM",
                     },
                     {
-                      "display": "Bank",
-                      "value": "Bank",
+                      "display": "BANK",
+                      "value": "BANK",
                     },
                   ],
                   textField: 'display',

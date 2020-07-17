@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'dart:math';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:intl/intl.dart';
 Firestore _firestore = Firestore.instance;
 
-Future uploadMissingInformation(String name,String phone,String bank,String location,String touchPoint) async {
+Future uploadMissingInformation(String name,String phone,String bank,String location,String touchPoint,LatLng latLng) async {
 
   var rng = new Random();
   var code = rng.nextInt(900000) + 100000;
@@ -12,16 +14,13 @@ Future uploadMissingInformation(String name,String phone,String bank,String loca
       'name':name,
       'phone':phone,
       'bank':bank,
-      'location':location,
+      'latitude':latLng.latitude,
+      'longitude':latLng.longitude,
+      'location':location,  
       'touchPoint':touchPoint,
       'missingRequestId': code.toString()
   };
-  if(touchPoint == 'ATM'){
-    await _firestore.collection("MissingATMs").document(dataToUpload['missingRequestId'].toString()).setData(dataToUpload);
-  }
-  else{
-    await _firestore.collection("MissingBanks").document(dataToUpload['missingRequestId'].toString()).setData(dataToUpload);
-  }
+  await _firestore.collection("Banks").document(bank).collection("Missing").document(dataToUpload['missingRequestId'].toString()).setData(dataToUpload);
 }
 
 Future uploadRequestInformation(String name,String phone,String bank,String touchPoint,String address,LatLng latLng,String comments) async {
@@ -39,19 +38,17 @@ Future uploadRequestInformation(String name,String phone,String bank,String touc
       'RequestedRequestId': code.toString(),
       'comments':comments
   };
-  if(touchPoint == 'ATM'){
-    await _firestore.collection("RequestedATMs").document(dataToUpload['RequestedRequestId'].toString()).setData(dataToUpload);
-  }
-  else{
-    await _firestore.collection("RequestedBanks").document(dataToUpload['RequestedRequestId'].toString()).setData(dataToUpload);
-  }
+  await _firestore.collection("Banks").document(bank).collection("Request").document(dataToUpload['RequestedRequestId'].toString()).setData(dataToUpload);
 }
 
 
-Future uploadFeedbackInformation(String name,String phone,String bank,String touchPoint,String address,LatLng latLng,String feedback) async {
+Future uploadFeedbackInformation(String name,String phone,String bank,String touchPoint,String address,LatLng latLng,String feedback,var rating,var issue) async {
 
   var rng = new Random();
   var code = rng.nextInt(900000) + 100000;
+  var now = new DateTime.now();
+  var formatter = new DateFormat('yyyy-MM-dd');
+  String formattedDate = formatter.format(now);
   var dataToUpload = {
       'name':name,
       'phone':phone,
@@ -61,12 +58,10 @@ Future uploadFeedbackInformation(String name,String phone,String bank,String tou
       'longitude':latLng.longitude.toString(),
       'touchPoint':touchPoint,
       'FeedbackRequestId': code.toString(),
-      'feedback': feedback
+      'feedback': feedback,
+      'rating':rating,
+      'date': formattedDate,
+      'issue':issue
   };
-  if(touchPoint == 'ATM'){
-    await _firestore.collection("FeedbackATMs").document(dataToUpload['FeedbackRequestId'].toString()).setData(dataToUpload);
-  }
-  else{
-    await _firestore.collection("FeedbackBanks").document(dataToUpload['FeedbackRequestId'].toString()).setData(dataToUpload);
-  }
+    await _firestore.collection("Banks").document(bank).collection("Feedback").document(dataToUpload['FeedbackRequestId'].toString()).setData(dataToUpload);
 }

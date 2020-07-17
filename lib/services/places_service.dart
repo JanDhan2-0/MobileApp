@@ -6,6 +6,7 @@ import 'dart:convert' as convert;
 class PlacesService {
   final key = 'AIzaSyCILGP87TZPkXUobQfqDp9mkPA7IXnEGXU';
   Future<List<Place>> getPlaces(double lat, double lng,String type) async {
+    debugPrint("hiii");
     String url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=$lat,$lng&type='+type+'&rankby=distance&key=$key';
     var response = await http.get(url);
     var json = convert.jsonDecode(response.body);
