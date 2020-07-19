@@ -73,41 +73,16 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
 
   Widget _ratingBar() {
     return RatingBar(
-      initialRating: 5,
+      initialRating: 4,
+      minRating: 1,
       direction: Axis.horizontal,
+      allowHalfRating: false,
       itemCount: 5,
       itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-      itemBuilder: (context, index) {
-        switch (index) {
-          case 0:
-            return Icon(
-              Icons.sentiment_very_dissatisfied,
-              color: Colors.red,
-            );
-          case 1:
-            return Icon(
-              Icons.sentiment_dissatisfied,
-              color: Colors.redAccent,
-            );
-          case 2:
-            return Icon(
-              Icons.sentiment_neutral,
-              color: Colors.amber,
-            );
-          case 3:
-            return Icon(
-              Icons.sentiment_satisfied,
-              color: Colors.lightGreen,
-            );
-          case 4:
-            return Icon(
-              Icons.sentiment_very_satisfied,
-              color: Colors.green,
-            );
-          default:
-            return Container();
-        }
-      },
+      itemBuilder: (context, _) => Icon(
+        Icons.star,
+        color: Colors.amber,
+      ),
       onRatingUpdate: (rating) {
         setState(() {
           _rating = rating;
@@ -369,10 +344,12 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                           height: 15.0,
                         ),
                         Text(
-                          "Rating",
+                          "Please give in a Rating",
                           style: TextStyle(
-                            fontSize: 14.0,
-                          ),
+                              fontSize: 14.0, color: Colors.blue[600]),
+                        ),
+                        SizedBox(
+                          height: 10.0,
                         ),
                         _ratingBar(),
                         SizedBox(height: 20.0),

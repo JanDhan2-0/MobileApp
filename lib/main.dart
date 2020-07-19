@@ -207,20 +207,20 @@ class GeolocationExampleState extends State {
     return Container(
         height: 250.0,
         width: 400.0,
+        padding: EdgeInsets.all(5.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: Container(
-                  child: Text(
-                place.name,
-                style: TextStyle(
-                    color: Colors.lightBlue[600],
-                    fontSize: 25.0,
-                    fontWeight: FontWeight.bold),
-              )),
-            ),
+            Container(
+                child: Text(
+              place.name,
+              style: TextStyle(
+                  color: Colors.lightBlue[600],
+                  fontSize: 25.0,
+                  fontWeight: FontWeight.bold),
+            )),
             SizedBox(height: 5.0),
             Container(
                 child: Row(
@@ -231,50 +231,40 @@ class GeolocationExampleState extends State {
                   place.rating.toString(),
                   style: TextStyle(
                     color: Colors.lightBlue[600],
-                    fontSize: 18.0,
+                    fontSize: 22.0,
                   ),
                 )),
-                Container(
-                  child: Icon(
-                    FontAwesomeIcons.solidStar,
-                    color: Colors.amber,
-                    size: 17.0,
-                  ),
+                Icon(
+                  FontAwesomeIcons.solidStar,
+                  color: Colors.amber,
+                  size: 30.0,
                 ),
-                Container(
-                  child: Icon(
-                    FontAwesomeIcons.solidStar,
-                    color: Colors.amber,
-                    size: 17.0,
-                  ),
+                Icon(
+                  FontAwesomeIcons.solidStar,
+                  color: Colors.amber,
+                  size: 30.0,
                 ),
-                Container(
-                  child: Icon(
-                    FontAwesomeIcons.solidStar,
-                    color: Colors.amber,
-                    size: 17.0,
-                  ),
+                Icon(
+                  FontAwesomeIcons.solidStar,
+                  color: Colors.amber,
+                  size: 30.0,
                 ),
-                Container(
-                  child: Icon(
-                    FontAwesomeIcons.solidStar,
-                    color: Colors.amber,
-                    size: 17.0,
-                  ),
+                Icon(
+                  FontAwesomeIcons.solidStar,
+                  color: Colors.amber,
+                  size: 30.0,
                 ),
-                Container(
-                  child: Icon(
-                    FontAwesomeIcons.solidStarHalf,
-                    color: Colors.amber,
-                    size: 17.0,
-                  ),
+                Icon(
+                  FontAwesomeIcons.solidStarHalf,
+                  color: Colors.amber,
+                  size: 30.0,
                 ),
                 Container(
                     child: Text(
                   place.userRatingCount.toString(),
                   style: TextStyle(
                     color: Colors.blue[600],
-                    fontSize: 18.0,
+                    fontSize: 22.0,
                   ),
                 )),
               ],
@@ -288,8 +278,8 @@ class GeolocationExampleState extends State {
                   place.vicinity.substring(
                       (place.vicinity.length / 2).truncate().toInt()),
               style: TextStyle(
-                color: Colors.blueGrey,
-                fontSize: 17.0,
+                color: Colors.blue[600],
+                fontSize: 18.0,
               ),
             )),
             SizedBox(height: 5.0),

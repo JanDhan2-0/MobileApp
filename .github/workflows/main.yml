@@ -3,7 +3,7 @@ name: build and test app
 jobs:
   build:
     name: install dependencies
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
     - uses: actions/checkout@v1
 
@@ -15,5 +15,5 @@ jobs:
     - name: build apk
       uses: steebchen/flutter@v1.1.0
       with:
-        args: build apk --release
+        args: build apk --target-platform android-arm,android-arm64,android-x64 --split-per-abi
         
