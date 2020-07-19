@@ -11,8 +11,13 @@ jobs:
       uses: steebchen/flutter@v1.1.0
       with:
         args: pub get
+    
+    - name: build fat apk
+      uses: steebchen/flutter@v1.1.0
+      with:
+        args: build apk --release
 
-    - name: build apk
+    - name: build appbundled apk
       uses: steebchen/flutter@v1.1.0
       with:
         args: build apk --target-platform android-arm,android-arm64,android-x64 --split-per-abi
