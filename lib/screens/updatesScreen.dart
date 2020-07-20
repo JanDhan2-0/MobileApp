@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:url_launcher/url_launcher.dart';
 
 class UpdateScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: UserList(),
+    return Scaffold(
+      appBar: AppBar(
+          title: Text('Latest Updates'),
+          automaticallyImplyLeading: true,
+          leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () => Navigator.pop(context, false))),
+      body: UserList(),
     );
   }
 }
@@ -44,7 +48,7 @@ class _UserListState extends State<UserList> {
     return _users.length != 0
         ? RefreshIndicator(
             child: ListView.builder(
-                padding: EdgeInsets.all(8),
+                padding: EdgeInsets.all(8.0),
                 itemCount: _users.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Card(
@@ -93,9 +97,6 @@ class _UserListState extends State<UserList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Latest Updates"),
-      ),
       body: Container(
         child: _buildList(),
       ),
@@ -105,94 +106,106 @@ class _UserListState extends State<UserList> {
 
 class DetailsScreen extends StatelessWidget {
   final desc;
-  // In the constructor, require a Todo.
+
+  _launchURL(data) async {
+    if (await canLaunch(data)) {
+      await launch(data);
+    } else {
+      throw 'Could not launch $data';
+    }
+  }
+
   DetailsScreen({Key key, @required this.desc}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: Scaffold(
-            appBar: AppBar(
-              title: Text('Detail Information'),
-            ),
-            body: Builder(builder: (context) {
-              return Card(
-                color: Colors.white,
-                margin: const EdgeInsets.all(20.0),
-                child: Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: Column(
-                    children: <Widget>[
-                      Text(
-                        desc['title'],
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.w700,
-                        ),
+    return Scaffold(
+        appBar: AppBar(
+            title: Text('Detailed Information'),
+            automaticallyImplyLeading: true,
+            leading: IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: () => Navigator.pop(context, false))),
+        body: Builder(builder: (context) {
+          return Card(
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                children: <Widget>[
+                  Text(
+                    desc['title'],
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  Image(
+                    image: NetworkImage(desc['imageUrl']),
+                    height: 200.0,
+                    width: 200.0,
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  Center(
+                    child: Text(
+                      desc['description'],
+                      style: TextStyle(
+                        fontSize: 14.0,
                       ),
-                      SizedBox(
-                        height: 20.0,
-                      ),
-                      Image(
-                        image: NetworkImage(desc['imageUrl']),
-                      ),
-                      SizedBox(
-                        height: 20.0,
-                      ),
-                      Center(
-                        child: Text(
-                          desc['description'],
-                          style: TextStyle(
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20.0,
-                      ),
-                      Text(
-                        "Additional File Url " + desc['additionalFileUrl'],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  Text(
+                    "Additional File Url",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  GestureDetector(
+                      onTap: () => _launchURL(desc['additionalFileUrl']),
+                      child: Text(
+                        desc['additionalFileUrl'],
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      SizedBox(height: 10.0),
-                      Text(
-                        "Location " + desc['location'],
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10.0,
-                      ),
-                      Text(
-                        "Date and Time " + desc['date'] + " " + desc['time'],
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10.0,
-                      ),
-                      Text(
-                        "Post By: " + desc['postBy'],
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ],
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.w700,
+                            textBaseline: TextBaseline.ideographic,
+                            color: Colors.blue[600]),
+                      )),
+                  SizedBox(height: 10.0),
+                  Text(
+                    "Location: " + desc['location'],
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
-                ),
-              );
-            })));
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  Text(
+                    "Date and Time: " + desc['date'] + " " + desc['time'],
+                    style: TextStyle(
+                      fontSize: 18.0,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  Text(
+                    "Posted By: " + desc['postBy'],
+                    style: TextStyle(
+                      fontSize: 18.0,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }));
   }
 }

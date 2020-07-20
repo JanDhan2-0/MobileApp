@@ -340,7 +340,7 @@ class GeolocationExampleState extends State {
               },
             ),
             IconButton(
-              icon: Icon(Icons.chat),
+              icon: Icon(Icons.assistant),
               onPressed: () {
                 // _handlePressButton();
               },

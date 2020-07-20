@@ -118,7 +118,7 @@ class MyCustomFormState extends State<MyCustomForm> {
       "uniqueId": code
     });
     await http.post(
-      'http://205afcdfb1fb.ngrok.io/account/sendOtp/',
+      'http://jandhan2.herokuapp.com/account/sendOtp/',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -389,28 +389,28 @@ class MyCustomFormState extends State<MyCustomForm> {
                   Column(
                     children: <Widget>[
                       GestureDetector(
-                          // onTap: () => getImage(1),
+                          onTap: () => null, //getImage(1),
                           child: Container(
-                        height: 180,
-                        child: (_aadharImage != null)
-                            ? Image.file(
-                                _aadharImage,
-                                fit: BoxFit.fill,
-                              )
-                            : Container(
-                                height: 180,
-                                width: 375,
-                                decoration: BoxDecoration(
-                                    color: Colors.blueGrey[50],
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(5.0))),
-                                child: Padding(
-                                    padding: EdgeInsets.only(top: 75.0),
-                                    child: Column(children: <Widget>[
-                                      Icon(Icons.linked_camera),
-                                      Text('Add Passport Size Photo')
-                                    ]))),
-                      )),
+                            height: 180,
+                            child: (_aadharImage != null)
+                                ? Image.file(
+                                    _aadharImage,
+                                    fit: BoxFit.fill,
+                                  )
+                                : Container(
+                                    height: 180,
+                                    width: 375,
+                                    decoration: BoxDecoration(
+                                        color: Colors.blueGrey[50],
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5.0))),
+                                    child: Padding(
+                                        padding: EdgeInsets.only(top: 75.0),
+                                        child: Column(children: <Widget>[
+                                          Icon(Icons.linked_camera),
+                                          Text('Add Passport Size Photo')
+                                        ]))),
+                          )),
                       SizedBox(
                         height: 15.0,
                       ),
@@ -465,6 +465,32 @@ class MyCustomFormState extends State<MyCustomForm> {
                           )),
                     ],
                   ),
+                  SizedBox(
+                    height: 15.0,
+                  ),
+                  GestureDetector(
+                      onTap: () => null, //getImage(1),
+                      child: Container(
+                        height: 180,
+                        child: (_aadharImage != null)
+                            ? Image.file(
+                                _aadharImage,
+                                fit: BoxFit.fill,
+                              )
+                            : Container(
+                                height: 180,
+                                width: 375,
+                                decoration: BoxDecoration(
+                                    color: Colors.blueGrey[50],
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5.0))),
+                                child: Padding(
+                                    padding: EdgeInsets.only(top: 75.0),
+                                    child: Column(children: <Widget>[
+                                      Icon(Icons.linked_camera),
+                                      Text('Add Signature')
+                                    ]))),
+                      )),
                   SizedBox(
                     height: 15.0,
                   ),
