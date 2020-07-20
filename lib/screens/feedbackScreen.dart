@@ -406,10 +406,9 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                           height: 20.0,
                         ),
                         Container(
-                          margin: EdgeInsets.all(15),
+                          width: 375.0,
                           child: MaterialButton(
                             height: 49.0,
-                            minWidth: double.infinity,
                             color: Theme.of(context).primaryColor,
                             padding: EdgeInsets.all(10),
                             textColor: Colors.white,

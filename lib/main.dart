@@ -5,7 +5,6 @@ import 'package:jandhanv2/models/place.dart';
 import 'package:jandhanv2/screens/bankUploads.dart';
 import 'package:jandhanv2/services/marker_service.dart';
 import 'package:jandhanv2/services/places_service.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_map_location_picker/google_map_location_picker.dart';
 import 'package:jandhanv2/screens/feedbackScreen.dart';
 import 'package:jandhanv2/screens/missingScreen.dart';
@@ -16,6 +15,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void main() async {
   runApp(MyApp());
@@ -203,116 +203,83 @@ class GeolocationExampleState extends State {
     );
   }
 
+  _launchURL(data) async {
+    if (await canLaunch(data)) {
+      await launch(data);
+    } else {
+      throw 'Could not launch $data';
+    }
+  }
+
   Widget myDetailsContainer1(Place place) {
     return Container(
         height: 250.0,
-        width: 400.0,
+        width: 500.0,
         padding: EdgeInsets.all(5.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Container(
-                child: Text(
-              place.name,
-              style: TextStyle(
-                  color: Colors.lightBlue[600],
-                  fontSize: 25.0,
-                  fontWeight: FontWeight.bold),
-            )),
-            SizedBox(height: 5.0),
-            Container(
-                child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Container(
-                    child: Text(
-                  place.rating.toString(),
-                  style: TextStyle(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                  child: Text(
+                place.name,
+                style: TextStyle(
                     color: Colors.lightBlue[600],
-                    fontSize: 22.0,
+                    fontSize: 28.0,
+                    fontWeight: FontWeight.bold),
+              )),
+              SizedBox(height: 5.0),
+              Container(
+                  child: Text(
+                place.vicinity,
+                style: TextStyle(
+                  color: Colors.blue[600],
+                  fontSize: 24.0,
+                ),
+              )),
+              SizedBox(height: 5.0),
+              Row(
+                children: [
+                  Text(
+                    "Status: ${place.openNow}" +
+                        "\nOpening Hours: ${place.openingHours}",
+                    style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 23.0,
+                        fontWeight: FontWeight.bold),
                   ),
-                )),
-                Icon(
-                  FontAwesomeIcons.solidStar,
-                  color: Colors.amber,
-                  size: 30.0,
-                ),
-                Icon(
-                  FontAwesomeIcons.solidStar,
-                  color: Colors.amber,
-                  size: 30.0,
-                ),
-                Icon(
-                  FontAwesomeIcons.solidStar,
-                  color: Colors.amber,
-                  size: 30.0,
-                ),
-                Icon(
-                  FontAwesomeIcons.solidStar,
-                  color: Colors.amber,
-                  size: 30.0,
-                ),
-                Icon(
-                  FontAwesomeIcons.solidStarHalf,
-                  color: Colors.amber,
-                  size: 30.0,
-                ),
-                Container(
-                    child: Text(
-                  place.userRatingCount.toString(),
-                  style: TextStyle(
-                    color: Colors.blue[600],
-                    fontSize: 22.0,
-                  ),
-                )),
-              ],
-            )),
-            SizedBox(height: 5.0),
-            Container(
-                child: Text(
-              place.vicinity.substring(
-                      0, (place.vicinity.length / 2).truncate().toInt()) +
-                  "\n" +
-                  place.vicinity.substring(
-                      (place.vicinity.length / 2).truncate().toInt()),
-              style: TextStyle(
-                color: Colors.blue[600],
-                fontSize: 18.0,
-              ),
-            )),
-            SizedBox(height: 5.0),
-            Container(
-                child: Text(
-              "Status: ${place.openNow}",
-              style: TextStyle(
-                color: Colors.grey,
-                fontSize: 17.0,
-              ),
-            )),
-            Directionality(
-                textDirection: TextDirection.ltr,
-                child: ButtonBar(alignment: MainAxisAlignment.end, children: [
-                  IconButton(
-                    icon: Icon(Icons.feedback),
-                    iconSize: 40.0,
-                    color: Colors.blue[600],
-                    onPressed: () {
-                      // _handlePressButton();
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.call),
-                    color: Colors.blue[600],
-                    iconSize: 40.0,
-                    onPressed: () {
-                      // _handlePressButton();
-                    },
-                  )
-                ]))
-          ],
-        ));
+                  Spacer(),
+                  Directionality(
+                      textDirection: TextDirection.ltr,
+                      child: ButtonBar(
+                          alignment: MainAxisAlignment.end,
+                          children: [
+                            IconButton(
+                              icon: Icon(Icons.feedback),
+                              iconSize: 40.0,
+                              color: Colors.blue[600],
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => FeedbackScreen(),
+                                  ),
+                                );
+                              },
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.call),
+                              color: Colors.blue[600],
+                              iconSize: 40.0,
+                              onPressed: () {
+                                _launchURL("tel://${place.phoneNumber}");
+                              },
+                            )
+                          ]))
+                ],
+              )
+            ]));
   }
 
   Future<void> _gotoLocation(double lat, double long) async {
