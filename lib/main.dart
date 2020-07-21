@@ -167,7 +167,8 @@ class GeolocationExampleState extends State {
           children: <Widget>[
             for (var place in placeMarkers)
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.only(
+                    right: 2.5, left: 2.5, top: 4.0, bottom: 4.0),
                 child: _boxes(place, type),
               ),
           ],
@@ -185,10 +186,10 @@ class GeolocationExampleState extends State {
         child: new FittedBox(
           child: Material(
               color: Colors.white,
-              elevation: 7.0,
+              elevation: 5.0,
               borderRadius: BorderRadius.circular(20.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
                   Container(
                     child: Padding(
@@ -213,9 +214,8 @@ class GeolocationExampleState extends State {
 
   Widget myDetailsContainer1(Place place) {
     return Container(
-        height: 250.0,
+        height: MediaQuery.of(context).size.height / 3 + 30,
         width: 500.0,
-        padding: EdgeInsets.all(5.0),
         child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             mainAxisSize: MainAxisSize.min,
@@ -472,7 +472,9 @@ class GeolocationExampleState extends State {
                         ),
                       ),
                       Padding(
-                          padding: EdgeInsets.only(top: 50.0, left: 305.0),
+                          padding: EdgeInsets.only(
+                              top: 50.0,
+                              left: MediaQuery.of(context).size.width - 50.0),
                           child: Material(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(25.0)),

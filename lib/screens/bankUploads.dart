@@ -165,7 +165,7 @@ class MyCustomFormState extends State<MyCustomForm> {
         child: Form(
             key: _formKey,
             child: Container(
-              width: 375.0,
+              width: MediaQuery.of(context).size.width,
               padding: EdgeInsets.all(25.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -399,7 +399,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                                   )
                                 : Container(
                                     height: 180,
-                                    width: 375,
+                                    width: MediaQuery.of(context).size.width,
                                     decoration: BoxDecoration(
                                         color: Colors.blueGrey[50],
                                         borderRadius: BorderRadius.all(
@@ -425,7 +425,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                                   )
                                 : Container(
                                     height: 180,
-                                    width: 375,
+                                    width: MediaQuery.of(context).size.width,
                                     decoration: BoxDecoration(
                                         color: Colors.blueGrey[50],
                                         borderRadius: BorderRadius.all(
@@ -451,7 +451,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                                   )
                                 : Container(
                                     height: 180,
-                                    width: 375,
+                                    width: MediaQuery.of(context).size.width,
                                     decoration: BoxDecoration(
                                         color: Colors.blueGrey[50],
                                         borderRadius: BorderRadius.all(

@@ -93,7 +93,7 @@ class _MissingScreenState extends State<MissingScreen> {
               child: Form(
                   key: _formKey,
                   child: Container(
-                    width: 375,
+                    width: MediaQuery.of(context).size.width,
                     padding: EdgeInsets.all(25.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -277,7 +277,7 @@ class _MissingScreenState extends State<MissingScreen> {
                           height: 15.0,
                         ),
                         Container(
-                          width: 375.0,
+                          width: MediaQuery.of(context).size.width,
                           child: MaterialButton(
                             height: 49.0,
                             color: Theme.of(context).primaryColor,

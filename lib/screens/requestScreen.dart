@@ -94,7 +94,7 @@ class _RequestScreenState extends State<RequestScreen> {
                   key: _formKey,
                   child: Container(
                     padding: EdgeInsets.all(25.0),
-                    width: 375.0,
+                    width: MediaQuery.of(context).size.width,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,

@@ -119,7 +119,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
               child: Form(
                   key: _formKey,
                   child: Container(
-                    width: 375.0,
+                    width: MediaQuery.of(context).size.width,
                     padding: EdgeInsets.all(25.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -406,7 +406,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                           height: 20.0,
                         ),
                         Container(
-                          width: 375.0,
+                          width: MediaQuery.of(context).size.width,
                           child: MaterialButton(
                             height: 49.0,
                             color: Theme.of(context).primaryColor,
