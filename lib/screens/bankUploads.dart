@@ -54,12 +54,16 @@ class MyApp1 extends StatelessWidget {
       File _photoImage;
       AppState state4;
 
+
       final _formKey = GlobalKey<FormState>();  
       final nameController = TextEditingController();
       final phoneController = TextEditingController();
       final dobController = TextEditingController(); 
       final emailController = TextEditingController();
       final addressController = TextEditingController();
+      final panNoController = TextEditingController();
+      final aadharNoController = TextEditingController();
+
       String _bankName;
 
       ProgressDialog pr;
@@ -154,7 +158,9 @@ class MyApp1 extends StatelessWidget {
           "status":"Pending",
           "account_creation_date": formattedDate,
           "purpose":"A/C Creation",
-          "formId":_bankName+code.toString()
+          "formId":_bankName+code.toString(),
+          "panNo":panNoController.text,
+          "aadharNo":aadharNoController.text
         }
         );
         await http.post(
@@ -465,6 +471,26 @@ class MyApp1 extends StatelessWidget {
                 ),  
                 keyboardType: TextInputType.emailAddress,
               ),
+                 SizedBox(height: 10.0,),  
+                    TextFormField( 
+                      controller: aadharNoController, 
+                      decoration: const InputDecoration(  
+                        icon: const Icon(Icons.confirmation_number),  
+                        hintText: 'Enter the Aadhar Number',  
+                        labelText: 'Phone',  
+                      ),  
+                      keyboardType: TextInputType.number,
+                    ), 
+                       SizedBox(height: 10.0,),  
+                    TextFormField( 
+                      controller: panNoController, 
+                      decoration: const InputDecoration(  
+                        icon: const Icon(Icons.confirmation_number),  
+                        hintText: 'Enter the PAN Number',  
+                        labelText: 'Phone',  
+                      ),  
+                      keyboardType: TextInputType.number,
+                    ), 
               SizedBox(height: 20.0,),
               DropDownFormField(
                   titleText: 'Select the Bank',
