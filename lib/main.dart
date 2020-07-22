@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Geolocation',
+      title: 'Jan Dhan 2.0',
       home: GeolocationExample(),
       routes: {
         '/missing': (context) => MissingScreen(),
@@ -178,28 +178,23 @@ class GeolocationExampleState extends State {
   }
 
   Widget _boxes(Place place, type) {
-    return GestureDetector(
-      onTap: () {
-        _gotoLocation(place.geometry.location.lat, place.geometry.location.lng);
-      },
-      child: Container(
-        child: new FittedBox(
-          child: Material(
-              color: Colors.white,
-              elevation: 5.0,
-              borderRadius: BorderRadius.circular(20.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Container(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: myDetailsContainer1(place),
-                    ),
+    return Container(
+      child: new FittedBox(
+        child: Material(
+            color: Colors.white,
+            elevation: 5.0,
+            borderRadius: BorderRadius.circular(20.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Container(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: myDetailsContainer1(place),
                   ),
-                ],
-              )),
-        ),
+                ),
+              ],
+            )),
       ),
     );
   }
@@ -213,73 +208,78 @@ class GeolocationExampleState extends State {
   }
 
   Widget myDetailsContainer1(Place place) {
-    return Container(
-        height: MediaQuery.of(context).size.height / 3 + 30,
-        width: 500.0,
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                  child: Text(
-                place.name,
-                style: TextStyle(
-                    color: Colors.lightBlue[600],
-                    fontSize: 28.0,
-                    fontWeight: FontWeight.bold),
-              )),
-              SizedBox(height: 5.0),
-              Container(
-                  child: Text(
-                place.vicinity,
-                style: TextStyle(
-                  color: Colors.blue[600],
-                  fontSize: 24.0,
-                ),
-              )),
-              SizedBox(height: 5.0),
-              Row(
-                children: [
-                  Text(
-                    "Status: ${place.openNow}" +
-                        "\nOpening Hours: ${place.openingHours}",
-                    style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 23.0,
-                        fontWeight: FontWeight.bold),
+    return Material(
+        child: InkWell(
+      child: Container(
+          height: MediaQuery.of(context).size.height / 3 + 30,
+          width: 500.0,
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                    child: Text(
+                  place.name,
+                  style: TextStyle(
+                      color: Colors.lightBlue[600],
+                      fontSize: 28.0,
+                      fontWeight: FontWeight.bold),
+                )),
+                SizedBox(height: 5.0),
+                Container(
+                    child: Text(
+                  place.vicinity,
+                  style: TextStyle(
+                    color: Colors.blue[600],
+                    fontSize: 24.0,
                   ),
-                  Spacer(),
-                  Directionality(
-                      textDirection: TextDirection.ltr,
-                      child: ButtonBar(
-                          alignment: MainAxisAlignment.end,
-                          children: [
-                            IconButton(
-                              icon: Icon(Icons.feedback),
-                              iconSize: 40.0,
-                              color: Colors.blue[600],
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => FeedbackScreen(),
-                                  ),
-                                );
-                              },
-                            ),
-                            IconButton(
-                              icon: Icon(Icons.call),
-                              color: Colors.blue[600],
-                              iconSize: 40.0,
-                              onPressed: () {
-                                _launchURL("tel://${place.phoneNumber}");
-                              },
-                            )
-                          ]))
-                ],
-              )
-            ]));
+                )),
+                SizedBox(height: 5.0),
+                Row(
+                  children: [
+                    Text(
+                      "Status: ${place.openNow}" +
+                          "\nOpening Hours: ${place.openingHours}",
+                      style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 23.0,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Spacer(),
+                    Directionality(
+                        textDirection: TextDirection.ltr,
+                        child: ButtonBar(
+                            alignment: MainAxisAlignment.end,
+                            children: [
+                              IconButton(
+                                icon: Icon(Icons.feedback),
+                                iconSize: 40.0,
+                                color: Colors.blue[600],
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => FeedbackScreen(),
+                                    ),
+                                  );
+                                },
+                              ),
+                              IconButton(
+                                icon: Icon(Icons.call),
+                                color: Colors.blue[600],
+                                iconSize: 40.0,
+                                onPressed: () {
+                                  _launchURL("tel://${place.phoneNumber}");
+                                },
+                              )
+                            ]))
+                  ],
+                )
+              ])),
+      onTap: () => _gotoLocation(
+          place.geometry.location.lat, place.geometry.location.lng),
+    ));
   }
 
   Future<void> _gotoLocation(double lat, double long) async {
