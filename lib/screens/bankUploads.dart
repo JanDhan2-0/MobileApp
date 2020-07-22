@@ -12,6 +12,7 @@ import 'package:progress_dialog/progress_dialog.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_cropper/image_cropper.dart';
 import 'package:intl/intl.dart';
+import './styles/style.dart';
 
 class HomeScreen1 extends StatelessWidget {
   @override
@@ -434,173 +435,58 @@ class MyCustomFormState extends State<MyCustomForm> {
         child: Form(
             key: _formKey,
             child: Container(
-              width: MediaQuery.of(context).size.width,
+              width: MediaQuery.of(context).size.width - 9.0,
               padding: EdgeInsets.all(25.0),
               child: Column(
                 children: <Widget>[
                   TextFormField(
-                    controller: nameController,
-                    decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.person),
-                        labelText: "Name",
-                        hintText: "Enter your full name",
-                        fillColor: Colors.white,
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                            borderSide: BorderSide(
-                                width: 2.75, color: Colors.blue[600])),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                          borderSide: BorderSide(
-                            color: Colors.blue[600],
-                            width: 2.0,
-                          ),
-                        )),
-                  ),
-                  SizedBox(
-                    height: 15.0,
-                  ),
+                      controller: nameController,
+                      decoration: Style.inputDecor(
+                          Icon(Icons.person), 'Name', 'Enter your Name')),
+                  Style.space(),
                   TextFormField(
                     controller: phoneController,
-                    decoration: InputDecoration(
-                        hintText: 'Enter a phone number',
-                        labelText: 'Phone',
-                        prefixIcon: Icon(Icons.call),
-                        fillColor: Colors.white,
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                            borderSide: BorderSide(
-                                width: 2.75, color: Colors.blue[600])),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                          borderSide: BorderSide(
-                            color: Colors.blue[600],
-                            width: 2.0,
-                          ),
-                        )),
+                    decoration: Style.inputDecor(Icon(Icons.call),
+                        'Phone Number', 'Enter your Phone Number'),
                     keyboardType: TextInputType.phone,
                   ),
-                  SizedBox(
-                    height: 15.0,
-                  ),
+                  Style.space(),
                   TextFormField(
                     controller: dobController,
-                    decoration: InputDecoration(
-                        hintText: 'MM/DD/YYYY',
-                        labelText: 'Date of Birth (DOB)',
-                        prefixIcon: Icon(Icons.calendar_today),
-                        fillColor: Colors.white,
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                            borderSide: BorderSide(
-                                width: 2.75, color: Colors.blue[600])),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                          borderSide: BorderSide(
-                            color: Colors.blue[600],
-                            width: 2.0,
-                          ),
-                        )),
+                    decoration: Style.inputDecor(Icon(Icons.calendar_today),
+                        'Date of Birth (DOB)', 'Enter your Date of Birth'),
                     keyboardType: TextInputType.datetime,
                   ),
-                  SizedBox(
-                    height: 15.0,
-                  ),
+                  Style.space(),
                   TextFormField(
                       controller: addressController,
-                      decoration: InputDecoration(
-                          hintText: 'Enter your Address',
-                          labelText: 'Permanent Address',
-                          prefixIcon: Icon(Icons.location_city),
-                          fillColor: Colors.white,
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5.0),
-                              borderSide: BorderSide(
-                                  width: 2.75, color: Colors.blue[600])),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                            borderSide: BorderSide(
-                              color: Colors.blue[600],
-                              width: 2.0,
-                            ),
-                          )),
+                      decoration: Style.inputDecor(Icon(Icons.location_city),
+                          'Permanent Address', 'Enter your Address'),
                       keyboardType: TextInputType.multiline),
-                  SizedBox(
-                    height: 15.0,
-                  ),
+                  Style.space(),
                   TextFormField(
                       controller: emailController,
-                      decoration: InputDecoration(
-                          hintText: 'Enter your Email Address',
-                          labelText: 'Email ID',
-                          prefixIcon: Icon(Icons.email),
-                          fillColor: Colors.white,
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5.0),
-                              borderSide: BorderSide(
-                                  width: 2.75, color: Colors.blue[600])),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                            borderSide: BorderSide(
-                              color: Colors.blue[600],
-                              width: 2.0,
-                            ),
-                          )),
+                      decoration: Style.inputDecor(
+                          Icon(Icons.mail), 'Email ID', 'Enter your E-Mail ID'),
                       keyboardType: TextInputType.emailAddress),
-                  SizedBox(
-                    height: 15.0,
-                  ),
+                  Style.space(),
                   TextFormField(
                       controller: aadharNoController,
-                      decoration: InputDecoration(
-                          hintText: 'Enter your Aadhaar Number',
-                          labelText: 'Aadhaar Number',
-                          prefixIcon: Icon(Icons.chrome_reader_mode),
-                          fillColor: Colors.white,
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5.0),
-                              borderSide: BorderSide(
-                                  width: 2.75, color: Colors.blue[600])),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                            borderSide: BorderSide(
-                              color: Colors.blue[600],
-                              width: 2.0,
-                            ),
-                          )),
+                      decoration: Style.inputDecor(
+                          Icon(Icons.chrome_reader_mode),
+                          'Aadhaar Number',
+                          'Enter your Aadhaar Number'),
                       keyboardType: TextInputType.number),
-                  SizedBox(
-                    height: 15.0,
-                  ),
+                  Style.space(),
                   TextFormField(
                     controller: panNoController,
-                    decoration: InputDecoration(
-                        hintText: 'Enter PAN Number',
-                        labelText: 'PAN Number',
-                        prefixIcon: Icon(Icons.credit_card),
-                        fillColor: Colors.white,
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                            borderSide: BorderSide(
-                                width: 2.75, color: Colors.blue[600])),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                          borderSide: BorderSide(
-                            color: Colors.blue[600],
-                            width: 2.0,
-                          ),
-                        )),
+                    decoration: Style.inputDecor(
+                        Icon(Icons.credit_card), 'PAN', 'Enter your PAN'),
                     keyboardType: TextInputType.number,
                   ),
-                  SizedBox(
-                    height: 15.0,
-                  ),
+                  Style.space(),
                   Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border:
-                              Border.all(width: 2.0, color: Colors.blue[600]),
-                          borderRadius: BorderRadius.circular(5.0)),
+                      decoration: Style.boxDecor(),
                       child: DropDownFormField(
                         titleText: 'Select the Bank',
                         hintText: 'Please choose one',
@@ -636,9 +522,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                         textField: 'display',
                         valueField: 'value',
                       )),
-                  SizedBox(
-                    height: 15.0,
-                  ),
+                  Style.space(),
                   Column(
                     children: <Widget>[
                       Container(
@@ -654,22 +538,10 @@ class MyCustomFormState extends State<MyCustomForm> {
                                     : (state1 == AppState.picked)
                                         ? _cropImage1()
                                         : _clearImage1(),
-                                child: Container(
-                                  height: 200.0,
-                                  width: MediaQuery.of(context).size.width,
-                                  color: Colors.blueGrey[50],
-                                  child: Column(children: [
-                                    SizedBox(
-                                      height: 75,
-                                    ),
-                                    Icon(Icons.linked_camera),
-                                    Text('Attested Aadhaar Image Here')
-                                  ]),
-                                )),
+                                child: Style.greyBox(
+                                    context, 'Attested Aadhaar Image Here')),
                       ),
-                      SizedBox(
-                        height: 15.0,
-                      ),
+                      Style.space(),
                       Container(
                         height: 200,
                         child: (_panImage != null)
@@ -683,22 +555,10 @@ class MyCustomFormState extends State<MyCustomForm> {
                                     : (state2 == AppState.picked)
                                         ? _cropImage2()
                                         : _clearImage2(),
-                                child: Container(
-                                  height: 200.0,
-                                  width: MediaQuery.of(context).size.width,
-                                  color: Colors.blueGrey[50],
-                                  child: Column(children: [
-                                    SizedBox(
-                                      height: 75,
-                                    ),
-                                    Icon(Icons.linked_camera),
-                                    Text('Attested PAN Image Here')
-                                  ]),
-                                )),
+                                child: Style.greyBox(
+                                    context, 'Attested PAN Image Here')),
                       ),
-                      SizedBox(
-                        height: 15.0,
-                      ),
+                      Style.space(),
                       Container(
                         height: 200,
                         child: (_sigImage != null)
@@ -712,27 +572,10 @@ class MyCustomFormState extends State<MyCustomForm> {
                                     : (state3 == AppState.picked)
                                         ? _cropImage3()
                                         : _clearImage3(),
-                                child: Container(
-                                  height: 200.0,
-                                  width: MediaQuery.of(context).size.width,
-                                  color: Colors.blueGrey[50],
-                                  child: Column(children: [
-                                    SizedBox(
-                                      height: 75,
-                                    ),
-                                    Icon(Icons.linked_camera),
-                                    Text('Signature Image Here')
-                                  ]),
-                                )),
+                                child:
+                                    Style.greyBox(context, 'Signature Image')),
                       ),
-                      SizedBox(
-                        height: 15.0,
-                      ),
-                      /*if (state4 == AppState.free)
-                            _pickImage4();
-                          else if (state3 == AppState.picked)
-                            _cropImage4();
-                          else if (state4 == AppState.cropped) _clearImage4(); */
+                      Style.space(),
                       Container(
                         height: 200,
                         child: (_photoImage != null)
@@ -746,24 +589,12 @@ class MyCustomFormState extends State<MyCustomForm> {
                                     : (state4 == AppState.picked)
                                         ? _cropImage4()
                                         : _clearImage4(),
-                                child: Container(
-                                  height: 200.0,
-                                  width: MediaQuery.of(context).size.width,
-                                  color: Colors.blueGrey[50],
-                                  child: Column(children: [
-                                    SizedBox(
-                                      height: 75,
-                                    ),
-                                    Icon(Icons.linked_camera),
-                                    Text('Passport Size Photo Here')
-                                  ]),
-                                )),
+                                child: Style.greyBox(
+                                    context, 'Passport Size Photo Here')),
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: 15.0,
-                  ),
+                  Style.space(),
                   Container(
                     width: MediaQuery.of(context).size.width,
                     child: MaterialButton(

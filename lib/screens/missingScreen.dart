@@ -9,6 +9,7 @@ import 'package:jandhanv2/main.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import '../generated/i18n.dart';
 import '../services/uploadToFirebase.dart';
+import '../screens/styles/style.dart';
 
 class MissingScreen extends StatefulWidget {
   @override
@@ -93,63 +94,26 @@ class _MissingScreenState extends State<MissingScreen> {
               child: Form(
                   key: _formKey,
                   child: Container(
-                    width: MediaQuery.of(context).size.width,
+                    width: MediaQuery.of(context).size.width - 9.0,
                     padding: EdgeInsets.all(25.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         TextFormField(
-                          controller: nameController,
-                          decoration: InputDecoration(
-                              prefixIcon: Icon(Icons.person),
-                              labelText: "Name",
-                              hintText: "Enter your full name",
-                              fillColor: Colors.white,
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  borderSide: BorderSide(
-                                      width: 2.75, color: Colors.blue[600])),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(5.0),
-                                borderSide: BorderSide(
-                                  color: Colors.blue[600],
-                                  width: 2.0,
-                                ),
-                              )),
-                        ),
-                        SizedBox(
-                          height: 15.0,
-                        ),
+                            controller: nameController,
+                            decoration: Style.inputDecor(
+                                Icon(Icons.person), 'Name', 'Enter your Name')),
+                        Style.space(),
                         TextFormField(
                           controller: phoneController,
-                          decoration: InputDecoration(
-                              hintText: 'Enter a phone number',
-                              labelText: 'Phone',
-                              prefixIcon: Icon(Icons.call),
-                              fillColor: Colors.white,
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  borderSide: BorderSide(
-                                      width: 2.75, color: Colors.blue[600])),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(5.0),
-                                borderSide: BorderSide(
-                                  color: Colors.blue[600],
-                                  width: 2.0,
-                                ),
-                              )),
+                          decoration: Style.inputDecor(Icon(Icons.call),
+                              'Phone', 'Enter your Phone Number'),
                           keyboardType: TextInputType.phone,
                         ),
-                        SizedBox(
-                          height: 15.0,
-                        ),
+                        Style.space(),
                         Container(
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(
-                                    width: 2.0, color: Colors.blue[600]),
-                                borderRadius: BorderRadius.circular(5.0)),
+                            decoration: Style.boxDecor(),
                             child: DropDownFormField(
                               titleText: 'Select the Bank',
                               hintText: 'Please choose one',
@@ -185,15 +149,9 @@ class _MissingScreenState extends State<MissingScreen> {
                               textField: 'display',
                               valueField: 'value',
                             )),
-                        SizedBox(
-                          height: 15.0,
-                        ),
+                        Style.space(),
                         Container(
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(
-                                    width: 2.0, color: Colors.blue[600]),
-                                borderRadius: BorderRadius.circular(5.0)),
+                            decoration: Style.boxDecor(),
                             child: DropDownFormField(
                               titleText: 'Select the Touchpoint',
                               hintText: 'Please choose one',
@@ -221,9 +179,7 @@ class _MissingScreenState extends State<MissingScreen> {
                               textField: 'display',
                               valueField: 'value',
                             )),
-                        SizedBox(
-                          height: 20.0,
-                        ),
+                        Style.space(),
                         RaisedButton(
                             color: Colors.blue[100],
                             onPressed: () async {
@@ -260,9 +216,7 @@ class _MissingScreenState extends State<MissingScreen> {
                                             TextStyle(color: Colors.blue[600]),
                                       ),
                                     ]))),
-                        SizedBox(
-                          height: 20.0,
-                        ),
+                        Style.space(),
                         (_pickedLocation == null)
                             ? Text("(Bank/ATM Location will appear here)",
                                 style: TextStyle(fontSize: 14))
