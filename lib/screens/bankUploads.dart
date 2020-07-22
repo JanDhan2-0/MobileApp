@@ -477,7 +477,7 @@ class MyApp1 extends StatelessWidget {
                       decoration: const InputDecoration(  
                         icon: const Icon(Icons.confirmation_number),  
                         hintText: 'Enter the Aadhar Number',  
-                        labelText: 'Phone',  
+                        labelText: 'Aadhar Number',  
                       ),  
                       keyboardType: TextInputType.number,
                     ), 
@@ -487,7 +487,7 @@ class MyApp1 extends StatelessWidget {
                       decoration: const InputDecoration(  
                         icon: const Icon(Icons.confirmation_number),  
                         hintText: 'Enter the PAN Number',  
-                        labelText: 'Phone',  
+                        labelText: 'PAN Number',  
                       ),  
                       keyboardType: TextInputType.number,
                     ), 
