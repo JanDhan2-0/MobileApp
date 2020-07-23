@@ -237,7 +237,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                               },
                               dataSource: [
                                 {
-                                  "display": "ATM Empty",
+                                  "display": "ATM Out of Cash",
                                   "value": 1,
                                 },
                                 {
@@ -245,19 +245,21 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                                   "value": 2,
                                 },
                                 {
-                                  "display": "BANK Employee misconduct",
+                                  "display": "BANK Employee Misconduct",
                                   "value": 3,
                                 },
                                 {
-                                  "display": "Regarding bribery",
+                                  "display": "Regarding Bribery",
                                   "value": 4,
                                 },
                                 {
-                                  "display": "Other Bank related Issues",
+                                  "display":
+                                      "Miscellaneous Bank Related Issues",
                                   "value": 5,
                                 },
                                 {
-                                  "display": "Other ATM related issues.",
+                                  "display":
+                                      "Miscellaneous ATM Related issues.",
                                   "value": 6,
                                 },
                               ],
@@ -293,7 +295,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                         ),
                         Style.space(),
                         Text(
-                          "Please give in a Rating",
+                          "Please give a Rating",
                           style: TextStyle(
                               fontSize: 14.0, color: Colors.blue[600]),
                         ),

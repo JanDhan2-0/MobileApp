@@ -1,10 +1,8 @@
 # jandhanv2
 
-A new Flutter project.
+A fully integrated flutter app implementing a GIS for financial inclusion.
 
 ## Getting Started
-
-This project is a starting point for a Flutter application.
 
 A few resources to get you started if this is your first Flutter project:
 

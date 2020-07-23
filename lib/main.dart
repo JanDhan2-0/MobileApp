@@ -573,7 +573,7 @@ class navigationDrawer extends StatelessWidget {
           ),
           Divider(color: Colors.white),
           ListTile(
-            title: Text('App version 1.0.0',
+            title: Text('App version 1.0.3',
                 style: TextStyle(color: Colors.white)),
             onTap: () {},
           ),
