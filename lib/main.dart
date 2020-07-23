@@ -142,6 +142,12 @@ class GeolocationExampleState extends State {
                         ? poIcon
                         : (type == 'csc') ? cscIcon : emitraIcon)
         : List<Marker>();
+    markers.add(Marker(
+        markerId: MarkerId('30'),
+        draggable: false,
+        consumeTapEvents: false,
+        icon: BitmapDescriptor.defaultMarker,
+        position: LatLng(_positionLatitude, _positionLongitude)));
   }
 
   void updateLocation() async {
@@ -382,21 +388,30 @@ class GeolocationExampleState extends State {
                             2 * MediaQuery.of(context).size.height / 3 - 17.5,
                         width: MediaQuery.of(context).size.width,
                         child: GoogleMap(
-                          initialCameraPosition: CameraPosition(
-                              target:
-                                  LatLng(_positionLatitude, _positionLongitude),
-                              zoom: 14.0),
-                          onMapCreated: (GoogleMapController controller) {
-                            mapController = controller;
-                          },
-                          zoomGesturesEnabled: true,
-                          gestureRecognizers: Set()
-                            ..add(Factory<PanGestureRecognizer>(
-                                () => PanGestureRecognizer())),
-                          markers: Set<Marker>.of(markers),
-                          myLocationButtonEnabled: false,
-                          myLocationEnabled: true,
-                        ),
+                            initialCameraPosition: CameraPosition(
+                                target: LatLng(
+                                    _positionLatitude, _positionLongitude),
+                                zoom: 14.0),
+                            onMapCreated: (GoogleMapController controller) {
+                              mapController = controller;
+                            },
+                            zoomGesturesEnabled: true,
+                            gestureRecognizers: Set()
+                              ..add(Factory<PanGestureRecognizer>(
+                                  () => PanGestureRecognizer())),
+                            markers: Set<Marker>.of(markers),
+                            myLocationButtonEnabled: false,
+                            myLocationEnabled: true,
+                            circles: Set.from([
+                              Circle(
+                                  circleId: CircleId('0'),
+                                  center: LatLng(
+                                      _positionLatitude, _positionLongitude),
+                                  radius: 1500,
+                                  strokeColor: Color(0x3D70A7ff),
+                                  strokeWidth: 2,
+                                  fillColor: Color(0x3D70A7ff))
+                            ])),
                       ),
                       Align(
                         alignment: Alignment.topCenter,
