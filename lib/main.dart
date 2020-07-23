@@ -16,7 +16,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:url_launcher/url_launcher.dart';
-import './screens/styles/style.dart';
+import 'package:flutter/services.dart';
 
 void main() async {
   runApp(MyApp());
@@ -80,6 +80,11 @@ class GeolocationExampleState extends State {
     placesService = PlacesService();
     markerService = MarkerService();
     _geolocator = Geolocator();
+
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
 
     BitmapDescriptor.fromAssetImage(
             ImageConfiguration(size: Size(100, 100)), 'assets/images/atm.png')
@@ -271,7 +276,7 @@ class GeolocationExampleState extends State {
                                 color: Colors.blue[600],
                                 iconSize: 40.0,
                                 onPressed: () {
-                                  _launchURL("tel://${place.phoneNumber}");
+                                  _launchURL("tel:${place.phoneNumber}");
                                 },
                               )
                             ]))
@@ -309,7 +314,10 @@ class GeolocationExampleState extends State {
               semanticsLabel: 'logo of jdd', height: 30.0, width: 30.0),
           actions: <Widget>[
             IconButton(
-                icon: Icon(Icons.search),
+                icon: Icon(
+                  Icons.search,
+                  size: 22.5,
+                ),
                 onPressed: () async {
                   LocationResult result = await showLocationPicker(
                     context,
@@ -335,13 +343,28 @@ class GeolocationExampleState extends State {
                   });
                 }),
             IconButton(
-              icon: Icon(Icons.language),
+              icon: Icon(
+                Icons.assistant,
+                size: 22.5,
+              ),
               onPressed: () {
                 // _handlePressButton();
               },
             ),
             IconButton(
-              icon: Icon(Icons.assistant),
+              icon: Icon(
+                Icons.live_help,
+                size: 22.5,
+              ),
+              onPressed: () {
+                _launchURL("tel:+12054489824");
+              },
+            ),
+            IconButton(
+              icon: Icon(
+                Icons.language,
+                size: 22.5,
+              ),
               onPressed: () {
                 // _handlePressButton();
               },
