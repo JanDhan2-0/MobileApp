@@ -407,10 +407,26 @@ class GeolocationExampleState extends State {
                                   circleId: CircleId('0'),
                                   center: LatLng(
                                       _positionLatitude, _positionLongitude),
-                                  radius: 1500,
-                                  strokeColor: Color(0x3D70A7ff),
-                                  strokeWidth: 2,
-                                  fillColor: Color(0x3D70A7ff))
+                                  radius: 1250,
+                                  strokeColor: Color(0x5DA9CAff),
+                                  strokeWidth: 1,
+                                  fillColor: Color(0x5DA9CAff)),
+                              Circle(
+                                  circleId: CircleId('1'),
+                                  center: LatLng(
+                                      _positionLatitude, _positionLongitude),
+                                  radius: 2500,
+                                  strokeColor: Color(0x3DA9CAff),
+                                  strokeWidth: 1,
+                                  fillColor: Color(0x3DA9CAff)),
+                              Circle(
+                                  circleId: CircleId('2'),
+                                  center: LatLng(
+                                      _positionLatitude, _positionLongitude),
+                                  radius: 5000,
+                                  strokeColor: Color(0x2DA9CAff),
+                                  strokeWidth: 1,
+                                  fillColor: Color(0x2DA9CAff))
                             ])),
                       ),
                       Align(
