@@ -10,6 +10,7 @@ import 'package:progress_dialog/progress_dialog.dart';
 import '../generated/i18n.dart';
 import '../services/uploadToFirebase.dart';
 import './styles/style.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class RequestScreen extends StatefulWidget {
   @override
@@ -82,7 +83,7 @@ class _RequestScreenState extends State<RequestScreen> {
       supportedLocales: const <Locale>[Locale('en', ''), Locale('hi', '')],
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Request Bank/ATM'),
+          title: Text(tr('request')),
           automaticallyImplyLeading: true,
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
@@ -102,20 +103,20 @@ class _RequestScreenState extends State<RequestScreen> {
                       children: <Widget>[
                         TextFormField(
                             controller: nameController,
-                            decoration: Style.inputDecor(
-                                Icon(Icons.person), 'Name', 'Enter your Name')),
+                            decoration: Style.inputDecor(Icon(Icons.person),
+                                tr('name'), 'Enter your Name')),
                         Style.space(),
                         TextFormField(
                           controller: phoneController,
                           decoration: Style.inputDecor(Icon(Icons.call),
-                              'Phone Number', 'Enter your Phone Number'),
+                              tr('phno'), 'Enter your Phone Number'),
                           keyboardType: TextInputType.phone,
                         ),
                         Style.space(),
                         Container(
                             decoration: Style.boxDecor(),
                             child: DropDownFormField(
-                              titleText: 'Select your preffered Bank',
+                              titleText: tr('selbank'),
                               hintText: 'Please choose one',
                               value: _touchPointBank,
                               onSaved: (value) {
@@ -153,7 +154,7 @@ class _RequestScreenState extends State<RequestScreen> {
                         Container(
                             decoration: Style.boxDecor(),
                             child: DropDownFormField(
-                              titleText: 'Select what you want',
+                              titleText: tr('seltouch'),
                               hintText: 'Please choose one',
                               value: _touchPoint,
                               onSaved: (value) {
@@ -211,14 +212,14 @@ class _RequestScreenState extends State<RequestScreen> {
                                         color: Colors.blue[600],
                                       ),
                                       Text(
-                                        'Pick location of Bank/ATM',
+                                        tr('pickloc'),
                                         style:
                                             TextStyle(color: Colors.blue[600]),
                                       ),
                                     ]))),
                         Style.space(),
                         (_pickedLocation == null)
-                            ? Text("(Bank/ATM Location will appear here)",
+                            ? Text(tr('disploc'),
                                 style: TextStyle(fontSize: 14))
                             : Center(
                                 child: Text(_pickedLocation.address,
@@ -232,7 +233,7 @@ class _RequestScreenState extends State<RequestScreen> {
                           controller: requestMsgController,
                           decoration: InputDecoration(
                               hintText: 'Please add in special comments',
-                              labelText: 'Add Special Comments',
+                              labelText: tr('comments'),
                               fillColor: Colors.white,
                               focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(5.0),
@@ -262,7 +263,7 @@ class _RequestScreenState extends State<RequestScreen> {
                             color: Theme.of(context).primaryColor,
                             textColor: Colors.white,
                             child: new Text(
-                              "SUBMIT",
+                              tr('submit'),
                               style: TextStyle(fontSize: 18.0),
                             ),
                             onPressed: () => {uploadData()},

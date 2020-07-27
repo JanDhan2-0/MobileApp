@@ -17,9 +17,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/services.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 void main() async {
-  runApp(MyApp());
+  runApp(EasyLocalization(
+      supportedLocales: [Locale('en'), Locale('hi')],
+      path: 'assets/translations',
+      child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -27,6 +31,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Jan Dhan 2.0',
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
       home: GeolocationExample(),
       routes: {
         '/missing': (context) => MissingScreen(),
@@ -49,6 +56,7 @@ class GeolocationExampleState extends State {
   var pressCSC = false;
   var type = "atm";
   var markers;
+  var hello = ' ';
   BitmapDescriptor atmIcon, bankIcon, emitraIcon, cscIcon, poIcon;
   double _positionLatitude;
   GoogleMapController mapController;
@@ -121,7 +129,8 @@ class GeolocationExampleState extends State {
   }
 
   void updatePlace(double lat, double long, String type) async {
-    List<Place> places = await placesService.getPlaces(lat, long, type);
+    List<Place> places = await placesService.getPlaces(
+        lat, long, type, context.locale.toString());
     setState(() {
       placesMarkers = places;
       updateMarkers(placesMarkers, type);
@@ -251,7 +260,8 @@ class GeolocationExampleState extends State {
                 Row(
                   children: [
                     Text(
-                      "Status: ${place.openNow}" +
+                      "Status: ${place.openNow} | " +
+                          "(${place.userRatingCount} reports)" +
                           "\nOpening Hours: ${place.openingHours}",
                       style: TextStyle(
                           color: Colors.grey,
@@ -259,33 +269,29 @@ class GeolocationExampleState extends State {
                           fontWeight: FontWeight.bold),
                     ),
                     Spacer(),
-                    Directionality(
-                        textDirection: TextDirection.ltr,
-                        child: ButtonBar(
-                            alignment: MainAxisAlignment.end,
-                            children: [
-                              IconButton(
-                                icon: Icon(Icons.feedback),
-                                iconSize: 40.0,
-                                color: Colors.blue[600],
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => FeedbackScreen(),
-                                    ),
-                                  );
-                                },
-                              ),
-                              IconButton(
-                                icon: Icon(Icons.call),
-                                color: Colors.blue[600],
-                                iconSize: 40.0,
-                                onPressed: () {
-                                  _launchURL("tel:${place.phoneNumber}");
-                                },
-                              )
-                            ]))
+                    ButtonBar(alignment: MainAxisAlignment.end, children: [
+                      IconButton(
+                        icon: Icon(Icons.feedback),
+                        iconSize: 40.0,
+                        color: Colors.blue[600],
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => FeedbackScreen(),
+                            ),
+                          );
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.call),
+                        color: Colors.blue[600],
+                        iconSize: 40.0,
+                        onPressed: () {
+                          _launchURL("tel:${place.phoneNumber}");
+                        },
+                      )
+                    ])
                   ],
                 )
               ])),
@@ -320,60 +326,71 @@ class GeolocationExampleState extends State {
               semanticsLabel: 'logo of jdd', height: 30.0, width: 30.0),
           actions: <Widget>[
             IconButton(
-                icon: Icon(
-                  Icons.search,
-                  size: 22.5,
-                ),
-                onPressed: () async {
-                  LocationResult result = await showLocationPicker(
-                    context,
-                    apiKey,
-                    initialCenter:
-                        LatLng(_positionLongitude, _positionLongitude),
-                    automaticallyAnimateToCurrentLocation: true,
-                    myLocationButtonEnabled: true,
-                    layersButtonEnabled: true,
-                    resultCardAlignment: Alignment.bottomCenter,
+              icon: Icon(
+                Icons.search,
+                size: 22.5,
+                semanticLabel: 'Search for your location',
+              ),
+              onPressed: () async {
+                LocationResult result = await showLocationPicker(
+                  context,
+                  apiKey,
+                  initialCenter: LatLng(_positionLongitude, _positionLongitude),
+                  automaticallyAnimateToCurrentLocation: true,
+                  myLocationButtonEnabled: true,
+                  layersButtonEnabled: true,
+                  resultCardAlignment: Alignment.bottomCenter,
+                );
+                print("result = $result");
+                setState(() {
+                  _positionLatitude = result.latLng.latitude;
+                  _positionLongitude = result.latLng.longitude;
+                  updatePlace(_positionLatitude, _positionLongitude, "atm");
+                  mapController.animateCamera(
+                    CameraUpdate.newLatLngZoom(
+                      LatLng(_positionLatitude, _positionLongitude),
+                      14.0, // Zoom factor
+                    ),
                   );
-                  print("result = $result");
-                  setState(() {
-                    _positionLatitude = result.latLng.latitude;
-                    _positionLongitude = result.latLng.longitude;
-                    updatePlace(_positionLatitude, _positionLongitude, "atm");
-                    mapController.animateCamera(
-                      CameraUpdate.newLatLngZoom(
-                        LatLng(_positionLatitude, _positionLongitude),
-                        14.0, // Zoom factor
-                      ),
-                    );
-                  });
-                }),
+                });
+              },
+              tooltip: 'Search Icon',
+            ),
             IconButton(
               icon: Icon(
                 Icons.assistant,
                 size: 22.5,
+                semanticLabel: 'Jan Dhan 2.0 Chatbot',
               ),
               onPressed: () {
-                // _handlePressButton();
+                _launchURL(
+                    "https://assistant.google.com/services/invoke/uid/0000007b2fc19bd8?hl=en");
               },
+              tooltip: 'Assistant Icon',
             ),
             IconButton(
               icon: Icon(
                 Icons.live_help,
                 size: 22.5,
+                semanticLabel: 'Jan Dhan Live Help',
               ),
               onPressed: () {
                 _launchURL("tel:+12054489824");
               },
+              tooltip: 'Jan Dhan Live Helpline',
             ),
             IconButton(
               icon: Icon(
                 Icons.language,
                 size: 22.5,
+                semanticLabel: 'Select your languages',
               ),
               onPressed: () {
-                // _handlePressButton();
+                context.locale = context.locale.toString() == 'hi'
+                    ? context.locale = Locale('en')
+                    : context.locale = Locale('hi');
               },
+              tooltip: 'Languages Icon',
             )
           ]),
       drawer: navigationDrawer(),
@@ -402,6 +419,8 @@ class GeolocationExampleState extends State {
                             markers: Set<Marker>.of(markers),
                             myLocationButtonEnabled: false,
                             myLocationEnabled: true,
+                            compassEnabled: false,
+                            mapToolbarEnabled: true,
                             circles: Set.from([
                               Circle(
                                   circleId: CircleId('0'),
@@ -436,7 +455,7 @@ class GeolocationExampleState extends State {
                           buttonPadding: EdgeInsets.all(0.0),
                           children: <Widget>[
                             new FlatButton(
-                              child: new Text('ATM'),
+                              child: new Text(tr('atm')),
                               textColor: pressAtm ? Colors.white : Colors.black,
                               shape: new RoundedRectangleBorder(
                                 borderRadius: new BorderRadius.only(
@@ -456,7 +475,7 @@ class GeolocationExampleState extends State {
                               }),
                             ),
                             new FlatButton(
-                              child: new Text('Branch'),
+                              child: new Text(tr('branch')),
                               textColor:
                                   pressBank ? Colors.white : Colors.black,
                               color: pressBank ? Colors.blue : Colors.white,
@@ -472,7 +491,7 @@ class GeolocationExampleState extends State {
                               }),
                             ),
                             new FlatButton(
-                              child: new Text('PO'),
+                              child: new Text(tr('po')),
                               textColor: pressPo ? Colors.white : Colors.black,
                               color: pressPo ? Colors.blue : Colors.white,
                               onPressed: () => setState(() {
@@ -487,7 +506,7 @@ class GeolocationExampleState extends State {
                               }),
                             ),
                             new FlatButton(
-                              child: new Text('CSC'),
+                              child: new Text(tr('csc')),
                               textColor: pressCSC ? Colors.white : Colors.black,
                               color: pressCSC ? Colors.blue : Colors.white,
                               onPressed: () => setState(() {
@@ -502,7 +521,7 @@ class GeolocationExampleState extends State {
                               }),
                             ),
                             new FlatButton(
-                              child: new Text('E-Mitra'),
+                              child: new Text(tr('emitra')),
                               textColor:
                                   pressAmbassador ? Colors.white : Colors.black,
                               shape: new RoundedRectangleBorder(
@@ -574,38 +593,37 @@ class navigationDrawer extends StatelessWidget {
           Divider(color: Colors.white),
           createDrawerBodyItem(
             icon: Icons.contact_phone,
-            text: 'Upload Account Info',
+            text: tr('accinfo'),
             onTap: () => Navigator.pushNamed(context, '/upload'),
           ),
           createDrawerBodyItem(
             icon: Icons.feedback,
-            text: 'Feedback',
+            text: tr('feedback'),
             onTap: () => Navigator.pushNamed(context, '/feedback'),
           ),
           createDrawerBodyItem(
             icon: Icons.pin_drop,
-            text: 'Missing Banks/ATM',
+            text: tr('missing'),
             onTap: () => Navigator.pushNamed(context, '/missing'),
           ),
           createDrawerBodyItem(
             icon: Icons.report,
-            text: 'Request Bank/ATM',
+            text: tr('request'),
             onTap: () => Navigator.pushNamed(context, '/request'),
           ),
           createDrawerBodyItem(
             icon: Icons.notifications_active,
-            text: 'Latest Updates',
+            text: tr('updates'),
             onTap: () => Navigator.pushNamed(context, '/updates'),
           ),
           createDrawerBodyItem(
             icon: Icons.help,
-            text: 'Help',
+            text: tr('help'),
             // onTap: () => Navigator.pushNamed(context, '/'),
           ),
           Divider(color: Colors.white),
           ListTile(
-            title: Text('App version 1.0.3',
-                style: TextStyle(color: Colors.white)),
+            title: Text(tr('version'), style: TextStyle(color: Colors.white)),
             onTap: () {},
           ),
         ],
@@ -645,7 +663,7 @@ Widget createDrawerHeader() {
         SvgPicture.asset('assets/images/logo.svg',
             semanticsLabel: 'Jan Dhan 2.0 logo'),
         Text(
-          "Jan Dhan 2.0",
+          tr('title'),
           style: TextStyle(
               color: Colors.white, fontSize: 21.0, fontWeight: FontWeight.w600),
         ),

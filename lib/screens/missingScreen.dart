@@ -10,6 +10,7 @@ import 'package:progress_dialog/progress_dialog.dart';
 import '../generated/i18n.dart';
 import '../services/uploadToFirebase.dart';
 import '../screens/styles/style.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class MissingScreen extends StatefulWidget {
   @override
@@ -82,7 +83,7 @@ class _MissingScreenState extends State<MissingScreen> {
       supportedLocales: const <Locale>[Locale('en', ''), Locale('hi', '')],
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Missing Bank/ATM'),
+          title: Text(tr('missing')),
           automaticallyImplyLeading: true,
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
@@ -102,20 +103,20 @@ class _MissingScreenState extends State<MissingScreen> {
                       children: <Widget>[
                         TextFormField(
                             controller: nameController,
-                            decoration: Style.inputDecor(
-                                Icon(Icons.person), 'Name', 'Enter your Name')),
+                            decoration: Style.inputDecor(Icon(Icons.person),
+                                tr('name'), 'Enter your Name')),
                         Style.space(),
                         TextFormField(
                           controller: phoneController,
                           decoration: Style.inputDecor(Icon(Icons.call),
-                              'Phone', 'Enter your Phone Number'),
+                              tr('phno'), 'Enter your Phone Number'),
                           keyboardType: TextInputType.phone,
                         ),
                         Style.space(),
                         Container(
                             decoration: Style.boxDecor(),
                             child: DropDownFormField(
-                              titleText: 'Select the Bank',
+                              titleText: tr('selbank'),
                               hintText: 'Please choose one',
                               value: _touchPointBank,
                               onSaved: (value) {
@@ -153,7 +154,7 @@ class _MissingScreenState extends State<MissingScreen> {
                         Container(
                             decoration: Style.boxDecor(),
                             child: DropDownFormField(
-                              titleText: 'Select the Touchpoint',
+                              titleText: tr('seltouch'),
                               hintText: 'Please choose one',
                               value: _touchPoint,
                               onSaved: (value) {
@@ -211,14 +212,14 @@ class _MissingScreenState extends State<MissingScreen> {
                                         color: Colors.blue[600],
                                       ),
                                       Text(
-                                        'Pick location of Bank/ATM',
+                                        tr('pickloc'),
                                         style:
                                             TextStyle(color: Colors.blue[600]),
                                       ),
                                     ]))),
                         Style.space(),
                         (_pickedLocation == null)
-                            ? Text("(Bank/ATM Location will appear here)",
+                            ? Text(tr('disploc'),
                                 style: TextStyle(fontSize: 14))
                             : Center(
                                 child: Text(_pickedLocation.address,
@@ -238,7 +239,7 @@ class _MissingScreenState extends State<MissingScreen> {
                             padding: EdgeInsets.all(10),
                             textColor: Colors.white,
                             child: new Text(
-                              "SUBMIT",
+                              tr('submit'),
                               style: TextStyle(fontSize: 18.0),
                             ),
                             onPressed: () => {uploadData()},

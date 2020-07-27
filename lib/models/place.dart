@@ -9,6 +9,7 @@ class Place {
   final String openNow;
   final String openingHours;
   final String phoneNumber;
+  static int userComplaints;
 
   Place(
       {this.geometry,
@@ -31,7 +32,7 @@ class Place {
         vicinity = parsedJson['vicinity'],
         openNow = (parsedJson['opening_hours'] != null)
             ? (parsedJson['opening_hours']['open_now']) ? "Open" : "Closed"
-            : "Not Available",
+            : "Out of Cash",
         geometry = Geometry.fromJson(parsedJson['geometry']),
         openingHours = (parsedJson['opening_hours'] != null)
             ? "10:00 - 18:00"

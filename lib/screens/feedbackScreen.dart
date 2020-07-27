@@ -11,6 +11,7 @@ import 'package:progress_dialog/progress_dialog.dart';
 import '../generated/i18n.dart';
 import '../services/uploadToFirebase.dart';
 import './styles/style.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class FeedbackScreen extends StatefulWidget {
   @override
@@ -108,7 +109,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
       supportedLocales: const <Locale>[Locale('en', ''), Locale('hi', '')],
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Feedback Bank/ATM'),
+          title: Text(tr('feedback')),
           automaticallyImplyLeading: true,
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
@@ -128,8 +129,8 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                       children: <Widget>[
                         TextFormField(
                           controller: nameController,
-                          decoration: Style.inputDecor(
-                              Icon(Icons.person), 'Name', 'Enter your Name'),
+                          decoration: Style.inputDecor(Icon(Icons.person),
+                              tr('name'), 'Enter your Name'),
                           validator: (value) {
                             if (value.isEmpty) {
                               return 'Please enter Name';
@@ -141,7 +142,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                         TextFormField(
                           controller: phoneController,
                           decoration: Style.inputDecor(Icon(Icons.call),
-                              'Phone', 'Enter your Phone Number'),
+                              tr('phno'), 'Enter your Phone Number'),
                           keyboardType: TextInputType.phone,
                           validator: (value) {
                             if (value.isEmpty) {
@@ -154,7 +155,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                         Container(
                             decoration: Style.boxDecor(),
                             child: DropDownFormField(
-                              titleText: 'Select your preffered Bank',
+                              titleText: tr('selbank'),
                               hintText: 'Please choose one',
                               value: _touchPointBank,
                               onSaved: (value) {
@@ -192,7 +193,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                         Container(
                             decoration: Style.boxDecor(),
                             child: DropDownFormField(
-                              titleText: 'Select the Touchpoint',
+                              titleText: tr('seltouch'),
                               hintText: 'Please choose one',
                               value: _touchPoint,
                               onSaved: (value) {
@@ -237,7 +238,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                               },
                               dataSource: [
                                 {
-                                  "display": "ATM Out of Cash",
+                                  "display": "ATM Empty",
                                   "value": 1,
                                 },
                                 {
@@ -245,21 +246,19 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                                   "value": 2,
                                 },
                                 {
-                                  "display": "BANK Employee Misconduct",
+                                  "display": "BANK Employee misconduct",
                                   "value": 3,
                                 },
                                 {
-                                  "display": "Regarding Bribery",
+                                  "display": "Regarding bribery",
                                   "value": 4,
                                 },
                                 {
-                                  "display":
-                                      "Miscellaneous Bank Related Issues",
+                                  "display": "Other Bank related Issues",
                                   "value": 5,
                                 },
                                 {
-                                  "display":
-                                      "Miscellaneous ATM Related issues.",
+                                  "display": "Other ATM related issues.",
                                   "value": 6,
                                 },
                               ],
@@ -270,8 +269,8 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                         TextFormField(
                           controller: feedbackMsgController,
                           decoration: InputDecoration(
-                              hintText: 'Please explain the issue',
-                              labelText: 'Explain Issue',
+                              hintText: "Explain the Issue",
+                              labelText: tr('issue'),
                               fillColor: Colors.white,
                               focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(5.0),
@@ -295,7 +294,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                         ),
                         Style.space(),
                         Text(
-                          "Please give a Rating",
+                          tr('rating'),
                           style: TextStyle(
                               fontSize: 14.0, color: Colors.blue[600]),
                         ),
@@ -333,14 +332,14 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                                         color: Colors.blue[600],
                                       ),
                                       Text(
-                                        'Pick location of Bank/ATM',
+                                        tr('pickloc'),
                                         style:
                                             TextStyle(color: Colors.blue[600]),
                                       ),
                                     ]))),
                         Style.space(),
                         (_pickedLocation == null)
-                            ? Text("(Bank/ATM Location will appear here)",
+                            ? Text(tr('disploc'),
                                 style: TextStyle(fontSize: 14))
                             : Center(
                                 child: Text(_pickedLocation.address,
@@ -358,7 +357,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                             padding: EdgeInsets.all(10),
                             textColor: Colors.white,
                             child: new Text(
-                              "SUBMIT",
+                              tr('submit'),
                               style: TextStyle(fontSize: 18.0),
                             ),
                             onPressed: () => {uploadData()},

@@ -13,6 +13,7 @@ import 'package:http/http.dart' as http;
 import 'package:image_cropper/image_cropper.dart';
 import 'package:intl/intl.dart';
 import './styles/style.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class HomeScreen1 extends StatelessWidget {
   @override
@@ -25,7 +26,7 @@ class MyApp1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('Upload Details')), body: MyCustomForm());
+        appBar: AppBar(title: Text(tr('accinfo'))), body: MyCustomForm());
   }
 }
 
@@ -442,39 +443,39 @@ class MyCustomFormState extends State<MyCustomForm> {
                   TextFormField(
                       controller: nameController,
                       decoration: Style.inputDecor(
-                          Icon(Icons.person), 'Name', 'Enter your Name')),
+                          Icon(Icons.person), tr('name'), 'Enter your Name')),
                   Style.space(),
                   TextFormField(
                     controller: phoneController,
-                    decoration: Style.inputDecor(Icon(Icons.call),
-                        'Phone Number', 'Enter your Phone Number'),
+                    decoration: Style.inputDecor(Icon(Icons.call), tr('phno'),
+                        'Enter your Phone Number'),
                     keyboardType: TextInputType.phone,
                   ),
                   Style.space(),
                   TextFormField(
                     controller: dobController,
                     decoration: Style.inputDecor(Icon(Icons.calendar_today),
-                        'Date of Birth (DOB)', 'Enter your Date of Birth'),
+                        tr('dob'), 'Enter your Date of Birth'),
                     keyboardType: TextInputType.datetime,
                   ),
                   Style.space(),
                   TextFormField(
                       controller: addressController,
                       decoration: Style.inputDecor(Icon(Icons.location_city),
-                          'Permanent Address', 'Enter your Address'),
+                          tr('permaddr'), 'Enter your Address'),
                       keyboardType: TextInputType.multiline),
                   Style.space(),
                   TextFormField(
                       controller: emailController,
-                      decoration: Style.inputDecor(
-                          Icon(Icons.mail), 'Email ID', 'Enter your E-Mail ID'),
+                      decoration: Style.inputDecor(Icon(Icons.mail),
+                          tr('email'), 'Enter your E-Mail ID'),
                       keyboardType: TextInputType.emailAddress),
                   Style.space(),
                   TextFormField(
                       controller: aadharNoController,
                       decoration: Style.inputDecor(
                           Icon(Icons.chrome_reader_mode),
-                          'Aadhaar Number',
+                          tr('aadhaar'),
                           'Enter your Aadhaar Number'),
                       keyboardType: TextInputType.number),
                   Style.space(),
@@ -488,7 +489,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                   Container(
                       decoration: Style.boxDecor(),
                       child: DropDownFormField(
-                        titleText: 'Select the Bank',
+                        titleText: tr('selbank'),
                         hintText: 'Please choose one',
                         value: _bankName,
                         onSaved: (value) {
@@ -538,8 +539,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                                     : (state1 == AppState.picked)
                                         ? _cropImage1()
                                         : _clearImage1(),
-                                child: Style.greyBox(
-                                    context, 'Attested Aadhaar Image Here')),
+                                child:
+                                    Style.greyBox(context, tr('aadhaarimg'))),
                       ),
                       Style.space(),
                       Container(
@@ -555,8 +556,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                                     : (state2 == AppState.picked)
                                         ? _cropImage2()
                                         : _clearImage2(),
-                                child: Style.greyBox(
-                                    context, 'Attested PAN Image Here')),
+                                child: Style.greyBox(context, tr('panimg'))),
                       ),
                       Style.space(),
                       Container(
@@ -572,8 +572,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                                     : (state3 == AppState.picked)
                                         ? _cropImage3()
                                         : _clearImage3(),
-                                child:
-                                    Style.greyBox(context, 'Signature Image')),
+                                child: Style.greyBox(context, tr('signimg'))),
                       ),
                       Style.space(),
                       Container(
@@ -589,8 +588,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                                     : (state4 == AppState.picked)
                                         ? _cropImage4()
                                         : _clearImage4(),
-                                child: Style.greyBox(
-                                    context, 'Passport Size Photo Here')),
+                                child: Style.greyBox(context, tr('passimg'))),
                       ),
                     ],
                   ),
@@ -603,7 +601,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                       padding: EdgeInsets.all(10),
                       textColor: Colors.white,
                       child: new Text(
-                        "SUBMIT",
+                        tr('submit'),
                         style: TextStyle(fontSize: 18.0),
                       ),
                       onPressed: () => {uploadImages()},
