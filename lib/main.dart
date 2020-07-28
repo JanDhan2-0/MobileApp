@@ -26,6 +26,7 @@ import 'package:flutter/services.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import 'classes/Language.dart';
+
 void main() async {
   runApp(BasicApp());
 }
@@ -41,16 +42,13 @@ class BasicApp extends StatelessWidget {
   }
 }
 
-
 class IntroScreen extends StatefulWidget {
   @override
   _IntroScreenState createState() => _IntroScreenState();
 }
 
-
 class _IntroScreenState extends State<IntroScreen> {
-
-List<Slide> slides = new List();
+  List<Slide> slides = new List();
 
   @override
   void initState() {
@@ -58,24 +56,26 @@ List<Slide> slides = new List();
 
     slides.add(
       new Slide(
-        title: "Search ATM/Bank/CSC/PO/E-Mitra",
-        description: "One stop solution for all your financial needs",
+        title: "One App for All",
+        description: "A One stop solution for all your Financial needs",
         pathImage: "assets/images/small-logo.png",
         backgroundColor: const Color(0xfff5a623),
       ),
     );
     slides.add(
       new Slide(
-        title: "Upload Docs",
-        description: "Upload Documents for bank accounts, Add feedback and Receive Updates",
+        title: "No touch A/C Creation",
+        description:
+            "Upload Documents for Bank Accounts, Add Feedbacks and Receive Updates.",
         pathImage: "assets/images/small-logo.png",
         backgroundColor: const Color(0xff203152),
       ),
     );
     slides.add(
       new Slide(
-        title: "Talk to our assistant",
-        description: "We have our AI powered Assistant to tell you about schemes",
+        title: "Talk to our Assistant",
+        description:
+            "Integrated AI powered Assistant to tell you about relevant Financial Schemes",
         pathImage: "assets/images/small-logo.png",
         backgroundColor: const Color(0xff9932CC),
       ),
@@ -84,33 +84,34 @@ List<Slide> slides = new List();
 
   void onDonePress() {
     // TODO: go to next screen
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) =>
-          EasyLocalization(
-      supportedLocales: [Locale('en'), Locale('hi'),Locale('mr'),Locale('kn'),Locale('te'),Locale('ta'),Locale('gu'),Locale('pa')],
-      path: 'assets/translations',
-      child: MyApp()    
-      )
-    ));
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => EasyLocalization(supportedLocales: [
+              Locale('en'),
+              Locale('hi'),
+              Locale('mr'),
+              Locale('kn'),
+              Locale('te'),
+              Locale('ta'),
+              Locale('gu'),
+              Locale('pa')
+            ], path: 'assets/translations', child: MyApp())));
   }
 
   void onSkipPress() {
     // TODO: go to next screen
   }
 
-
-    @override
- Widget build(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      body:IntroSlider(
-      slides: this.slides,
-      onDonePress: this.onDonePress,
-      onSkipPress: this.onSkipPress,
-    ),);
-    }
+      body: IntroSlider(
+        slides: this.slides,
+        onDonePress: this.onDonePress,
+        onSkipPress: this.onSkipPress,
+      ),
+    );
+  }
 }
-
 
 class MyApp extends StatelessWidget {
   @override
@@ -156,8 +157,8 @@ class GeolocationExampleState extends State {
   GlobalKey _assistant = GlobalObjectKey("assistant");
   GlobalKey _helpine = GlobalObjectKey("helpline");
   GlobalKey _language = GlobalObjectKey("language");
-   GlobalKey _drawer = GlobalObjectKey("drawer");
-  
+  GlobalKey _drawer = GlobalObjectKey("drawer");
+
   List<Place> placesMarkers;
   final apiKey = "AIzaSyCILGP87TZPkXUobQfqDp9mkPA7IXnEGXU";
   void checkPermission() {
@@ -237,18 +238,18 @@ class GeolocationExampleState extends State {
         markRect: markRect,
         children: [
           Center(
-              child: Text("Tap on this to search for ATM in any location",
+              child: Text("Tap here to set Location",
                   style: const TextStyle(
-                    fontSize: 24.0,
-                    fontStyle: FontStyle.italic,
+                    fontSize: 20.0,
                     color: Colors.white,
                   )))
         ],
         duration: null,
         onClose: () {
-          Timer(Duration(seconds:0), () => showCoachMarkAssistant());
+          Timer(Duration(seconds: 0), () => showCoachMarkAssistant());
         });
   }
+
   void showCoachMarkAssistant() {
     CoachMark coachMarkFAB = CoachMark();
     RenderBox target = _assistant.currentContext.findRenderObject();
@@ -262,16 +263,15 @@ class GeolocationExampleState extends State {
         markRect: markRect,
         children: [
           Center(
-              child: Text("Tap on this for our digital assistant",
+              child: Text("Tap here to talk to our Digital Assistant",
                   style: const TextStyle(
-                    fontSize: 24.0,
-                    fontStyle: FontStyle.italic,
+                    fontSize: 20.0,
                     color: Colors.white,
                   )))
         ],
         duration: null,
         onClose: () {
-          Timer(Duration(seconds:0), () => showCoachMarkHelpline());
+          Timer(Duration(seconds: 0), () => showCoachMarkHelpline());
         });
   }
 
@@ -288,18 +288,18 @@ class GeolocationExampleState extends State {
         markRect: markRect,
         children: [
           Center(
-              child: Text("Tap on this for our 24X7 helpline",
+              child: Text("Tap here for our 24X7 Live Helpline",
                   style: const TextStyle(
-                    fontSize: 24.0,
-                    fontStyle: FontStyle.italic,
+                    fontSize: 20.0,
                     color: Colors.white,
                   )))
         ],
         duration: null,
         onClose: () {
-          Timer(Duration(seconds:0), () => showCoachMarkLanguage());
+          Timer(Duration(seconds: 0), () => showCoachMarkLanguage());
         });
   }
+
   void showCoachMarkLanguage() {
     CoachMark coachMarkFAB = CoachMark();
     RenderBox target = _language.currentContext.findRenderObject();
@@ -313,16 +313,16 @@ class GeolocationExampleState extends State {
         markRect: markRect,
         children: [
           Center(
-              child: Text("Tap on this to change language",
+              child: Text("Tap here to change Language",
                   style: const TextStyle(
-                    fontSize: 24.0,
-                    fontStyle: FontStyle.italic,
+                    fontSize: 20.0,
                     color: Colors.white,
                   )))
         ],
         duration: null,
         onClose: () {
-          duration: Duration(seconds: 1);
+          duration:
+          Duration(seconds: 1);
         });
   }
 
@@ -580,25 +580,30 @@ class GeolocationExampleState extends State {
               },
               tooltip: 'Jan Dhan Live Helpline',
             ),
-            DropdownButton(underline: Center(child: SizedBox()),
-            onChanged: (Language language){
-              context.locale = Locale(language.languageCode);
-            },
-            icon: Padding(
-              key: _language,
-              padding: const EdgeInsets.fromLTRB(0,0,10,0),
-              child: Icon(
+            DropdownButton(
+              underline: Center(child: SizedBox()),
+              onChanged: (Language language) {
+                context.locale = Locale(language.languageCode);
+              },
+              icon: Padding(
+                key: _language,
+                padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                child: Icon(
                   Icons.language,
                   color: Colors.white,
                   size: 22.5,
                   semanticLabel: 'Select your languages',
                 ),
-            ),items: Language.languageList().map<DropdownMenuItem<Language>>((lang)=>DropdownMenuItem(
-                value: lang,
-                child: Row(children: <Widget>[ 
-                    Text(lang.name)
-                ],)
-              ,)).toList(),)
+              ),
+              items: Language.languageList()
+                  .map<DropdownMenuItem<Language>>((lang) => DropdownMenuItem(
+                        value: lang,
+                        child: Row(
+                          children: <Widget>[Text(lang.name)],
+                        ),
+                      ))
+                  .toList(),
+            )
           ]),
       drawer: navigationDrawer(),
       body: (_position != null && placesMarkers != null)
@@ -878,5 +883,3 @@ Widget createDrawerHeader() {
     ),
   );
 }
-
- 
