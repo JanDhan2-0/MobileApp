@@ -56,28 +56,63 @@ class _IntroScreenState extends State<IntroScreen> {
 
     slides.add(
       new Slide(
-        title: "One App for All",
-        description: "A One stop solution for all your Financial needs",
-        pathImage: "assets/images/small-logo.png",
-        backgroundColor: const Color(0xfff5a623),
+        title: "JAN DHAN 2.0",
+        styleTitle: TextStyle(
+            color: Colors.black, fontSize: 25, fontFamily: 'Quicksand'),
+        description:
+            "One stop solution for all your financial needs.\n\nGet All solutions to your queries in minimum taps.",
+        styleDescription: TextStyle(
+            color: Colors.black, fontSize: 14, fontFamily: 'Quicksand'),
+        pathImage: "assets/images/walk_logo.png",
+        heightImage: 125.0,
+        widthImage: 100.0,
+        backgroundColor: const Color(0xf2f8f9ff),
+      ),
+    );
+
+    slides.add(
+      new Slide(
+        title: "FINANCIAL INCLUSION",
+        styleTitle: TextStyle(
+            color: Colors.black, fontSize: 25, fontFamily: 'Quicksand'),
+        description:
+            "Bring everyone of all ages, sects, cultures and professions together by providing financial literacy and faster grievance redressal.",
+        styleDescription: TextStyle(
+            color: Colors.black, fontSize: 14, fontFamily: 'Quicksand'),
+        pathImage: "assets/images/inclu.png",
+        heightImage: 125.0,
+        widthImage: 100.0,
+        backgroundColor: const Color(0xf2f8f9ff),
       ),
     );
     slides.add(
       new Slide(
-        title: "No touch A/C Creation",
+        title: "MULTILINGUAL & MULTIMODAL",
+        styleTitle: TextStyle(
+            color: Colors.black, fontSize: 22, fontFamily: 'Quicksand'),
         description:
-            "Upload Documents for Bank Accounts, Add Feedbacks and Receive Updates.",
-        pathImage: "assets/images/small-logo.png",
-        backgroundColor: const Color(0xff203152),
+            "Talk to our AI powered chatbot or a Live Helpline for financial information.",
+        styleDescription: TextStyle(
+            color: Colors.black, fontSize: 14, fontFamily: 'Quicksand'),
+        pathImage: "assets/images/chat.png",
+        heightImage: 125.0,
+        widthImage: 100.0,
+        backgroundColor: const Color(0xf2f8f9ff),
       ),
     );
     slides.add(
       new Slide(
-        title: "Talk to our Assistant",
+        title: "CONTACTLESS VERIFICATION",
+        styleTitle: TextStyle(
+            color: Colors.black, fontSize: 22, fontFamily: 'Quicksand'),
         description:
-            "Integrated AI powered Assistant to tell you about relevant Financial Schemes",
-        pathImage: "assets/images/small-logo.png",
-        backgroundColor: const Color(0xff9932CC),
+            "Upload documents securely for any bank related verifications.",
+        styleDescription: TextStyle(
+            color: Colors.black, fontSize: 14, fontFamily: 'Quicksand'),
+        pathImage: "assets/images/credit.png",
+        heightImage: 125.0,
+        widthImage: 100.0,
+        backgroundColor: const Color(0xf2f8f9ff),
       ),
     );
   }
@@ -104,12 +139,21 @@ class _IntroScreenState extends State<IntroScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IntroSlider(
-        slides: this.slides,
-        onDonePress: this.onDonePress,
-        onSkipPress: this.onSkipPress,
-      ),
-    );
+        body: IntroSlider(
+            slides: this.slides,
+            onDonePress: this.onDonePress,
+            onSkipPress: this.onSkipPress,
+            nameDoneBtn: 'Done',
+            nameNextBtn: 'Next',
+            nameSkipBtn: 'Skip',
+            styleNameDoneBtn:
+                TextStyle(color: Colors.blue[600], fontSize: 16.0),
+            styleNamePrevBtn:
+                TextStyle(color: Colors.blue[600], fontSize: 16.0),
+            styleNameSkipBtn:
+                TextStyle(color: Colors.blue[600], fontSize: 16.0),
+            colorActiveDot: Colors.blue[600],
+            colorDot: Colors.grey));
   }
 }
 
@@ -520,90 +564,100 @@ class GeolocationExampleState extends State {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: SvgPicture.asset('assets/images/logo.svg',
-              semanticsLabel: 'logo of jdd', height: 30.0, width: 30.0),
-          actions: <Widget>[
-            IconButton(
-              key: _search,
-              icon: Icon(
-                Icons.search,
-                size: 22.5,
-                semanticLabel: 'Search for your location',
-              ),
-              onPressed: () async {
-                LocationResult result = await showLocationPicker(
-                  context,
-                  apiKey,
-                  initialCenter: LatLng(_positionLongitude, _positionLongitude),
-                  automaticallyAnimateToCurrentLocation: true,
-                  myLocationButtonEnabled: true,
-                  layersButtonEnabled: true,
-                  resultCardAlignment: Alignment.bottomCenter,
-                );
-                print("result = $result");
-                setState(() {
-                  _positionLatitude = result.latLng.latitude;
-                  _positionLongitude = result.latLng.longitude;
-                  updatePlace(_positionLatitude, _positionLongitude, "atm");
-                  mapController.animateCamera(
-                    CameraUpdate.newLatLngZoom(
-                      LatLng(_positionLatitude, _positionLongitude),
-                      14.0, // Zoom factor
-                    ),
-                  );
-                });
-              },
-              tooltip: 'Search Icon',
-            ),
-            IconButton(
-              key: _assistant,
-              icon: Icon(
-                Icons.assistant,
-                size: 22.5,
-                semanticLabel: 'Jan Dhan 2.0 Chatbot',
-              ),
-              onPressed: () {
-                _launchURL(
-                    "https://assistant.google.com/services/invoke/uid/0000007b2fc19bd8?hl=en");
-              },
-              tooltip: 'Assistant Icon',
-            ),
-            IconButton(
-              key: _helpine,
-              icon: Icon(
-                Icons.live_help,
-                size: 22.5,
-                semanticLabel: 'Jan Dhan Live Help',
-              ),
-              onPressed: () {
-                _launchURL("tel:+12054489824");
-              },
-              tooltip: 'Jan Dhan Live Helpline',
-            ),
-            DropdownButton(
-              underline: Center(child: SizedBox()),
-              onChanged: (Language language) {
-                context.locale = Locale(language.languageCode);
-              },
-              icon: Padding(
-                key: _language,
-                padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                child: Icon(
-                  Icons.language,
-                  color: Colors.white,
-                  size: 22.5,
-                  semanticLabel: 'Select your languages',
-                ),
-              ),
-              items: Language.languageList()
-                  .map<DropdownMenuItem<Language>>((lang) => DropdownMenuItem(
-                        value: lang,
-                        child: Row(
-                          children: <Widget>[Text(lang.name)],
+          title: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                IconButton(
+                  key: _search,
+                  icon: Icon(
+                    Icons.search,
+                    size: 22.5,
+                    semanticLabel: 'Search for your location',
+                  ),
+                  onPressed: () async {
+                    LocationResult result = await showLocationPicker(
+                      context,
+                      apiKey,
+                      initialCenter:
+                          LatLng(_positionLongitude, _positionLongitude),
+                      automaticallyAnimateToCurrentLocation: true,
+                      myLocationButtonEnabled: true,
+                      layersButtonEnabled: true,
+                      resultCardAlignment: Alignment.bottomCenter,
+                    );
+                    print("result = $result");
+                    setState(() {
+                      _positionLatitude = result.latLng.latitude;
+                      _positionLongitude = result.latLng.longitude;
+                      updatePlace(_positionLatitude, _positionLongitude, "atm");
+                      mapController.animateCamera(
+                        CameraUpdate.newLatLngZoom(
+                          LatLng(_positionLatitude, _positionLongitude),
+                          14.0, // Zoom factor
                         ),
-                      ))
-                  .toList(),
-            )
+                      );
+                    });
+                  },
+                  tooltip: 'Search Icon',
+                ),
+                IconButton(
+                  key: _assistant,
+                  icon: Icon(
+                    Icons.assistant,
+                    size: 22.5,
+                    semanticLabel: 'Jan Dhan 2.0 Chatbot',
+                  ),
+                  onPressed: () {
+                    _launchURL(
+                        "https://assistant.google.com/services/invoke/uid/0000007b2fc19bd8?hl=en");
+                  },
+                  tooltip: 'Assistant Icon',
+                ),
+                IconButton(
+                  key: _helpine,
+                  icon: Icon(
+                    Icons.live_help,
+                    size: 22.5,
+                    semanticLabel: 'Jan Dhan Live Help',
+                  ),
+                  onPressed: () {
+                    _launchURL("tel:+12054489824");
+                  },
+                  tooltip: 'Jan Dhan Live Helpline',
+                )
+              ]),
+          actions: <Widget>[
+            Padding(
+                padding: EdgeInsets.all(10.0),
+                child: ButtonTheme(
+                    alignedDropdown: true,
+                    child: DropdownButton(
+                      onChanged: (Language language) {
+                        context.locale = Locale(language.languageCode);
+                      },
+                      underline: Container(height: 0),
+                      icon: Icon(
+                        Icons.language,
+                        color: Colors.white,
+                        size: 22.5,
+                        semanticLabel: 'Select your languages',
+                        key: _language,
+                      ),
+                      items: Language.languageList()
+                          .map<DropdownMenuItem<Language>>(
+                              (lang) => DropdownMenuItem(
+                                  value: lang,
+                                  child: Container(
+                                    child: Row(
+                                      children: <Widget>[
+                                        Text(lang.name,
+                                            style: TextStyle(fontSize: 12.0))
+                                      ],
+                                    ),
+                                  )))
+                          .toList(),
+                    )))
           ]),
       drawer: navigationDrawer(),
       body: (_position != null && placesMarkers != null)
