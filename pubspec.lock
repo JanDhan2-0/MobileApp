@@ -308,6 +308,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0+2"
+  highlighter_coachmark:
+    dependency: "direct main"
+    description:
+      name: highlighter_coachmark
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.3"
   html:
     dependency: transitive
     description:
@@ -371,6 +378,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.17.9"
+  intro_slider:
+    dependency: "direct main"
+    description:
+      name: intro_slider
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.2.3"
   js:
     dependency: transitive
     description:

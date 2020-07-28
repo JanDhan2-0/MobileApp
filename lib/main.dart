@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -7,26 +9,108 @@ import 'package:jandhanv2/services/marker_service.dart';
 import 'package:jandhanv2/services/places_service.dart';
 import 'package:google_map_location_picker/google_map_location_picker.dart';
 import 'package:jandhanv2/screens/feedbackScreen.dart';
+import 'package:intro_slider/intro_slider.dart';
 import 'package:jandhanv2/screens/missingScreen.dart';
 import 'package:jandhanv2/screens/requestScreen.dart';
 import 'package:jandhanv2/screens/updatesScreen.dart';
 import 'dart:ui';
+
+import 'package:highlighter_coachmark/highlighter_coachmark.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/services.dart';
+
 import 'package:easy_localization/easy_localization.dart';
 
 import 'classes/Language.dart';
-
 void main() async {
-  runApp(EasyLocalization(
+  runApp(BasicApp());
+}
+
+class BasicApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Jan Dhan Drashak',
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: IntroScreen(),
+    );
+  }
+}
+
+
+class IntroScreen extends StatefulWidget {
+  @override
+  _IntroScreenState createState() => _IntroScreenState();
+}
+
+
+class _IntroScreenState extends State<IntroScreen> {
+
+List<Slide> slides = new List();
+
+  @override
+  void initState() {
+    super.initState();
+
+    slides.add(
+      new Slide(
+        title: "Search ATM/Bank/CSC/PO/E-Mitra",
+        description: "One stop solution for all your financial needs",
+        pathImage: "assets/images/small-logo.png",
+        backgroundColor: const Color(0xfff5a623),
+      ),
+    );
+    slides.add(
+      new Slide(
+        title: "Upload Docs",
+        description: "Upload Documents for bank accounts, Add feedback and Receive Updates",
+        pathImage: "assets/images/small-logo.png",
+        backgroundColor: const Color(0xff203152),
+      ),
+    );
+    slides.add(
+      new Slide(
+        title: "Talk to our assistant",
+        description: "We have our AI powered Assistant to tell you about schemes",
+        pathImage: "assets/images/small-logo.png",
+        backgroundColor: const Color(0xff9932CC),
+      ),
+    );
+  }
+
+  void onDonePress() {
+    // TODO: go to next screen
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) =>
+          EasyLocalization(
       supportedLocales: [Locale('en'), Locale('hi'),Locale('mr'),Locale('kn'),Locale('te'),Locale('ta'),Locale('gu'),Locale('pa')],
       path: 'assets/translations',
-      child: MyApp()));
+      child: MyApp()    
+      )
+    ));
+  }
+
+  void onSkipPress() {
+    // TODO: go to next screen
+  }
+
+
+    @override
+ Widget build(BuildContext context) {
+    return Scaffold(
+      body:IntroSlider(
+      slides: this.slides,
+      onDonePress: this.onDonePress,
+      onSkipPress: this.onSkipPress,
+    ),);
+    }
 }
+
 
 class MyApp extends StatelessWidget {
   @override
@@ -66,6 +150,14 @@ class GeolocationExampleState extends State {
   double _positionLongitude;
   PlacesService placesService;
   MarkerService markerService;
+
+  ScrollController _scrollController;
+  GlobalKey _search = GlobalObjectKey("search");
+  GlobalKey _assistant = GlobalObjectKey("assistant");
+  GlobalKey _helpine = GlobalObjectKey("helpline");
+  GlobalKey _language = GlobalObjectKey("language");
+   GlobalKey _drawer = GlobalObjectKey("drawer");
+  
   List<Place> placesMarkers;
   final apiKey = "AIzaSyCILGP87TZPkXUobQfqDp9mkPA7IXnEGXU";
   void checkPermission() {
@@ -91,7 +183,7 @@ class GeolocationExampleState extends State {
     placesService = PlacesService();
     markerService = MarkerService();
     _geolocator = Geolocator();
-
+    _scrollController = ScrollController();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -129,6 +221,109 @@ class GeolocationExampleState extends State {
 
     checkPermission();
     updateLocation();
+    Timer(Duration(seconds: 2), () => showCoachMarkFAB());
+  }
+
+  void showCoachMarkFAB() {
+    CoachMark coachMarkFAB = CoachMark();
+    RenderBox target = _search.currentContext.findRenderObject();
+
+    Rect markRect = target.localToGlobal(Offset.zero) & target.size;
+    markRect = Rect.fromCircle(
+        center: markRect.center, radius: markRect.longestSide * 0.6);
+
+    coachMarkFAB.show(
+        targetContext: _search.currentContext,
+        markRect: markRect,
+        children: [
+          Center(
+              child: Text("Tap on this to search for ATM in any location",
+                  style: const TextStyle(
+                    fontSize: 24.0,
+                    fontStyle: FontStyle.italic,
+                    color: Colors.white,
+                  )))
+        ],
+        duration: null,
+        onClose: () {
+          Timer(Duration(seconds:0), () => showCoachMarkAssistant());
+        });
+  }
+  void showCoachMarkAssistant() {
+    CoachMark coachMarkFAB = CoachMark();
+    RenderBox target = _assistant.currentContext.findRenderObject();
+
+    Rect markRect = target.localToGlobal(Offset.zero) & target.size;
+    markRect = Rect.fromCircle(
+        center: markRect.center, radius: markRect.longestSide * 0.6);
+
+    coachMarkFAB.show(
+        targetContext: _assistant.currentContext,
+        markRect: markRect,
+        children: [
+          Center(
+              child: Text("Tap on this for our digital assistant",
+                  style: const TextStyle(
+                    fontSize: 24.0,
+                    fontStyle: FontStyle.italic,
+                    color: Colors.white,
+                  )))
+        ],
+        duration: null,
+        onClose: () {
+          Timer(Duration(seconds:0), () => showCoachMarkHelpline());
+        });
+  }
+
+  void showCoachMarkHelpline() {
+    CoachMark coachMarkFAB = CoachMark();
+    RenderBox target = _helpine.currentContext.findRenderObject();
+
+    Rect markRect = target.localToGlobal(Offset.zero) & target.size;
+    markRect = Rect.fromCircle(
+        center: markRect.center, radius: markRect.longestSide * 0.6);
+
+    coachMarkFAB.show(
+        targetContext: _helpine.currentContext,
+        markRect: markRect,
+        children: [
+          Center(
+              child: Text("Tap on this for our 24X7 helpline",
+                  style: const TextStyle(
+                    fontSize: 24.0,
+                    fontStyle: FontStyle.italic,
+                    color: Colors.white,
+                  )))
+        ],
+        duration: null,
+        onClose: () {
+          Timer(Duration(seconds:0), () => showCoachMarkLanguage());
+        });
+  }
+  void showCoachMarkLanguage() {
+    CoachMark coachMarkFAB = CoachMark();
+    RenderBox target = _language.currentContext.findRenderObject();
+
+    Rect markRect = target.localToGlobal(Offset.zero) & target.size;
+    markRect = Rect.fromCircle(
+        center: markRect.center, radius: markRect.longestSide * 0.6);
+
+    coachMarkFAB.show(
+        targetContext: _language.currentContext,
+        markRect: markRect,
+        children: [
+          Center(
+              child: Text("Tap on this to change language",
+                  style: const TextStyle(
+                    fontSize: 24.0,
+                    fontStyle: FontStyle.italic,
+                    color: Colors.white,
+                  )))
+        ],
+        duration: null,
+        onClose: () {
+          duration: Duration(seconds: 1);
+        });
   }
 
   void updatePlace(double lat, double long, String type) async {
@@ -329,6 +524,7 @@ class GeolocationExampleState extends State {
               semanticsLabel: 'logo of jdd', height: 30.0, width: 30.0),
           actions: <Widget>[
             IconButton(
+              key: _search,
               icon: Icon(
                 Icons.search,
                 size: 22.5,
@@ -360,6 +556,7 @@ class GeolocationExampleState extends State {
               tooltip: 'Search Icon',
             ),
             IconButton(
+              key: _assistant,
               icon: Icon(
                 Icons.assistant,
                 size: 22.5,
@@ -372,6 +569,7 @@ class GeolocationExampleState extends State {
               tooltip: 'Assistant Icon',
             ),
             IconButton(
+              key: _helpine,
               icon: Icon(
                 Icons.live_help,
                 size: 22.5,
@@ -387,6 +585,7 @@ class GeolocationExampleState extends State {
               context.locale = Locale(language.languageCode);
             },
             icon: Padding(
+              key: _language,
               padding: const EdgeInsets.fromLTRB(0,0,10,0),
               child: Icon(
                   Icons.language,
@@ -679,3 +878,5 @@ Widget createDrawerHeader() {
     ),
   );
 }
+
+ 
