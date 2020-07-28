@@ -19,9 +19,11 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/services.dart';
 import 'package:easy_localization/easy_localization.dart';
 
+import 'classes/Language.dart';
+
 void main() async {
   runApp(EasyLocalization(
-      supportedLocales: [Locale('en'), Locale('hi')],
+      supportedLocales: [Locale('en'), Locale('hi'),Locale('mr'),Locale('kn'),Locale('te'),Locale('ta'),Locale('gu'),Locale('pa')],
       path: 'assets/translations',
       child: MyApp()));
 }
@@ -33,6 +35,7 @@ class MyApp extends StatelessWidget {
       title: 'Jan Dhan 2.0',
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
+      debugShowCheckedModeBanner: false,
       locale: context.locale,
       home: GeolocationExample(),
       routes: {
@@ -379,19 +382,24 @@ class GeolocationExampleState extends State {
               },
               tooltip: 'Jan Dhan Live Helpline',
             ),
-            IconButton(
-              icon: Icon(
-                Icons.language,
-                size: 22.5,
-                semanticLabel: 'Select your languages',
-              ),
-              onPressed: () {
-                context.locale = context.locale.toString() == 'hi'
-                    ? context.locale = Locale('en')
-                    : context.locale = Locale('hi');
-              },
-              tooltip: 'Languages Icon',
-            )
+            DropdownButton(underline: Center(child: SizedBox()),
+            onChanged: (Language language){
+              context.locale = Locale(language.languageCode);
+            },
+            icon: Padding(
+              padding: const EdgeInsets.fromLTRB(0,0,10,0),
+              child: Icon(
+                  Icons.language,
+                  color: Colors.white,
+                  size: 22.5,
+                  semanticLabel: 'Select your languages',
+                ),
+            ),items: Language.languageList().map<DropdownMenuItem<Language>>((lang)=>DropdownMenuItem(
+                value: lang,
+                child: Row(children: <Widget>[ 
+                    Text(lang.name)
+                ],)
+              ,)).toList(),)
           ]),
       drawer: navigationDrawer(),
       body: (_position != null && placesMarkers != null)

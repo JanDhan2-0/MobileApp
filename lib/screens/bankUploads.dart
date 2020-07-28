@@ -173,7 +173,8 @@ class MyCustomFormState extends State<MyCustomForm> {
       "purpose": "A/C Creation",
       "formId": _bankName + code.toString(),
       "panNo": panNoController.text,
-      "aadharNo": aadharNoController.text
+      "aadharNo": aadharNoController.text,
+      "bankInitiated":false
     });
     await http.post(
       'http://jandhan2.herokuapp.com/account/sendOtp/',
