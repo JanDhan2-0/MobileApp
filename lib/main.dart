@@ -3,13 +3,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:intro_slider/slide_object.dart';
 import 'package:jandhanv2/models/place.dart';
 import 'package:jandhanv2/screens/bankUploads.dart';
 import 'package:jandhanv2/services/marker_service.dart';
 import 'package:jandhanv2/services/places_service.dart';
 import 'package:google_map_location_picker/google_map_location_picker.dart';
 import 'package:jandhanv2/screens/feedbackScreen.dart';
-import 'package:intro_slider/intro_slider.dart';
+
 import 'package:jandhanv2/screens/missingScreen.dart';
 import 'package:jandhanv2/screens/requestScreen.dart';
 import 'package:jandhanv2/screens/updatesScreen.dart';
@@ -24,7 +25,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/services.dart';
 
 import 'package:easy_localization/easy_localization.dart';
-
+import 'package:intro_slider/intro_slider.dart';
 import 'classes/Language.dart';
 
 void main() async {
