@@ -60,7 +60,7 @@ class _IntroScreenState extends State<IntroScreen> {
         styleTitle: TextStyle(
             color: Colors.black, fontSize: 25, fontFamily: 'Quicksand'),
         description:
-            "One stop solution for all your financial needs.\n\nGet All solutions to your queries in minimum taps.",
+            "One stop solution for all your financial needs in minimum taps.",
         styleDescription: TextStyle(
             color: Colors.black, fontSize: 14, fontFamily: 'Quicksand'),
         pathImage: "assets/images/walk_logo.png",
@@ -91,7 +91,7 @@ class _IntroScreenState extends State<IntroScreen> {
         styleTitle: TextStyle(
             color: Colors.black, fontSize: 22, fontFamily: 'Quicksand'),
         description:
-            "Talk to our AI powered chatbot or a Live Helpline for financial information.",
+            "Talk to our AI powered chatbot or a Live 24/7 Helpline for financial information.",
         styleDescription: TextStyle(
             color: Colors.black, fontSize: 14, fontFamily: 'Quicksand'),
         pathImage: "assets/images/chat.png",
