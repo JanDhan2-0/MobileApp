@@ -30,5 +30,19 @@
     "pickloc":"Pick location of Bank/ATM",
     "disploc":"(Bank/ATM Location will appear here)",
     "comments":"Add Special Comments",
-    "submit":"SUBMIT"
+    "submit":"SUBMIT",
+    "schemes":"Schemes",
+    "fin_schemes":"Financial Schemes",
+    "hel_schemes":"Health Schemes",
+    "urban_area":"Urban Area",
+    "rural_area":"Rural Area",
+    "male":"Male",
+    "female":"Female",
+    "age":"Age",
+    "list":"List of schemes for you",
+    "decription":"Description",
+    "benefits":"Benefits",
+    "Eligibility Criterion":"Eligiility Criterion",
+    "doc":"Documents Required"
+
 }

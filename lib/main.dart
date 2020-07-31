@@ -9,7 +9,6 @@ import 'package:jandhanv2/screens/bankUploads.dart';
 import 'package:jandhanv2/services/marker_service.dart';
 import 'package:jandhanv2/services/places_service.dart';
 import 'package:google_map_location_picker/google_map_location_picker.dart';
-import 'package:jandhanv2/screens/feedbackScreen.dart';
 
 import 'package:jandhanv2/screens/missingScreen.dart';
 import 'package:jandhanv2/screens/requestScreen.dart';
@@ -177,7 +176,7 @@ class MyApp extends StatelessWidget {
         '/feedback': (context) => FeedbackScreen(),
         '/updates': (context) => UpdateScreen(),
         '/upload': (context) => HomeScreen1(),
-        '/schemes':(context)=> SchemesScreen()
+        '/schemes': (context) => SchemesScreen()
       },
     );
   }
@@ -494,7 +493,6 @@ class GeolocationExampleState extends State {
                       fontSize: 28.0,
                       fontWeight: FontWeight.bold),
                 )),
-                SizedBox(height: 5.0),
                 Container(
                     child: Text(
                   place.vicinity,
@@ -503,16 +501,17 @@ class GeolocationExampleState extends State {
                     fontSize: 24.0,
                   ),
                 )),
-                SizedBox(height: 5.0),
                 Row(
                   children: [
                     Text(
-                      "Status: ${place.openNow} | " +
-                          "(${place.userRatingCount} reports)" +
-                          "\nOpening Hours: ${place.openingHours}",
+                      "${place.openNow}" +
+                          " | ${place.userRatingCount} reports"
+                              "\nOpening Hours: ${place.openingHours}",
                       style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 23.0,
+                          color: place.openNow == 'Open'
+                              ? Colors.green
+                              : Colors.red,
+                          fontSize: 26.0,
                           fontWeight: FontWeight.bold),
                     ),
                     Spacer(),
@@ -888,7 +887,7 @@ class navigationDrawer extends StatelessWidget {
             onTap: () => Navigator.pushNamed(context, '/updates'),
           ),
           createDrawerBodyItem(
-            icon: Icons.supervised_user_circle,
+            icon: Icons.score,
             text: "Schemes",
             onTap: () => Navigator.pushNamed(context, '/schemes'),
           ),
