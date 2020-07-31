@@ -193,7 +193,12 @@ class GeolocationExampleState extends State {
   var type = "atm";
   var markers;
   var hello = ' ';
-  BitmapDescriptor atmIcon, bankIcon, emitraIcon, cscIcon, poIcon;
+  BitmapDescriptor atmIcon,
+      bankIcon,
+      emitraIcon,
+      cscIcon,
+      poIcon,
+      bankCloseIcon;
   double _positionLatitude;
   GoogleMapController mapController;
   double _positionLongitude;
@@ -266,6 +271,12 @@ class GeolocationExampleState extends State {
             'assets/images/e-mitra.png')
         .then((onValue) {
       emitraIcon = onValue;
+    });
+
+    BitmapDescriptor.fromAssetImage(ImageConfiguration(size: Size(100, 100)),
+            'assets/images/bank_close.png')
+        .then((onValue) {
+      bankCloseIcon = onValue;
     });
 
     checkPermission();
@@ -384,7 +395,7 @@ class GeolocationExampleState extends State {
   }
 
   void updateMarkers(List<Place> placeMarkers, String type) {
-    debugPrint('Type: ' + type);
+    // debugPrint('Type: ' + type);
     markers = (placeMarkers != null)
         ? markerService.getMarkers(
             placeMarkers,
@@ -395,7 +406,8 @@ class GeolocationExampleState extends State {
                     ? bankIcon
                     : (type == 'post_office')
                         ? poIcon
-                        : (type == 'csc') ? cscIcon : emitraIcon)
+                        : (type == 'csc') ? cscIcon : emitraIcon,
+            bankCloseIcon)
         : List<Marker>();
     markers.add(Marker(
         markerId: MarkerId('30'),
@@ -508,11 +520,11 @@ class GeolocationExampleState extends State {
                           " | ${place.userRatingCount} reports"
                               "\nOpening Hours: ${place.openingHours}",
                       style: TextStyle(
-                          color: place.openNow == 'Open'
-                              ? Colors.green
-                              : Colors.red,
-                          fontSize: 26.0,
-                          fontWeight: FontWeight.bold),
+                        color: place.openNow == 'Open'
+                            ? Colors.green[300]
+                            : Colors.red[300],
+                        fontSize: 26.0,
+                      ),
                     ),
                     Spacer(),
                     ButtonBar(alignment: MainAxisAlignment.end, children: [
@@ -888,7 +900,7 @@ class navigationDrawer extends StatelessWidget {
           ),
           createDrawerBodyItem(
             icon: Icons.score,
-            text: "Schemes",
+            text: tr('schemes'),
             onTap: () => Navigator.pushNamed(context, '/schemes'),
           ),
           createDrawerBodyItem(

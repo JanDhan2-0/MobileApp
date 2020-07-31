@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:jandhanv2/screens/styles/style.dart';
 
 class SchemesScreen extends StatefulWidget {
   @override
@@ -97,10 +98,10 @@ class _SchemesScreenState extends State<SchemesScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Schemes',
+        title: tr('schemes'),
         home: Scaffold(
           appBar: AppBar(
-            title: Text("Schemes"),
+            title: Text(tr('schemes')),
             automaticallyImplyLeading: true,
             leading: IconButton(
               icon: Icon(Icons.arrow_back),
@@ -116,7 +117,7 @@ class _SchemesScreenState extends State<SchemesScreen> {
                   buttonPadding: EdgeInsets.all(0.0),
                   children: <Widget>[
                     new FlatButton(
-                      child: new Text("  Financial Schemes "),
+                      child: new Text("  " + tr('fin_schemes') + " "),
                       textColor: financialScheme ? Colors.white : Colors.black,
                       shape: new RoundedRectangleBorder(
                         borderRadius: new BorderRadius.only(
@@ -131,7 +132,7 @@ class _SchemesScreenState extends State<SchemesScreen> {
                       }),
                     ),
                     new FlatButton(
-                      child: new Text("   Health Schemes  "),
+                      child: new Text("  " + tr('hel_schemes') + " "),
                       textColor: healthScheme ? Colors.white : Colors.black,
                       color: healthScheme ? Colors.blue : Colors.white,
                       shape: new RoundedRectangleBorder(
@@ -155,7 +156,7 @@ class _SchemesScreenState extends State<SchemesScreen> {
                   buttonPadding: EdgeInsets.all(0.0),
                   children: <Widget>[
                     new FlatButton(
-                      child: new Text("   Urban Area  "),
+                      child: new Text("  " + tr('urban_area') + " "),
                       textColor: urbanScheme ? Colors.white : Colors.black,
                       shape: new RoundedRectangleBorder(
                         borderRadius: new BorderRadius.only(
@@ -170,7 +171,7 @@ class _SchemesScreenState extends State<SchemesScreen> {
                       }),
                     ),
                     new FlatButton(
-                      child: new Text("   Rural Area  "),
+                      child: new Text("  " + tr('rural_area') + " "),
                       textColor: ruralScheme ? Colors.white : Colors.black,
                       color: ruralScheme ? Colors.blue : Colors.white,
                       shape: new RoundedRectangleBorder(
@@ -194,7 +195,7 @@ class _SchemesScreenState extends State<SchemesScreen> {
                   buttonPadding: EdgeInsets.all(0.0),
                   children: <Widget>[
                     new FlatButton(
-                      child: new Text("   Male  "),
+                      child: new Text("  " + tr('male') + " "),
                       textColor: genderMale ? Colors.white : Colors.black,
                       shape: new RoundedRectangleBorder(
                         borderRadius: new BorderRadius.only(
@@ -209,7 +210,7 @@ class _SchemesScreenState extends State<SchemesScreen> {
                       }),
                     ),
                     new FlatButton(
-                      child: new Text("   Female  "),
+                      child: new Text("  " + tr('female') + " "),
                       textColor: genderFemale ? Colors.white : Colors.black,
                       color: genderFemale ? Colors.blue : Colors.white,
                       shape: new RoundedRectangleBorder(
@@ -233,7 +234,7 @@ class _SchemesScreenState extends State<SchemesScreen> {
                   buttonPadding: EdgeInsets.all(0.0),
                   children: <Widget>[
                     new FlatButton(
-                      child: new Text("   Age < 60  "),
+                      child: new Text("   " + tr('age') + " < 60  "),
                       textColor: ageLess60 ? Colors.white : Colors.black,
                       shape: new RoundedRectangleBorder(
                         borderRadius: new BorderRadius.only(
@@ -248,7 +249,7 @@ class _SchemesScreenState extends State<SchemesScreen> {
                       }),
                     ),
                     new FlatButton(
-                      child: new Text("   Age > 60  "),
+                      child: new Text("   " + tr('age') + " > 60  "),
                       textColor: ageGreater60 ? Colors.white : Colors.black,
                       color: ageGreater60 ? Colors.blue : Colors.white,
                       shape: new RoundedRectangleBorder(
@@ -275,7 +276,7 @@ class _SchemesScreenState extends State<SchemesScreen> {
                   color: Theme.of(context).primaryColor,
                   textColor: Colors.white,
                   child: new Text(
-                    tr('Get Schemes'),
+                    tr('get_schemes'),
                     style: TextStyle(fontSize: 18.0),
                   ),
                   onPressed: () => {fetchSchemes()},
@@ -284,7 +285,7 @@ class _SchemesScreenState extends State<SchemesScreen> {
               ),
               SizedBox(height: 15),
               Text(
-                "List of schemes for you",
+                tr('list'),
                 style: TextStyle(fontSize: 16.0, color: Colors.blue[600]),
               ),
               _buildList()
@@ -302,92 +303,112 @@ class SchemeDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: Text(desc['title'])),
-        body: ExpandableTheme(
-            data: const ExpandableThemeData(
-              iconColor: Colors.blue,
-              useInkWell: true,
-            ),
-            child: ListView(
-                physics: const BouncingScrollPhysics(),
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: ExpandablePanel(
-                      header: Text(
-                        "Description",
-                        style: TextStyle(fontSize: 20, color: Colors.blue),
-                      ),
-                      collapsed: Text(
-                        desc['Description'],
-                        softWrap: true,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      expanded: Text(
-                        desc['Description'],
-                        softWrap: true,
-                      ),
-                      tapHeaderToExpand: true,
-                      hasIcon: true,
+        body: Center(
+            child: Container(
+                width: MediaQuery.of(context).size.width - 40,
+                alignment: Alignment.center,
+                child: ExpandableTheme(
+                    data: const ExpandableThemeData(
+                      iconColor: Colors.blue,
+                      useInkWell: true,
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: ExpandablePanel(
-                      header: Text("Benefits",
-                          style: TextStyle(fontSize: 20, color: Colors.blue)),
-                      collapsed: Text(
-                        desc['Benefits'],
-                        softWrap: true,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      expanded: Text(
-                        desc['Benefits'],
-                        softWrap: true,
-                      ),
-                      tapHeaderToExpand: true,
-                      hasIcon: true,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: ExpandablePanel(
-                      header: Text("Eligibility Criterion",
-                          style: TextStyle(fontSize: 20, color: Colors.blue)),
-                      collapsed: Text(
-                        desc['eligibility'],
-                        softWrap: true,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      expanded: Text(
-                        desc['eligibility'],
-                        softWrap: true,
-                      ),
-                      tapHeaderToExpand: true,
-                      hasIcon: true,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: ExpandablePanel(
-                      header: Text("Documents Required",
-                          style: TextStyle(fontSize: 20, color: Colors.blue)),
-                      collapsed: Text(
-                        desc['documentsRequired'],
-                        softWrap: true,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      expanded: Text(
-                        desc['documentsRequired'],
-                        softWrap: true,
-                      ),
-                      tapHeaderToExpand: true,
-                      hasIcon: true,
-                    ),
-                  ),
-                ])));
+                    child: ListView(
+                        physics: const BouncingScrollPhysics(),
+                        children: <Widget>[
+                          Style.space(),
+                          Container(
+                              decoration: Style.boxDecor(),
+                              child: Padding(
+                                padding: const EdgeInsets.all(20.0),
+                                child: ExpandablePanel(
+                                  header: Text(
+                                    tr("desc"),
+                                    style: TextStyle(
+                                        fontSize: 18, color: Colors.blue),
+                                  ),
+                                  collapsed: Text(
+                                    desc['Description'],
+                                    softWrap: true,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  expanded: Text(
+                                    desc['Description'],
+                                    softWrap: true,
+                                  ),
+                                  tapHeaderToExpand: true,
+                                  hasIcon: true,
+                                ),
+                              )),
+                          Style.space(),
+                          Container(
+                              decoration: Style.boxDecor(),
+                              child: Padding(
+                                padding: const EdgeInsets.all(20.0),
+                                child: ExpandablePanel(
+                                  header: Text(tr('benefits'),
+                                      style: TextStyle(
+                                          fontSize: 18, color: Colors.blue)),
+                                  collapsed: Text(
+                                    desc['Benefits'],
+                                    softWrap: true,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  expanded: Text(
+                                    desc['Benefits'],
+                                    softWrap: true,
+                                  ),
+                                  tapHeaderToExpand: true,
+                                  hasIcon: true,
+                                ),
+                              )),
+                          Style.space(),
+                          Container(
+                              decoration: Style.boxDecor(),
+                              child: Padding(
+                                padding: const EdgeInsets.all(20.0),
+                                child: ExpandablePanel(
+                                  header: Text(tr('elig'),
+                                      style: TextStyle(
+                                          fontSize: 18, color: Colors.blue)),
+                                  collapsed: Text(
+                                    desc['eligibility'],
+                                    softWrap: true,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  expanded: Text(
+                                    desc['eligibility'],
+                                    softWrap: true,
+                                  ),
+                                  tapHeaderToExpand: true,
+                                  hasIcon: true,
+                                ),
+                              )),
+                          Style.space(),
+                          Container(
+                              decoration: Style.boxDecor(),
+                              child: Padding(
+                                padding: const EdgeInsets.all(20.0),
+                                child: ExpandablePanel(
+                                  header: Text(tr('doc'),
+                                      style: TextStyle(
+                                          fontSize: 18, color: Colors.blue)),
+                                  collapsed: Text(
+                                    desc['documentsRequired'],
+                                    softWrap: true,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  expanded: Text(
+                                    desc['documentsRequired'],
+                                    softWrap: true,
+                                  ),
+                                  tapHeaderToExpand: true,
+                                  hasIcon: true,
+                                ),
+                              )),
+                        ])))));
   }
 }

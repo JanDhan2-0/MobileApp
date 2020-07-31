@@ -1,14 +1,30 @@
-# jandhanv2
+# Jan Dhan 2.0
 
-A fully integrated flutter app implementing a GIS for financial inclusion.
+A fully integrated flutter app implementing a GIS for Financial Inclusion. 
 
-## Getting Started
+## Installation
 
-A few resources to get you started if this is your first Flutter project:
+Clone the repository, and run the `flutter run` command.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+```bash
+flutter run
+```
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+To build the fat apk, run 
+
+```bash
+flutter build apk --release
+flutter build ipa --release
+```
+
+## Usage
+
+Run the .apk/.ipa file on an emulator or an actual device.
+
+## Contributing
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+Please make sure to update tests as appropriate.
+
+## License
+[New BSD](https://opensource.org/licenses/BSD-3-Clause)

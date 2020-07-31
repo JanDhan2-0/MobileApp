@@ -32,7 +32,7 @@ class Place {
         vicinity = parsedJson['vicinity'],
         openNow = (parsedJson['opening_hours'] != null)
             ? (parsedJson['opening_hours']['open_now']) ? "Open" : "Closed"
-            : "Out of Cash",
+            : "Out of Order",
         geometry = Geometry.fromJson(parsedJson['geometry']),
         openingHours = (parsedJson['opening_hours'] != null)
             ? "10:00 - 18:00"

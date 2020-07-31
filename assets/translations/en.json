@@ -32,6 +32,7 @@
     "comments":"Add Special Comments",
     "submit":"SUBMIT",
     "schemes":"Schemes",
+    "get_schemes":"Get Schemes",
     "fin_schemes":"Financial Schemes",
     "hel_schemes":"Health Schemes",
     "urban_area":"Urban Area",
@@ -40,9 +41,9 @@
     "female":"Female",
     "age":"Age",
     "list":"List of schemes for you",
-    "decription":"Description",
+    "desc":"Description",
     "benefits":"Benefits",
-    "Eligibility Criterion":"Eligiility Criterion",
+    "elig":"Eligiility Criterion",
     "doc":"Documents Required"
 
 }
