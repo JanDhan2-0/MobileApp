@@ -14,6 +14,8 @@ import 'package:jandhanv2/screens/feedbackScreen.dart';
 import 'package:jandhanv2/screens/missingScreen.dart';
 import 'package:jandhanv2/screens/requestScreen.dart';
 import 'package:jandhanv2/screens/updatesScreen.dart';
+import 'package:jandhanv2/screens/feedbackScreen.dart';
+import 'package:jandhanv2/screens/schemesScreen.dart';
 import 'dart:ui';
 
 import 'package:highlighter_coachmark/highlighter_coachmark.dart';
@@ -135,6 +137,7 @@ class _IntroScreenState extends State<IntroScreen> {
 
   void onSkipPress() {
     // TODO: go to next screen
+    onDonePress();
   }
 
   @override
@@ -173,7 +176,8 @@ class MyApp extends StatelessWidget {
         '/request': (context) => RequestScreen(),
         '/feedback': (context) => FeedbackScreen(),
         '/updates': (context) => UpdateScreen(),
-        '/upload': (context) => HomeScreen1()
+        '/upload': (context) => HomeScreen1(),
+        '/schemes':(context)=> SchemesScreen()
       },
     );
   }
@@ -882,6 +886,11 @@ class navigationDrawer extends StatelessWidget {
             icon: Icons.notifications_active,
             text: tr('updates'),
             onTap: () => Navigator.pushNamed(context, '/updates'),
+          ),
+          createDrawerBodyItem(
+            icon: Icons.supervised_user_circle,
+            text: "Schemes",
+            onTap: () => Navigator.pushNamed(context, '/schemes'),
           ),
           createDrawerBodyItem(
             icon: Icons.help,
