@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'dart:math';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -86,4 +87,24 @@ Future uploadFeedbackInformation(
       .collection("Feedback")
       .document(dataToUpload['FeedbackRequestId'].toString())
       .setData(dataToUpload);
+}
+
+void updateCount(String atmId) async{
+  await _firestore.collection("ATMs").document(atmId).updateData({"numberOfReports": FieldValue.increment(1)});
+}
+
+//create the atm id everytime we get an ATM
+void createDocumentForAtm(String atmId) async{
+   bool userExists=(await Firestore.instance.collection('ATMs').document(atmId).get()).exists;
+   if(!userExists){
+      _firestore.collection("ATMs").document(atmId).setData({"numberOfReports":0});
+    }
+}
+
+// ignore: missing_return
+
+dynamic getCount(String atmId) async {
+  DocumentReference userReference = _firestore.collection("ATMs").document(atmId);
+  DocumentSnapshot userRef = await userReference.get();
+  return userRef.data['numberOfReports'];
 }

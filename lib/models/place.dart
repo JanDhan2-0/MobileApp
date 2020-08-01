@@ -8,8 +8,8 @@ class Place {
   String openNow;
   String openingHours;
   String phoneNumber;
-  static int userComplaints;
-
+  int userComplaints = 0;
+  String place_id;
   Place(
       {this.geometry,
       this.name,
@@ -18,7 +18,8 @@ class Place {
       this.vicinity,
       this.openNow,
       this.openingHours,
-      this.phoneNumber});
+      this.phoneNumber,
+      this.place_id});
 
 
   Place.fromJson(Map<dynamic, dynamic> parsedJson,String lang)
@@ -39,6 +40,7 @@ class Place {
             : "09:00 - 19:00",
         phoneNumber = (parsedJson['formatted_phone_number'] == null)
             ? "9611890453"
-            : "9780456211";
-
+            : "9780456211",
+        place_id = parsedJson['place_id'],
+        userComplaints = 0;
 }

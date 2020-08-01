@@ -1,12 +1,17 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/widgets.dart';
 import 'package:jandhanv2/models/place.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
+import 'package:jandhanv2/services/uploadToFirebase.dart';
+
 class PlacesService {
   final key = 'AIzaSyCILGP87TZPkXUobQfqDp9mkPA7IXnEGXU';
+
+  T cast<T>(x) => x is T ? x : null;
   Future<List<Place>> getPlaces(
       double lat, double lng, String type, String lang) async {
     debugPrint("hiii");
@@ -21,10 +26,10 @@ class PlacesService {
     var jsonResults = json['results'] as List;
     debugPrint(jsonResults.toList().toString());
     List<Place> places =  jsonResults.map((place) => Place.fromJson(place,lang)).toList();
-    return translate(places,lang);
+    return translate(places.sublist(0,min(10,places.length)),lang,type);
   }
 
-  Future<List<Place>> translate(List<Place> places,String language) async {
+  Future<List<Place>> translate(List<Place> places,String language,String type) async {
 
     /**
      * Algorithm:
@@ -40,6 +45,14 @@ class PlacesService {
   for(int i=0;i<places.length;i++){
     atmNamesVicinity.add(places[i].name);
     atmNamesVicinity.add(places[i].vicinity);
+
+    if(type == "atm"){
+      createDocumentForAtm(places[i].place_id);
+      places[i].userComplaints = await getCount(places[i].place_id);
+    }
+    else{
+      places[i].userComplaints = places[i].userRatingCount;
+    }
   }
 
 

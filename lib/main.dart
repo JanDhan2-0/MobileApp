@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:awesome_dialog/awesome_dialog.dart' as awd;
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -22,6 +23,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
+import 'package:jandhanv2/services/uploadToFirebase.dart';
+import 'package:jandhanv2/widgets/BaseAlertDialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/services.dart';
@@ -193,6 +196,7 @@ class MyApp extends StatelessWidget {
 }
 
 class GeolocationExampleState extends State {
+  
   Geolocator _geolocator;
   Position _position;
   var pressAtm = true;
@@ -538,12 +542,14 @@ class GeolocationExampleState extends State {
                   children: [
                     Text(
                       "${place.openNow}" +
-                          " | ${place.userRatingCount} reports"
+                          " | ${place.userComplaints} reports"
                               "\nOpening Hours: ${place.openingHours}",
                       style: TextStyle(
-                        color: place.openNow == 'Open'
+                        color: type == "atm" ? ( (place.userComplaints != null) ? place.userComplaints < 10
                             ? Colors.green[300]
-                            : Colors.red[300],
+                            : Colors.red[300] : Colors.blue) : (place.openNow == 'Open'
+                            ? Colors.green[300]
+                            : Colors.red[300]),
                         fontSize: 26.0,
                       ),
                     ),
@@ -568,6 +574,46 @@ class GeolocationExampleState extends State {
                         iconSize: 40.0,
                         onPressed: () {
                           _launchURL("tel:${place.phoneNumber}");
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.report),
+                        color: Colors.blue[600],
+                        iconSize: 40.0,
+                        onPressed: () {
+                          var baseDialog = BaseAlertDialog(
+                              title: "Confirm?",
+                              content: "Is this "+ type.toUpperCase() +" Working today?",
+                              yesOnPressed: () {
+                                Navigator.of(context, rootNavigator: true)
+                                .pop(true);
+                                awd.AwesomeDialog(
+                                  context: context,
+                                  headerAnimationLoop: false,
+                                  dialogType: awd.DialogType.SUCCES,
+                                  animType: awd.AnimType.BOTTOMSLIDE,
+                                  title: 'INFO',
+                                  desc:
+                                      'Thank you for letting us know. We will take your suggestions into consideration. It will help our users a lot.',
+                                )..show();
+                              },
+                              noOnPressed: () {
+                                updateCount(place.place_id);
+                                Navigator.of(context, rootNavigator: true)
+                                .pop(true);
+                                awd.AwesomeDialog(
+                                  context: context,
+                                  headerAnimationLoop: false,
+                                  dialogType: awd.DialogType.SUCCES,
+                                  animType: awd.AnimType.BOTTOMSLIDE,
+                                  title: 'INFO',
+                                  desc:
+                                      'Thank you for letting us know. We will take your suggestions into consideration. It will help our users a lot.',
+                                )..show();
+                              },
+                              yes: "Yes",
+                              no: "No");
+                          showDialog(context: context, builder: (BuildContext context) => baseDialog);
                         },
                       )
                     ])

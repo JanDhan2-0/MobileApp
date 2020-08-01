@@ -14,7 +14,7 @@ class MarkerService {
           position:
               LatLng(place.geometry.location.lat, place.geometry.location.lng),
           icon: type == 'atm'
-              ? place.openNow == 'Open' ? myIcon : otherIcon
+              ? place.userComplaints < 10 ? myIcon : otherIcon
               : myIcon);
       markers.add(marker);
     });
