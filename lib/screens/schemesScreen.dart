@@ -327,13 +327,13 @@ class SchemeDetail extends StatelessWidget {
                                         fontSize: 18, color: Colors.blue),
                                   ),
                                   collapsed: Text(
-                                    desc['Description'],
+                                    desc['description'],
                                     softWrap: true,
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                   expanded: Text(
-                                    desc['Description'],
+                                    desc['description'],
                                     softWrap: true,
                                   ),
                                   tapHeaderToExpand: true,
