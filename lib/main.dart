@@ -22,6 +22,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/services.dart';
 
@@ -122,16 +123,7 @@ class _IntroScreenState extends State<IntroScreen> {
   void onDonePress() {
     // TODO: go to next screen
     Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => EasyLocalization(supportedLocales: [
-              Locale('en'),
-              Locale('hi'),
-              Locale('mr'),
-              Locale('kn'),
-              Locale('te'),
-              Locale('ta'),
-              Locale('gu'),
-              Locale('pa')
-            ], path: 'assets/translations', child: MyApp())));
+        builder: (context) => MyApp1()));
   }
 
   void onSkipPress() {
@@ -157,6 +149,22 @@ class _IntroScreenState extends State<IntroScreen> {
                 TextStyle(color: Colors.blue[600], fontSize: 16.0),
             colorActiveDot: Colors.blue[600],
             colorDot: Colors.grey));
+  }
+}
+
+class MyApp1 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return EasyLocalization(supportedLocales: [
+              Locale('en'),
+              Locale('hi'),
+              Locale('mr'),
+              Locale('kn'),
+              Locale('te'),
+              Locale('ta'),
+              Locale('gu'),
+              Locale('pa')
+            ], path: 'assets/translations', child: MyApp());
   }
 }
 
@@ -283,7 +291,18 @@ class GeolocationExampleState extends State {
 
     checkPermission();
     updateLocation();
-    Timer(Duration(seconds: 2), () => showCoachMarkFAB());
+    checkFirstSeen();
+  }
+
+  Future checkFirstSeen() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool _seen = (prefs.getBool('tutorSeen') ?? false);
+    if (_seen) {
+      return;
+    } else {
+      await prefs.setBool('tutorSeen', true);
+       Timer(Duration(seconds: 2), () => showCoachMarkFAB());
+    }
   }
 
   void showCoachMarkFAB() {
