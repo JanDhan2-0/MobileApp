@@ -44,6 +44,10 @@
     "desc":"Description",
     "benefits":"Benefits",
     "elig":"Eligiility Criterion",
-    "doc":"Documents Required"
-
+    "doc":"Documents Required",
+    "open":"Open",
+    "closed":"Closed",
+    "out":"Out of Order",
+    "rep":"Report",
+    "opening":"Opening Hours"
 }

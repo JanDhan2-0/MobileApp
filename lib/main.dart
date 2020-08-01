@@ -16,6 +16,7 @@ import 'package:jandhanv2/screens/requestScreen.dart';
 import 'package:jandhanv2/screens/updatesScreen.dart';
 import 'package:jandhanv2/screens/feedbackScreen.dart';
 import 'package:jandhanv2/screens/schemesScreen.dart';
+import 'package:jandhanv2/screens/helpScreen.dart';
 import 'dart:ui';
 
 import 'package:highlighter_coachmark/highlighter_coachmark.dart';
@@ -106,27 +107,12 @@ class _IntroScreenState extends State<IntroScreen> {
         backgroundColor: const Color(0xf2f8f9ff),
       ),
     );
-    slides.add(
-      new Slide(
-        title: "CONTACTLESS VERIFICATION",
-        styleTitle: TextStyle(
-            color: Colors.black, fontSize: 22, fontFamily: 'Quicksand'),
-        description:
-            "Upload documents securely for any bank related verifications.",
-        styleDescription: TextStyle(
-            color: Colors.black, fontSize: 14, fontFamily: 'Quicksand'),
-        pathImage: "assets/images/credit.png",
-        heightImage: 125.0,
-        widthImage: 100.0,
-        backgroundColor: const Color(0xf2f8f9ff),
-      ),
-    );
   }
 
   void onDonePress() {
     // TODO: go to next screen
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => MyApp1()));
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => MyApp1()));
   }
 
   void onSkipPress() {
@@ -159,23 +145,21 @@ class MyApp1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return EasyLocalization(supportedLocales: [
-              Locale('en'),
-              Locale('hi'),
-              Locale('mr'),
-              Locale('kn'),
-              Locale('te'),
-              Locale('ta'),
-              Locale('gu'),
-              Locale('pa')
-            ], path: 'assets/translations', child: MyApp());
+      Locale('en'),
+      Locale('hi'),
+      Locale('mr'),
+      Locale('kn'),
+      Locale('te'),
+      Locale('ta'),
+      Locale('gu'),
+      Locale('pa')
+    ], path: 'assets/translations', child: MyApp());
   }
 }
 
 class MyApp extends StatelessWidget {
-  
   @override
   Widget build(BuildContext context) {
-    
     return MaterialApp(
       title: 'Jan Dhan 2.0',
       localizationsDelegates: context.localizationDelegates,
@@ -189,14 +173,14 @@ class MyApp extends StatelessWidget {
         '/feedback': (context) => FeedbackScreen(),
         '/updates': (context) => UpdateScreen(),
         '/upload': (context) => HomeScreen1(),
-        '/schemes': (context) => SchemesScreen()
+        '/schemes': (context) => SchemesScreen(),
+        '/help': (context) => HelpScreen(),
       },
     );
   }
 }
 
 class GeolocationExampleState extends State {
-  
   Geolocator _geolocator;
   Position _position;
   var pressAtm = true;
@@ -305,7 +289,7 @@ class GeolocationExampleState extends State {
       return;
     } else {
       await prefs.setBool('tutorSeen', true);
-       Timer(Duration(seconds: 2), () => showCoachMarkFAB());
+      Timer(Duration(seconds: 2), () => showCoachMarkFAB());
     }
   }
 
@@ -542,14 +526,22 @@ class GeolocationExampleState extends State {
                   children: [
                     Text(
                       "${place.openNow}" +
-                          " | ${place.userComplaints} reports"
-                              "\nOpening Hours: ${place.openingHours}",
+                          " | ${place.userComplaints} " +
+                          tr('rep') +
+                          "\n" +
+                          tr('opening') +
+                          ": ${place.openingHours}",
                       style: TextStyle(
-                        color: type == "atm" ? ( (place.userComplaints != null) ? place.userComplaints < 10
-                            ? Colors.green[300]
-                            : Colors.red[300] : Colors.blue) : (place.openNow == 'Open'
-                            ? Colors.green[300]
-                            : Colors.red[300]),
+                        color: type == "atm"
+                            ? ((place.userComplaints != null)
+                                ? place.userComplaints < 10 &&
+                                        place.openNow == tr('open')
+                                    ? Colors.green[300]
+                                    : Colors.red[300]
+                                : Colors.red[300])
+                            : (place.openNow == tr('open')
+                                ? Colors.green[300]
+                                : Colors.red[300]),
                         fontSize: 26.0,
                       ),
                     ),
@@ -582,38 +574,40 @@ class GeolocationExampleState extends State {
                         iconSize: 40.0,
                         onPressed: () {
                           var baseDialog = BaseAlertDialog(
-                              title: "Confirm?",
-                              content: "Is this "+ type.toUpperCase() +" Working today?",
+                              title: "Confirmation",
+                              content: "Is this " +
+                                  type.toUpperCase() +
+                                  " Service Working today?",
                               yesOnPressed: () {
                                 Navigator.of(context, rootNavigator: true)
-                                .pop(true);
+                                    .pop(true);
                                 awd.AwesomeDialog(
                                   context: context,
                                   headerAnimationLoop: false,
                                   dialogType: awd.DialogType.SUCCES,
                                   animType: awd.AnimType.BOTTOMSLIDE,
-                                  title: 'INFO',
-                                  desc:
-                                      'Thank you for letting us know. We will take your suggestions into consideration. It will help our users a lot.',
+                                  title: 'Info',
+                                  desc: 'Thanks you for letting us know!',
                                 )..show();
                               },
                               noOnPressed: () {
                                 updateCount(place.place_id);
                                 Navigator.of(context, rootNavigator: true)
-                                .pop(true);
+                                    .pop(true);
                                 awd.AwesomeDialog(
                                   context: context,
                                   headerAnimationLoop: false,
-                                  dialogType: awd.DialogType.SUCCES,
+                                  dialogType: awd.DialogType.WARNING,
                                   animType: awd.AnimType.BOTTOMSLIDE,
                                   title: 'INFO',
-                                  desc:
-                                      'Thank you for letting us know. We will take your suggestions into consideration. It will help our users a lot.',
+                                  desc: 'Thanks you for letting us know!',
                                 )..show();
                               },
                               yes: "Yes",
                               no: "No");
-                          showDialog(context: context, builder: (BuildContext context) => baseDialog);
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) => baseDialog);
                         },
                       )
                     ])
@@ -718,7 +712,8 @@ class GeolocationExampleState extends State {
                     child: DropdownButton(
                       onChanged: (Language language) {
                         context.locale = Locale(language.languageCode);
-                        updatePlace(_positionLatitude , _positionLongitude, type);
+                        updatePlace(
+                            _positionLatitude, _positionLongitude, type);
                       },
                       underline: Container(height: 0),
                       icon: Icon(
@@ -974,7 +969,7 @@ class navigationDrawer extends StatelessWidget {
           createDrawerBodyItem(
             icon: Icons.help,
             text: tr('help'),
-            // onTap: () => Navigator.pushNamed(context, '/'),
+            onTap: () => Navigator.pushNamed(context, '/help'),
           ),
           Divider(color: Colors.white),
           ListTile(

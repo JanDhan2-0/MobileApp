@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class BaseAlertDialog extends StatelessWidget {
-
   //When creating please recheck 'context' if there is an error!
 
-  Color _color = Color.fromARGB(220, 117, 218 ,255);
+  Color _color = Colors.white;
+  // Color.fromARGB(220, 117, 218 ,255);
 
   String _title;
   String _content;
@@ -13,7 +13,13 @@ class BaseAlertDialog extends StatelessWidget {
   Function _yesOnPressed;
   Function _noOnPressed;
 
-  BaseAlertDialog({String title, String content, Function yesOnPressed, Function noOnPressed, String yes = "Yes", String no = "No"}){
+  BaseAlertDialog(
+      {String title,
+      String content,
+      Function yesOnPressed,
+      Function noOnPressed,
+      String yes = "Yes",
+      String no = "No"}) {
     this._title = title;
     this._content = content;
     this._yesOnPressed = yesOnPressed;
@@ -33,14 +39,16 @@ class BaseAlertDialog extends StatelessWidget {
       actions: <Widget>[
         new FlatButton(
           child: new Text(this._yes),
-          textColor: Colors.greenAccent,
+          textColor: Colors.white,
+          color: Colors.green[300],
           onPressed: () {
             this._yesOnPressed();
           },
         ),
         new FlatButton(
           child: Text(this._no),
-          textColor: Colors.redAccent,
+          textColor: Colors.white,
+          color: Colors.red[300],
           onPressed: () {
             this._noOnPressed();
           },
