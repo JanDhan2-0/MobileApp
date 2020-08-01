@@ -1,14 +1,13 @@
 import 'package:jandhanv2/models/geometry.dart';
-
 class Place {
-  final String name;
-  final double rating;
-  final int userRatingCount;
-  final String vicinity;
-  final Geometry geometry;
-  final String openNow;
-  final String openingHours;
-  final String phoneNumber;
+  String name;
+  double rating;
+  int userRatingCount;
+  String vicinity;
+  Geometry geometry;
+  String openNow;
+  String openingHours;
+  String phoneNumber;
   static int userComplaints;
 
   Place(
@@ -21,7 +20,8 @@ class Place {
       this.openingHours,
       this.phoneNumber});
 
-  Place.fromJson(Map<dynamic, dynamic> parsedJson)
+
+  Place.fromJson(Map<dynamic, dynamic> parsedJson,String lang)
       : name = parsedJson['name'],
         rating = (parsedJson['rating'] != null)
             ? parsedJson['rating'].toDouble()
@@ -40,4 +40,5 @@ class Place {
         phoneNumber = (parsedJson['formatted_phone_number'] == null)
             ? "9611890453"
             : "9780456211";
+
 }

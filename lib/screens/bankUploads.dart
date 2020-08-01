@@ -80,7 +80,7 @@ class MyCustomFormState extends State<MyCustomForm> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => MyApp()),
+                  MaterialPageRoute(builder: (context) => IntroScreen()),
                 );
               },
             ),
@@ -88,6 +88,14 @@ class MyCustomFormState extends State<MyCustomForm> {
         );
       },
     );
+  }
+
+
+  String encrypt(String data){
+      var str = data;
+      var bytes = utf8.encode(str);
+      var base64Str = base64.encode(bytes);
+      return base64Str;
   }
 
   Future uploadImages() async {
@@ -157,23 +165,23 @@ class MyCustomFormState extends State<MyCustomForm> {
         .collection("Account")
         .document(code.toString())
         .setData({
-      "name": nameController.text,
-      "phone": phoneController.text,
-      "email": emailController.text,
-      "dob": dobController.text,
-      "address": addressController.text,
-      "aadharUrl": aadharUrl,
-      "panUrl": panUrl,
-      "signatureUrl": signatureUrl,
-      "photoUrl": photoUrl,
-      "bank": _bankName,
+      "name": encrypt(nameController.text),
+      "phone": encrypt(phoneController.text),
+      "email": encrypt(emailController.text),
+      "dob": encrypt(dobController.text),
+      "address": encrypt(addressController.text),
+      "aadharUrl": encrypt(aadharUrl),
+      "panUrl": encrypt(panUrl),
+      "signatureUrl": encrypt(signatureUrl),
+      "photoUrl": encrypt(photoUrl),
+      "bank": encrypt(_bankName),
       "uniqueId": code,
       "status": "Pending",
-      "account_creation_date": formattedDate,
+      "account_creation_date": encrypt(formattedDate),
       "purpose": "A/C Creation",
       "formId": _bankName + code.toString(),
-      "panNo": panNoController.text,
-      "aadharNo": aadharNoController.text,
+      "panNo": encrypt(panNoController.text),
+      "aadharNo": encrypt(aadharNoController.text),
       "bankInitiated":false
     });
     await http.post(

@@ -161,8 +161,10 @@ class _IntroScreenState extends State<IntroScreen> {
 }
 
 class MyApp extends StatelessWidget {
+  
   @override
   Widget build(BuildContext context) {
+    
     return MaterialApp(
       title: 'Jan Dhan 2.0',
       localizationsDelegates: context.localizationDelegates,
@@ -491,7 +493,7 @@ class GeolocationExampleState extends State {
         child: InkWell(
       child: Container(
           height: MediaQuery.of(context).size.height / 3 + 30,
-          width: 500.0,
+          width: 600.0,
           child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               mainAxisSize: MainAxisSize.min,
@@ -651,6 +653,7 @@ class GeolocationExampleState extends State {
                     child: DropdownButton(
                       onChanged: (Language language) {
                         context.locale = Locale(language.languageCode);
+                        updatePlace(_positionLatitude , _positionLongitude, type);
                       },
                       underline: Container(height: 0),
                       icon: Icon(

@@ -46,7 +46,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => MyApp()),
+                  MaterialPageRoute(builder: (context) => IntroScreen()),
                 );
               },
             ),
