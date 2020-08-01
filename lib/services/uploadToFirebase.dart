@@ -106,5 +106,11 @@ void createDocumentForAtm(String atmId) async{
 dynamic getCount(String atmId) async {
   DocumentReference userReference = _firestore.collection("ATMs").document(atmId);
   DocumentSnapshot userRef = await userReference.get();
-  return userRef.data['numberOfReports'];
+  if(userRef != null){
+    debugPrint(userRef.data.toString());
+    return userRef.data['numberOfReports'];
+  }
+  else{
+    return 1;
+  }
 }
