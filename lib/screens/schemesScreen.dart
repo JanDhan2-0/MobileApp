@@ -83,7 +83,7 @@ class _SchemesScreenState extends State<SchemesScreen> {
                         leading: CircleAvatar(
                             radius: 30,
                             backgroundImage: NetworkImage(
-                                "https://www.ssbcrack.com/wp-content/uploads/2016/05/pmjdy.jpg")),
+                                _schemes[index]['image'])),
                         title: Text(_schemes[index]['title']),
                         subtitle: Text(_schemes[index]['tooltip']),
                       ),
