@@ -6,6 +6,9 @@ import 'package:google_map_location_picker/generated/i18n.dart'
 import 'package:google_map_location_picker/google_map_location_picker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:dropdown_formfield/dropdown_formfield.dart';
+import 'dart:convert' as convert;
+
+import 'package:http/http.dart' as http;
 import 'package:jandhanv2/main.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import '../generated/i18n.dart';
@@ -58,6 +61,12 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
 
   Future uploadData() async {
     await pr.show();
+    var feedback = feedbackMsgController.text;
+    String url = "https://8c53030e804d.ngrok.io/?review=$feedback";
+    var response = await http.get(url);
+    var json = convert.jsonDecode(response.body);
+    List<dynamic> tags = json['tags'] as List;
+    String sentiment = json['sentiment'];
     uploadFeedbackInformation(
         nameController.text,
         phoneController.text,
@@ -67,7 +76,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
         _pickedLocation.latLng,
         feedbackMsgController.text,
         _rating,
-        _issue);
+        _issue,tags,sentiment);
     pr.hide().whenComplete(() {
       _showDialog();
     });

@@ -62,7 +62,7 @@ Future uploadFeedbackInformation(
     LatLng latLng,
     String feedback,
     var rating,
-    var issue) async {
+    var issue,List<dynamic> tags,String sentiment) async {
   var rng = new Random();
   var code = rng.nextInt(900000) + 100000;
   var now = new DateTime.now();
@@ -80,7 +80,9 @@ Future uploadFeedbackInformation(
     'feedback': feedback,
     'rating': rating,
     'date': formattedDate,
-    'issue': issue
+    'issue': issue,
+    'tags':tags,
+    'sentiment':sentiment
   };
   await _firestore
       .collection("Banks")

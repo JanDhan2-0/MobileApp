@@ -417,7 +417,7 @@ class GeolocationExampleState extends State {
                     : (type == 'post_office')
                         ? poIcon
                         : (type == 'csc') ? cscIcon : emitraIcon,
-            bankCloseIcon)
+            bankCloseIcon,context)
         : List<Marker>();
     markers.add(Marker(
         markerId: MarkerId('30'),
