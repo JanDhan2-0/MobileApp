@@ -118,7 +118,12 @@ class _ReviewListState extends State<ReviewList> {
 
   int tag = 2;
 
-  List<String> options = [tr('atm'), 'service', 'security', tr('branch')];
+  List<String> options = [
+    tr('atm'),
+    tr('service'),
+    tr('security'),
+    tr('branch')
+  ];
   void changeData() {
     List<dynamic> ans = new List<dynamic>();
     debugPrint(tag.toString());
