@@ -49,5 +49,7 @@
     "closed":"Closed",
     "out":"Out of Order",
     "rep":"Report",
-    "opening":"Opening Hours"
+    "opening":"Opening Hours",
+    "security":"Security",
+    "service":"Service"
 }

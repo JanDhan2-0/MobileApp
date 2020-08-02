@@ -62,7 +62,8 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   Future uploadData() async {
     await pr.show();
     var feedback = feedbackMsgController.text;
-    String url = "https://8c53030e804d.ngrok.io/?review=$feedback";
+    String url =
+        "https://jandhantf.herokuapp.com/sentiment_score?review=$feedback";
     var response = await http.get(url);
     var json = convert.jsonDecode(response.body);
     List<dynamic> tags = json['tags'] as List;
@@ -76,7 +77,9 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
         _pickedLocation.latLng,
         feedbackMsgController.text,
         _rating,
-        _issue,tags,sentiment);
+        _issue,
+        tags,
+        sentiment);
     pr.hide().whenComplete(() {
       _showDialog();
     });

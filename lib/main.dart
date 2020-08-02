@@ -6,7 +6,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intro_slider/slide_object.dart';
 import 'package:jandhanv2/models/place.dart';
-import 'package:jandhanv2/screens/bankUploads.dart';
 import 'package:jandhanv2/services/marker_service.dart';
 import 'package:jandhanv2/services/places_service.dart';
 import 'package:google_map_location_picker/google_map_location_picker.dart';
@@ -152,7 +151,11 @@ class MyApp1 extends StatelessWidget {
       Locale('te'),
       Locale('ta'),
       Locale('gu'),
-      Locale('pa')
+      Locale('pa'),
+      Locale('ml'),
+      Locale('ne'),
+      Locale('or'),
+      Locale('ur')
     ], path: 'assets/translations', child: MyApp());
   }
 }
@@ -172,7 +175,6 @@ class MyApp extends StatelessWidget {
         '/request': (context) => RequestScreen(),
         '/feedback': (context) => FeedbackScreen(),
         '/updates': (context) => UpdateScreen(),
-        '/upload': (context) => HomeScreen1(),
         '/schemes': (context) => SchemesScreen(),
         '/help': (context) => HelpScreen(),
       },
@@ -405,7 +407,6 @@ class GeolocationExampleState extends State {
   }
 
   void updateMarkers(List<Place> placeMarkers, String type) {
-    // debugPrint('Type: ' + type);
     markers = (placeMarkers != null)
         ? markerService.getMarkers(
             placeMarkers,
@@ -417,7 +418,8 @@ class GeolocationExampleState extends State {
                     : (type == 'post_office')
                         ? poIcon
                         : (type == 'csc') ? cscIcon : emitraIcon,
-            bankCloseIcon,context)
+            bankCloseIcon,
+            context)
         : List<Marker>();
     markers.add(Marker(
         markerId: MarkerId('30'),
@@ -438,19 +440,24 @@ class GeolocationExampleState extends State {
    * SBI contains SBI - Place this at HDFC and HDFC comes here and increment ref.
    * This will update the place
    */
-  void updatePlaceList(List<String> keywords){
-      debugPrint("Hello");
+  void updatePlaceList(List<String> keywords, String sortContext) {
+    if (sortContext != 'senti') {
       int ref = 0;
-      for(int i=0;i<placesMarkers.length;i++){
-          debugPrint('$keywords');
-          if(placesMarkers[i].name.toLowerCase().contains(keywords[0]) || (keywords.length > 1 && placesMarkers[i].name.toLowerCase().contains(keywords[1]))){
-              debugPrint("Holla");
-              Place temp = placesMarkers[i];
-                    placesMarkers[i]  = placesMarkers[ref];
-                    placesMarkers[ref] = temp; 
-              ref = ref + 1;
-          }
+      for (int i = 0; i < placesMarkers.length; i++) {
+        if (placesMarkers[i].name.toLowerCase().contains(keywords[0]) ||
+            (keywords.length > 1 &&
+                placesMarkers[i].name.toLowerCase().contains(keywords[1]))) {
+          Place temp = placesMarkers[i];
+          placesMarkers[i] = placesMarkers[ref];
+          placesMarkers[ref] = temp;
+          ref = ref + 1;
+        }
       }
+    } else {
+      placesMarkers.sort((a, b) => a.rating == null
+          ? 15
+          : a.rating.compareTo(b.rating == null ? 15 : b.rating));
+    }
   }
 
   void updateLocation() async {
@@ -523,453 +530,463 @@ class GeolocationExampleState extends State {
   }
 
   Widget myDetailsContainer1(Place place) {
-
-        var _bankName1;
-                return Material(
-                    child: InkWell(
-                  child: Container(
-                      height: MediaQuery.of(context).size.height / 3 + 30,
-                      width: 800.0,
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                                child: Text(
-                              place.name,
-                              style: TextStyle(
-                                  color: Colors.lightBlue[600],
-                                  fontSize: 28.0,
-                                  fontWeight: FontWeight.bold),
-                            )),
-                            Container(
-                                child: Text(
-                              place.vicinity,
-                              style: TextStyle(
-                                color: Colors.blue[600],
-                                fontSize: 24.0,
-                              ),
-                            )),
-                            Row(
-                              children: [
-                                Text(
-                                  "${place.openNow}" +
-                                      " | ${place.userComplaints} " +
-                                      tr('rep') +
-                                      "\n" +
-                                      tr('opening') +
-                                      ": ${place.openingHours}",
-                                  style: TextStyle(
-                                    color: type == "atm"
-                                        ? ((place.userComplaints != null)
-                                            ? place.userComplaints < 10 &&
-                                                    place.openNow == tr('open')
-                                                ? Colors.green[300]
-                                                : Colors.red[300]
-                                            : Colors.red[300])
-                                        : (place.openNow == tr('open')
-                                            ? Colors.green[300]
-                                            : Colors.red[300]),
-                                    fontSize: 26.0,
-                                  ),
-                                ),
-                                Spacer(),
-                                ButtonBar(alignment: MainAxisAlignment.end, children: [
-                                  IconButton(
-                                    icon: Icon(Icons.feedback),
-                                    iconSize: 40.0,
-                                    color: Colors.blue[600],
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => FeedbackScreen(),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                  IconButton(
-                                    icon: Icon(Icons.call),
-                                    color: Colors.blue[600],
-                                    iconSize: 40.0,
-                                    onPressed: () {
-                                      _launchURL("tel:${place.phoneNumber}");
-                                    },
-                                  ),
-                          (type == "atm" || type == "bank") ?
-                          PopupMenuButton(
-                    key: _bankName1,
-        itemBuilder: (_) => <PopupMenuItem<String>>[
-              new PopupMenuItem<String>(
-                  child: const Text('HDFC'), value: 'hdfc'),
-              new PopupMenuItem<String>(
-                  child: const Text('SBI'), value: 'sbi,state'),
-              new PopupMenuItem<String>(
-                  child: const Text('BOB'), value: 'bob,baroda'),
-              new PopupMenuItem<String>(
-                  child: const Text('ICICI'), value: 'icici'),
-            ],
-        onSelected: (value) {
-          debugPrint(value.toString());  
-          List<String> keywords = value.toString().split(",");
-          setState(() {
-            updatePlaceList(keywords);
-          });
-                  }) :SizedBox(width:0) ,
-                                IconButton(
-                                  icon: Icon(Icons.report),
-                                  color: Colors.blue[600],
-                                  iconSize: 40.0,
-                                  onPressed: () {
-                                    var baseDialog = BaseAlertDialog(
-                                        title: "Confirmation",
-                                        content: "Is this " +
-                                            type.toUpperCase() +
-                                            " Service Working today?",
-                                        yesOnPressed: () {
-                                          Navigator.of(context, rootNavigator: true)
-                                              .pop(true);
-                                          awd.AwesomeDialog(
-                                            context: context,
-                                            headerAnimationLoop: false,
-                                            dialogType: awd.DialogType.SUCCES,
-                                            animType: awd.AnimType.BOTTOMSLIDE,
-                                            title: 'Info',
-                                            desc: 'Thanks you for letting us know!',
-                                          )..show();
-                                        },
-                                        noOnPressed: () {
-                                          updateCount(place.place_id);
-                                          Navigator.of(context, rootNavigator: true)
-                                              .pop(true);
-                                          awd.AwesomeDialog(
-                                            context: context,
-                                            headerAnimationLoop: false,
-                                            dialogType: awd.DialogType.WARNING,
-                                            animType: awd.AnimType.BOTTOMSLIDE,
-                                            title: 'INFO',
-                                            desc: 'Thanks you for letting us know!',
-                                          )..show();
-                                        },
-                                        yes: "Yes",
-                                        no: "No");
-                                    showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) => baseDialog);
-                                  },
-                                )
-                              ])
-                            ],
-                          )
-                        ])),
-                onTap: () => _gotoLocation(
-                    place.geometry.location.lat, place.geometry.location.lng),
-              ));
-            }
-          
-            Future<void> _gotoLocation(double lat, double long) async {
-              mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-                target: LatLng(lat, long),
-                zoom: 20,
-                tilt: 50.0,
-                bearing: 45.0,
-              )));
-            }
-          
-            void returnToCenter() {
-              mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-                target: LatLng(_positionLatitude, _positionLongitude),
-                zoom: 14,
-                tilt: 0.0,
-                bearing: 0.0,
-              )));
-            }
-          
-            @override
-            Widget build(BuildContext context) {
-              return Scaffold(
-                appBar: AppBar(
-                    title: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          IconButton(
-                            key: _search,
-                            icon: Icon(
-                              Icons.search,
-                              size: 22.5,
-                              semanticLabel: 'Search for your location',
-                            ),
-                            onPressed: () async {
-                              LocationResult result = await showLocationPicker(
-                                context,
-                                apiKey,
-                                initialCenter:
-                                    LatLng(_positionLongitude, _positionLongitude),
-                                automaticallyAnimateToCurrentLocation: true,
-                                myLocationButtonEnabled: true,
-                                layersButtonEnabled: true,
-                                resultCardAlignment: Alignment.bottomCenter,
-                              );
-                              print("result = $result");
-                              setState(() {
-                                _positionLatitude = result.latLng.latitude;
-                                _positionLongitude = result.latLng.longitude;
-                                updatePlace(_positionLatitude, _positionLongitude, "atm");
-                                mapController.animateCamera(
-                                  CameraUpdate.newLatLngZoom(
-                                    LatLng(_positionLatitude, _positionLongitude),
-                                    14.0, // Zoom factor
-                                  ),
-                                );
-                              });
-                            },
-                            tooltip: 'Search Icon',
+    var _bankName1;
+    return Material(
+        child: InkWell(
+      child: Container(
+          height: MediaQuery.of(context).size.height / 3,
+          width: 650.0,
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                    child: Row(children: [
+                  Text(
+                    place.name,
+                    style: TextStyle(
+                        color: Colors.lightBlue[600],
+                        fontSize: 28.0,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Spacer(),
+                  (type == "atm" || type == "bank")
+                      ? PopupMenuButton(
+                          key: _bankName1,
+                          icon: Icon(
+                            Icons.format_align_center,
+                            color: Colors.blue[600],
+                            size: 35.0,
                           ),
-                          IconButton(
-                            key: _assistant,
-                            icon: Icon(
-                              Icons.assistant,
-                              size: 22.5,
-                              semanticLabel: 'Jan Dhan 2.0 Chatbot',
-                            ),
-                            onPressed: () {
-                              _launchURL(
-                                  "https://assistant.google.com/services/invoke/uid/0000007b2fc19bd8?hl=en");
-                            },
-                            tooltip: 'Assistant Icon',
-                          ),
-                          IconButton(
-                            key: _helpine,
-                            icon: Icon(
-                              Icons.live_help,
-                              size: 22.5,
-                              semanticLabel: 'Jan Dhan Live Help',
-                            ),
-                            onPressed: () {
-                              _launchURL("tel:+12054489824");
-                            },
-                            tooltip: 'Jan Dhan Live Helpline',
-                          )
-                        ]),
-                    actions: <Widget>[
-                      Padding(
-                          padding: EdgeInsets.all(10.0),
-                          child: ButtonTheme(
-                              alignedDropdown: true,
-                              child: DropdownButton(
-                                onChanged: (Language language) {
-                                  context.locale = Locale(language.languageCode);
-                                  updatePlace(
-                                      _positionLatitude, _positionLongitude, type);
-                                },
-                                underline: Container(height: 0),
-                                icon: Icon(
-                                  Icons.language,
-                                  color: Colors.white,
-                                  size: 22.5,
-                                  semanticLabel: 'Select your languages',
-                                  key: _language,
-                                ),
-                                items: Language.languageList()
-                                    .map<DropdownMenuItem<Language>>(
-                                        (lang) => DropdownMenuItem(
-                                            value: lang,
-                                            child: Container(
-                                              child: Row(
-                                                children: <Widget>[
-                                                  Text(lang.name,
-                                                      style: TextStyle(fontSize: 12.0))
-                                                ],
-                                              ),
-                                            )))
-                                    .toList(),
-                              )))
-                    ]),
-                drawer: navigationDrawer(),
-                body: (_position != null && placesMarkers != null)
-                    ? Container(
-                        child: Column(
-                          children: <Widget>[
-                            Stack(
-                              children: <Widget>[
-                                Container(
-                                  height:
-                                      2 * MediaQuery.of(context).size.height / 3 - 17.5,
-                                  width: MediaQuery.of(context).size.width,
-                                  child: GoogleMap(
-                                      initialCameraPosition: CameraPosition(
-                                          target: LatLng(
-                                              _positionLatitude, _positionLongitude),
-                                          zoom: 14.0),
-                                      onMapCreated: (GoogleMapController controller) {
-                                        mapController = controller;
-                                      },
-                                      zoomGesturesEnabled: true,
-                                      gestureRecognizers: Set()
-                                        ..add(Factory<PanGestureRecognizer>(
-                                            () => PanGestureRecognizer())),
-                                      markers: Set<Marker>.of(markers),
-                                      myLocationButtonEnabled: false,
-                                      myLocationEnabled: true,
-                                      compassEnabled: false,
-                                      mapToolbarEnabled: true,
-                                      circles: Set.from([
-                                        Circle(
-                                            circleId: CircleId('0'),
-                                            center: LatLng(
-                                                _positionLatitude, _positionLongitude),
-                                            radius: 1250,
-                                            strokeColor: Color(0x5DA9CAff),
-                                            strokeWidth: 1,
-                                            fillColor: Color(0x5DA9CAff)),
-                                        Circle(
-                                            circleId: CircleId('1'),
-                                            center: LatLng(
-                                                _positionLatitude, _positionLongitude),
-                                            radius: 2500,
-                                            strokeColor: Color(0x3DA9CAff),
-                                            strokeWidth: 1,
-                                            fillColor: Color(0x3DA9CAff)),
-                                        Circle(
-                                            circleId: CircleId('2'),
-                                            center: LatLng(
-                                                _positionLatitude, _positionLongitude),
-                                            radius: 5000,
-                                            strokeColor: Color(0x2DA9CAff),
-                                            strokeWidth: 1,
-                                            fillColor: Color(0x2DA9CAff))
-                                      ])),
-                                ),
-                                Align(
-                                  alignment: Alignment.topCenter,
-                                  child: new ButtonBar(
-                                    mainAxisSize: MainAxisSize.min,
-                                    buttonPadding: EdgeInsets.all(0.0),
-                                    children: <Widget>[
-                                      new FlatButton(
-                                        child: new Text(tr('atm')),
-                                        textColor: pressAtm ? Colors.white : Colors.black,
-                                        shape: new RoundedRectangleBorder(
-                                          borderRadius: new BorderRadius.only(
-                                              topLeft: Radius.circular(20),
-                                              bottomLeft: Radius.circular(20)),
-                                        ),
-                                        color: pressAtm ? Colors.blue : Colors.white,
-                                        onPressed: () => setState(() {
-                                          type = "atm";
-                                          pressAtm = true;
-                                          pressAmbassador = false;
-                                          pressPo = false;
-                                          pressBank = false;
-                                          pressCSC = false;
-                                          updatePlace(_positionLatitude,
-                                              _positionLongitude, "atm");
-                                        }),
-                                      ),
-                                      new FlatButton(
-                                        child: new Text(tr('branch')),
-                                        textColor:
-                                            pressBank ? Colors.white : Colors.black,
-                                        color: pressBank ? Colors.blue : Colors.white,
-                                        onPressed: () => setState(() {
-                                          type = "bank";
-                                          pressAtm = false;
-                                          pressAmbassador = false;
-                                          pressPo = false;
-                                          pressBank = true;
-                                          pressCSC = false;
-                                          updatePlace(_positionLatitude,
-                                              _positionLongitude, "bank");
-                                        }),
-                                      ),
-                                      new FlatButton(
-                                        child: new Text(tr('po')),
-                                        textColor: pressPo ? Colors.white : Colors.black,
-                                        color: pressPo ? Colors.blue : Colors.white,
-                                        onPressed: () => setState(() {
-                                          type = "po";
-                                          pressAtm = false;
-                                          pressAmbassador = false;
-                                          pressPo = true;
-                                          pressBank = false;
-                                          pressCSC = false;
-                                          updatePlace(_positionLatitude,
-                                              _positionLongitude, "post_office");
-                                        }),
-                                      ),
-                                      new FlatButton(
-                                        child: new Text(tr('csc')),
-                                        textColor: pressCSC ? Colors.white : Colors.black,
-                                        color: pressCSC ? Colors.blue : Colors.white,
-                                        onPressed: () => setState(() {
-                                          type = "csc";
-                                          pressAtm = false;
-                                          pressAmbassador = false;
-                                          pressPo = false;
-                                          pressBank = false;
-                                          pressCSC = true;
-                                          updatePlace(_positionLatitude,
-                                              _positionLongitude, "csc");
-                                        }),
-                                      ),
-                                      new FlatButton(
-                                        child: new Text(tr('emitra')),
-                                        textColor:
-                                            pressAmbassador ? Colors.white : Colors.black,
-                                        shape: new RoundedRectangleBorder(
-                                          borderRadius: new BorderRadius.only(
-                                              bottomRight: Radius.circular(20),
-                                              topRight: Radius.circular(20)),
-                                        ),
-                                        color:
-                                            pressAmbassador ? Colors.blue : Colors.white,
-                                        onPressed: () => setState(() {
-                                          type = "bm";
-                                          pressAtm = false;
-                                          pressAmbassador = true;
-                                          pressPo = false;
-                                          pressBank = false;
-                                          pressCSC = false;
-                                          updatePlace(_positionLatitude,
-                                              _positionLongitude, "bank_mitra");
-                                        }),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                    padding: EdgeInsets.only(
-                                        top: 50.0,
-                                        left: MediaQuery.of(context).size.width - 50.0),
-                                    child: Material(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(25.0)),
-                                      child: IconButton(
-                                          enableFeedback: true,
-                                          icon: Icon(Icons.center_focus_strong,
-                                              color: Colors.blue[600]),
-                                          onPressed: returnToCenter),
-                                    )),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      top: 2 * MediaQuery.of(context).size.height / 3 -
-                                          17.5),
-                                  child: _buildContainer(placesMarkers, type),
-                                )
+                          itemBuilder: (_) => <PopupMenuItem<String>>[
+                                new PopupMenuItem<String>(
+                                    child: const Text('Order by Sentiment'),
+                                    value: 'senti'),
+                                new PopupMenuItem<String>(
+                                    child: const Text('HDFC'), value: 'hdfc'),
+                                new PopupMenuItem<String>(
+                                    child: const Text('SBI'),
+                                    value: 'sbi,state'),
+                                new PopupMenuItem<String>(
+                                    child: const Text('BOB'),
+                                    value: 'bob,baroda'),
+                                new PopupMenuItem<String>(
+                                    child: const Text('ICICI'), value: 'icici'),
                               ],
+                          onSelected: (value) {
+                            List<String> keywords = value.toString().split(",");
+                            setState(() {
+                              updatePlaceList(keywords, value);
+                            });
+                          })
+                      : SizedBox(width: 0),
+                ])),
+                Container(
+                    child: Text(
+                  place.vicinity,
+                  style: TextStyle(
+                    color: Colors.blue[600],
+                    fontSize: 24.0,
+                  ),
+                )),
+                Row(
+                  children: [
+                    Text(
+                      "${place.openNow}" +
+                          " | ${place.userComplaints} " +
+                          tr('rep') +
+                          "\n" +
+                          tr('opening') +
+                          ": ${place.openingHours}",
+                      style: TextStyle(
+                        color: type == "atm"
+                            ? ((place.userComplaints != null)
+                                ? place.userComplaints < 10 &&
+                                        place.openNow == tr('open')
+                                    ? Colors.green[300]
+                                    : Colors.red[300]
+                                : Colors.red[300])
+                            : (place.openNow == tr('open')
+                                ? Colors.green[300]
+                                : Colors.red[300]),
+                        fontSize: 26.0,
+                      ),
+                    ),
+                    Spacer(),
+                    ButtonBar(alignment: MainAxisAlignment.end, children: [
+                      IconButton(
+                        icon: Icon(Icons.feedback),
+                        iconSize: 40.0,
+                        color: Colors.blue[600],
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => FeedbackScreen(),
+                            ),
+                          );
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.call),
+                        color: Colors.blue[600],
+                        iconSize: 40.0,
+                        onPressed: () {
+                          _launchURL("tel:${place.phoneNumber}");
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.report),
+                        color: Colors.blue[600],
+                        iconSize: 40.0,
+                        onPressed: () {
+                          var baseDialog = BaseAlertDialog(
+                              title: "Confirmation",
+                              content: "Is this " +
+                                  type.toUpperCase() +
+                                  " Service Working today?",
+                              yesOnPressed: () {
+                                Navigator.of(context, rootNavigator: true)
+                                    .pop(true);
+                                awd.AwesomeDialog(
+                                  context: context,
+                                  headerAnimationLoop: false,
+                                  dialogType: awd.DialogType.SUCCES,
+                                  animType: awd.AnimType.BOTTOMSLIDE,
+                                  title: 'Info',
+                                  desc: 'Thanks you for letting us know!',
+                                )..show();
+                              },
+                              noOnPressed: () {
+                                updateCount(place.place_id);
+                                Navigator.of(context, rootNavigator: true)
+                                    .pop(true);
+                                awd.AwesomeDialog(
+                                  context: context,
+                                  headerAnimationLoop: false,
+                                  dialogType: awd.DialogType.WARNING,
+                                  animType: awd.AnimType.BOTTOMSLIDE,
+                                  title: 'INFO',
+                                  desc: 'Thanks you for letting us know!',
+                                )..show();
+                              },
+                              yes: "Yes",
+                              no: "No");
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) => baseDialog);
+                        },
+                      )
+                    ])
+                  ],
+                )
+              ])),
+      onTap: () => _gotoLocation(
+          place.geometry.location.lat, place.geometry.location.lng),
+    ));
+  }
+
+  Future<void> _gotoLocation(double lat, double long) async {
+    mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+      target: LatLng(lat, long),
+      zoom: 20,
+      tilt: 50.0,
+      bearing: 45.0,
+    )));
+  }
+
+  void returnToCenter() {
+    mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+      target: LatLng(_positionLatitude, _positionLongitude),
+      zoom: 14,
+      tilt: 0.0,
+      bearing: 0.0,
+    )));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+          title: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                IconButton(
+                  key: _search,
+                  icon: Icon(
+                    Icons.search,
+                    size: 22.5,
+                    semanticLabel: 'Search for your location',
+                  ),
+                  onPressed: () async {
+                    LocationResult result = await showLocationPicker(
+                      context,
+                      apiKey,
+                      initialCenter:
+                          LatLng(_positionLongitude, _positionLongitude),
+                      automaticallyAnimateToCurrentLocation: true,
+                      myLocationButtonEnabled: true,
+                      layersButtonEnabled: true,
+                      resultCardAlignment: Alignment.bottomCenter,
+                    );
+                    print("result = $result");
+                    setState(() {
+                      _positionLatitude = result.latLng.latitude;
+                      _positionLongitude = result.latLng.longitude;
+                      updatePlace(_positionLatitude, _positionLongitude, "atm");
+                      mapController.animateCamera(
+                        CameraUpdate.newLatLngZoom(
+                          LatLng(_positionLatitude, _positionLongitude),
+                          14.0, // Zoom factor
+                        ),
+                      );
+                    });
+                  },
+                  tooltip: 'Search Icon',
+                ),
+                IconButton(
+                  key: _assistant,
+                  icon: Icon(
+                    Icons.assistant,
+                    size: 22.5,
+                    semanticLabel: 'Jan Dhan 2.0 Chatbot',
+                  ),
+                  onPressed: () {
+                    _launchURL(
+                        "https://assistant.google.com/services/invoke/uid/0000007b2fc19bd8?hl=en");
+                  },
+                  tooltip: 'Assistant Icon',
+                ),
+                IconButton(
+                  key: _helpine,
+                  icon: Icon(
+                    Icons.live_help,
+                    size: 22.5,
+                    semanticLabel: 'Jan Dhan Live Help',
+                  ),
+                  onPressed: () {
+                    _launchURL("tel:+12054489824");
+                  },
+                  tooltip: 'Jan Dhan Live Helpline',
+                )
+              ]),
+          actions: <Widget>[
+            Padding(
+                padding: EdgeInsets.all(10.0),
+                child: ButtonTheme(
+                    alignedDropdown: true,
+                    child: DropdownButton(
+                      onChanged: (Language language) {
+                        context.locale = Locale(language.languageCode);
+                        updatePlace(
+                            _positionLatitude, _positionLongitude, type);
+                      },
+                      underline: Container(height: 0),
+                      icon: Icon(
+                        Icons.language,
+                        color: Colors.white,
+                        size: 22.5,
+                        semanticLabel: 'Select your languages',
+                        key: _language,
+                      ),
+                      items: Language.languageList()
+                          .map<DropdownMenuItem<Language>>(
+                              (lang) => DropdownMenuItem(
+                                  value: lang,
+                                  child: Container(
+                                    child: Row(
+                                      children: <Widget>[
+                                        Text(lang.name,
+                                            style: TextStyle(fontSize: 12.0))
+                                      ],
+                                    ),
+                                  )))
+                          .toList(),
+                    )))
+          ]),
+      drawer: navigationDrawer(),
+      body: (_position != null && placesMarkers != null)
+          ? Container(
+              child: Column(
+                children: <Widget>[
+                  Stack(
+                    children: <Widget>[
+                      Container(
+                        height: 2 * MediaQuery.of(context).size.height / 3,
+                        width: MediaQuery.of(context).size.width,
+                        child: GoogleMap(
+                            initialCameraPosition: CameraPosition(
+                                target: LatLng(
+                                    _positionLatitude, _positionLongitude),
+                                zoom: 14.0),
+                            onMapCreated: (GoogleMapController controller) {
+                              mapController = controller;
+                            },
+                            zoomGesturesEnabled: true,
+                            gestureRecognizers: Set()
+                              ..add(Factory<PanGestureRecognizer>(
+                                  () => PanGestureRecognizer())),
+                            markers: Set<Marker>.of(markers),
+                            myLocationButtonEnabled: false,
+                            myLocationEnabled: true,
+                            compassEnabled: false,
+                            mapToolbarEnabled: true,
+                            circles: Set.from([
+                              Circle(
+                                  circleId: CircleId('0'),
+                                  center: LatLng(
+                                      _positionLatitude, _positionLongitude),
+                                  radius: 1250,
+                                  strokeColor: Color(0x5DA9CAff),
+                                  strokeWidth: 1,
+                                  fillColor: Color(0x5DA9CAff)),
+                              Circle(
+                                  circleId: CircleId('1'),
+                                  center: LatLng(
+                                      _positionLatitude, _positionLongitude),
+                                  radius: 2500,
+                                  strokeColor: Color(0x3DA9CAff),
+                                  strokeWidth: 1,
+                                  fillColor: Color(0x3DA9CAff)),
+                              Circle(
+                                  circleId: CircleId('2'),
+                                  center: LatLng(
+                                      _positionLatitude, _positionLongitude),
+                                  radius: 5000,
+                                  strokeColor: Color(0x2DA9CAff),
+                                  strokeWidth: 1,
+                                  fillColor: Color(0x2DA9CAff))
+                            ])),
+                      ),
+                      Align(
+                        alignment: Alignment.topCenter,
+                        child: new ButtonBar(
+                          mainAxisSize: MainAxisSize.min,
+                          buttonPadding: EdgeInsets.all(0.0),
+                          children: <Widget>[
+                            new FlatButton(
+                              child: new Text(tr('atm')),
+                              textColor: pressAtm ? Colors.white : Colors.black,
+                              shape: new RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.only(
+                                    topLeft: Radius.circular(20),
+                                    bottomLeft: Radius.circular(20)),
+                              ),
+                              color: pressAtm ? Colors.blue : Colors.white,
+                              onPressed: () => setState(() {
+                                type = "atm";
+                                pressAtm = true;
+                                pressAmbassador = false;
+                                pressPo = false;
+                                pressBank = false;
+                                pressCSC = false;
+                                updatePlace(_positionLatitude,
+                                    _positionLongitude, "atm");
+                              }),
+                            ),
+                            new FlatButton(
+                              child: new Text(tr('branch')),
+                              textColor:
+                                  pressBank ? Colors.white : Colors.black,
+                              color: pressBank ? Colors.blue : Colors.white,
+                              onPressed: () => setState(() {
+                                type = "bank";
+                                pressAtm = false;
+                                pressAmbassador = false;
+                                pressPo = false;
+                                pressBank = true;
+                                pressCSC = false;
+                                updatePlace(_positionLatitude,
+                                    _positionLongitude, "bank");
+                              }),
+                            ),
+                            new FlatButton(
+                              child: new Text(tr('po')),
+                              textColor: pressPo ? Colors.white : Colors.black,
+                              color: pressPo ? Colors.blue : Colors.white,
+                              onPressed: () => setState(() {
+                                type = "po";
+                                pressAtm = false;
+                                pressAmbassador = false;
+                                pressPo = true;
+                                pressBank = false;
+                                pressCSC = false;
+                                updatePlace(_positionLatitude,
+                                    _positionLongitude, "post_office");
+                              }),
+                            ),
+                            new FlatButton(
+                              child: new Text(tr('csc')),
+                              textColor: pressCSC ? Colors.white : Colors.black,
+                              color: pressCSC ? Colors.blue : Colors.white,
+                              onPressed: () => setState(() {
+                                type = "csc";
+                                pressAtm = false;
+                                pressAmbassador = false;
+                                pressPo = false;
+                                pressBank = false;
+                                pressCSC = true;
+                                updatePlace(_positionLatitude,
+                                    _positionLongitude, "csc");
+                              }),
+                            ),
+                            new FlatButton(
+                              child: new Text(tr('emitra')),
+                              textColor:
+                                  pressAmbassador ? Colors.white : Colors.black,
+                              shape: new RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.only(
+                                    bottomRight: Radius.circular(20),
+                                    topRight: Radius.circular(20)),
+                              ),
+                              color:
+                                  pressAmbassador ? Colors.blue : Colors.white,
+                              onPressed: () => setState(() {
+                                type = "bm";
+                                pressAtm = false;
+                                pressAmbassador = true;
+                                pressPo = false;
+                                pressBank = false;
+                                pressCSC = false;
+                                updatePlace(_positionLatitude,
+                                    _positionLongitude, "bank_mitra");
+                              }),
                             ),
                           ],
                         ),
-                      )
-                    : Center(
-                        child: CircularProgressIndicator(),
                       ),
-              );
-            }
-          }
-          
+                      Padding(
+                          padding: EdgeInsets.only(
+                              top: 50.0,
+                              left: MediaQuery.of(context).size.width - 50.0),
+                          child: Material(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(25.0)),
+                            child: IconButton(
+                                enableFeedback: true,
+                                icon: Icon(Icons.center_focus_strong,
+                                    color: Colors.blue[600]),
+                                onPressed: returnToCenter),
+                          )),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            top: 2 * MediaQuery.of(context).size.height / 3 -
+                                17.5),
+                        child: _buildContainer(placesMarkers, type),
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            )
+          : Center(
+              child: CircularProgressIndicator(),
+            ),
+    );
+  }
+}
 
 class GeolocationExample extends StatefulWidget {
   @override
@@ -986,11 +1003,6 @@ class navigationDrawer extends StatelessWidget {
         children: <Widget>[
           createDrawerHeader(),
           Divider(color: Colors.white),
-          createDrawerBodyItem(
-            icon: Icons.contact_phone,
-            text: tr('accinfo'),
-            onTap: () => Navigator.pushNamed(context, '/upload'),
-          ),
           createDrawerBodyItem(
             icon: Icons.feedback,
             text: tr('feedback'),

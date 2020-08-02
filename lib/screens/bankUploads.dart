@@ -6,7 +6,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:dropdown_formfield/dropdown_formfield.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:jandhanv2/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:http/http.dart' as http;
@@ -80,7 +79,6 @@ class MyCustomFormState extends State<MyCustomForm> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  
                   MaterialPageRoute(builder: (context) => MyApp1()),
                 );
               },
@@ -91,12 +89,11 @@ class MyCustomFormState extends State<MyCustomForm> {
     );
   }
 
-
-  String encrypt(String data){
-      var str = data;
-      var bytes = utf8.encode(str);
-      var base64Str = base64.encode(bytes);
-      return base64Str;
+  String encrypt(String data) {
+    var str = data;
+    var bytes = utf8.encode(str);
+    var base64Str = base64.encode(bytes);
+    return base64Str;
   }
 
   Future uploadImages() async {
@@ -183,7 +180,7 @@ class MyCustomFormState extends State<MyCustomForm> {
       "formId": _bankName + code.toString(),
       "panNo": encrypt(panNoController.text),
       "aadharNo": encrypt(aadharNoController.text),
-      "bankInitiated":false
+      "bankInitiated": false
     });
     await http.post(
       'http://jandhan2.herokuapp.com/account/sendOtp/',

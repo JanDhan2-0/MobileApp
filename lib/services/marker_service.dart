@@ -6,19 +6,23 @@ import 'package:jandhanv2/screens/ReviewsScreen.dart';
 
 class MarkerService {
   List<Marker> getMarkers(List<Place> places, String type,
-      BitmapDescriptor myIcon, BitmapDescriptor otherIcon,context) {
+      BitmapDescriptor myIcon, BitmapDescriptor otherIcon, context) {
     List<Marker> markers = <Marker>[];
     places.forEach((place) {
       Marker marker = Marker(
           markerId: MarkerId(place.place_id),
           draggable: false,
-          infoWindow: InfoWindow(title: place.name, snippet: place.vicinity,onTap:()=>{
-              Navigator.push(context,
-                                        MaterialPageRoute(
-                                          builder: (context) => ReviewsScreen(),
-                                        ),
-                                      )
-          } ),
+          infoWindow: InfoWindow(
+              title: place.name,
+              snippet: place.vicinity,
+              onTap: () => {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ReviewsScreen(atmbank: type),
+                      ),
+                    )
+                  }),
           position:
               LatLng(place.geometry.location.lat, place.geometry.location.lng),
           icon: type == 'atm'
