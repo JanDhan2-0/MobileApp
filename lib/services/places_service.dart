@@ -47,7 +47,7 @@ class PlacesService {
     atmNamesVicinity.add(places[i].vicinity);
 
     if(type == "atm"){
-      await createDocumentForAtm(places[i].place_id);
+      await createDocumentForAtm(places[i].place_id,places[i]);
       places[i].userComplaints = await getCount(places[i].place_id);
     }
     else{

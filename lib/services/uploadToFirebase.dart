@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:jandhanv2/models/place.dart';
 
 Firestore _firestore = Firestore.instance;
 
@@ -94,10 +95,17 @@ void updateCount(String atmId) async{
 }
 
 //create the atm id everytime we get an ATM
-void createDocumentForAtm(String atmId) async{
+void createDocumentForAtm(String atmId,Place place) async{
    bool userExists=(await Firestore.instance.collection('ATMs').document(atmId).get()).exists;
    if(!userExists){
-      _firestore.collection("ATMs").document(atmId).setData({"numberOfReports":0});
+        var data  = {
+            "numberOfReports":0,
+            "name":place.name,
+            "vicinity":place.vicinity,
+            "user_rating":place.rating,
+            "placeId":place.place_id
+        };
+      _firestore.collection("ATMs").document(atmId).setData(data);
     }
 }
 
@@ -106,7 +114,7 @@ void createDocumentForAtm(String atmId) async{
 dynamic getCount(String atmId) async {
   DocumentReference userReference = _firestore.collection("ATMs").document(atmId);
   DocumentSnapshot userRef = await userReference.get();
-  if(userRef != null){
+  if(userRef.data != null){
     debugPrint(userRef.data.toString());
     return userRef.data['numberOfReports'];
   }
