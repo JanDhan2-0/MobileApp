@@ -41,10 +41,7 @@ class _RequestScreenState extends State<RequestScreen> {
             new FlatButton(
               child: new Text("OK"),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => MyApp1()),
-                );
+                Navigator.pop(context);
               },
             ),
           ],
