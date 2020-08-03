@@ -47,10 +47,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
             new FlatButton(
               child: new Text("OK"),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => MyApp1()),
-                );
+                Navigator.pop(context);
               },
             ),
           ],
