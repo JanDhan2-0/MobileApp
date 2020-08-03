@@ -62,10 +62,23 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   Future uploadData() async {
     await pr.show();
     var feedback = feedbackMsgController.text;
+    var deviceId = phoneController.text;
+
+    Map data = {
+      'feedback':feedback,
+      'deviceId':deviceId
+    };
+
+    String body = convert.json.encode(data);
+    http.Response response = await http.post(
+      'https://jandhan2.herokuapp.com/feedback/feedbackNotifications',
+      headers: {"Content-Type": "application/json"},
+      body: body,
+    );
     String url =
         "https://jandhantf.herokuapp.com/sentiment_score?review=$feedback";
-    var response = await http.get(url);
-    var json = convert.jsonDecode(response.body);
+    var response1 = await http.get(url);
+    var json = convert.jsonDecode(response1.body);
     List<dynamic> tags = json['tags'] as List;
     String sentiment = json['sentiment'];
     uploadFeedbackInformation(
